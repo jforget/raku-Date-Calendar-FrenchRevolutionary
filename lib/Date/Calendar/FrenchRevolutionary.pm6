@@ -1,6 +1,11 @@
 use v6.c;
-unit class Date::Calendar::FrenchRevolutionary:ver<0.0.1>:auth<cpan:JFORGET>;
 
+use Date::Calendar::FrenchRevolutionary::Common;
+
+class    Date::Calendar::FrenchRevolutionary:ver<0.0.1>:auth<cpan:JFORGET>
+    does Date::Calendar::FrenchRevolutionary::Common {
+
+}
 
 =begin pod
 
