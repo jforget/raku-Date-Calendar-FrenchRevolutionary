@@ -10,8 +10,10 @@
   "name" : "Date::Calendar::FrenchRevolutionary",
   "perl" : "6.c",
   "provides" : {
-      "Date::Calendar::FrenchRevolutionary"         : "lib/Date/Calendar/FrenchRevolutionary.pm6"
-    , "Date::Calendar::FrenchRevolutionary::Common" : "lib/Date/Calendar/FrenchRevolutionary/Common.pm6"
+      "Date::Calendar::FrenchRevolutionary"               : "lib/Date/Calendar/FrenchRevolutionary.pm6"
+    , "Date::Calendar::FrenchRevolutionary::Common"       : "lib/Date/Calendar/FrenchRevolutionary/Common.pm6"
+    , "Date::Calendar::FrenchRevolutionary::Astronomical" : "lib/Date/Calendar/FrenchRevolutionary/Astronomical.pm6"
+    , "Date::Calendar::FrenchRevolutionary::Arithmetic"   : "lib/Date/Calendar/FrenchRevolutionary/Arithmetic.pm6"
   },
   "resources" : [ ],
   "source-url" : "",
