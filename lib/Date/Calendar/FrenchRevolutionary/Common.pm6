@@ -1,4 +1,5 @@
 use v6.c;
+use Date::Calendar::FrenchRevolutionary::Names;
 role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.1>:auth<cpan:JFORGET> {
 
   has Int $.year;
@@ -8,6 +9,22 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.1>:auth<cpan:JFORGET> {
 
   method gist {
     sprintf("%04d-%02d-%02d", $.year, $.month, $.day);
+  }
+
+  method month-name {
+    Date::Calendar::FrenchRevolutionary::Names::month-name($.locale, $.month);
+  }
+
+  method month-abbr {
+    Date::Calendar::FrenchRevolutionary::Names::month-abbr($.locale, $.month);
+  }
+
+  method day-name {
+    Date::Calendar::FrenchRevolutionary::Names::day-name($.locale, $.day);
+  }
+
+  method day-abbr {
+    Date::Calendar::FrenchRevolutionary::Names::day-abbr($.locale, $.day);
   }
 
 }
