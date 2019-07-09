@@ -5,6 +5,29 @@ use Date::Calendar::FrenchRevolutionary::Common;
 class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.0.1>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
+  method vnd1 {
+    vnd1($.year + 1791);
+  }
+
+  method new-from-daycount(Int $count) {
+    my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
+    $.new(year => $y, month => $m, day => $d);
+  }
+
+  our sub vnd1(Int:D $year-gr --> Int) {
+    # say $year-gr, ' ', nb_jc6($year-gr), ' ', nb_f29($year-gr);
+    457 + nb_jc6($year-gr)
+        - nb_f29($year-gr);
+  }
+
+  sub nb_jc6(Int:D $year-gr --> Int) {
+    my $year-fr = $year-gr - 1792;
+    floor($year-fr / 4) - floor($year-fr / 100) + floor($year-fr / 400) - floor($year-fr / 4000);
+  }
+  sub nb_f29(Int:D $year-gr --> Int) {
+    floor($year-gr / 4) - floor($year-gr / 100) + floor($year-gr / 400);
+  }
+
 }
 
 =begin pod

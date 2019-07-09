@@ -1,9 +1,25 @@
 use v6.c;
 
 use Date::Calendar::FrenchRevolutionary::Common;
+use Date::Calendar::FrenchRevolutionary::Astronomical;
+use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
 class    Date::Calendar::FrenchRevolutionary:ver<0.0.1>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
+
+  method new-from-daycount(Int $count) {
+    my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
+    $.new(year => $y, month => $m, day => $d);
+  }
+
+  our sub vnd1(Int:D $year-gr --> Int) {
+    if $year-gr < 1811 {
+      return Date::Calendar::FrenchRevolutionary::Astronomical::vnd1($year-gr);
+    }
+    else {
+      return Date::Calendar::FrenchRevolutionary::Arithmetic::vnd1($year-gr);
+    }
+  }
 
 }
 
@@ -15,9 +31,27 @@ Date::Calendar::FrenchRevolutionary - Conversions from / to the French Revolutio
 
 =head1 SYNOPSIS
 
+Converting from a Gregorian date to a French Revolutionary date
+
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary;
+my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
+my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
+say $Bonaparte's-coup-fr;
+
+=end code
+
+Converting from a  French Revolutionary date to a Gregorian date
+
+=begin code :lang<perl6>
+
+use Date::Calendar::FrenchRevolutionary;
+my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr .= new(year    =>  2
+                                                                       , month   => 11
+                                                                       , day     =>  9);
+my Date                                $Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
+say $Robespierre's-downfall-gr;
 
 =end code
 
