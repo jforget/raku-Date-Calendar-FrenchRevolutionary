@@ -1,0 +1,226 @@
+-*- encoding: utf-8; indent-tabs-mode: nil -*-
+
+=encoding utf8
+
+=head1 Designer's Notes
+
+=head2 Preliminary
+
+It is better to work with actual examples rather than generic values.
+So in the text below, I will use the following dates (Bastille day this
+year):
+
+  Sunday 14 July 2019
+  11 Tammuz 5779
+  11 Dhu al-Qada 1440
+  Sextdi 26 Messidor 227
+  13.0.6.11.16, 8 Cib, 4 Xul
+
+=head2 Purposes
+
+The various calendar module should obey the following contradictory
+purposes:
+
+=over 4
+
+=item * A user can use as many or as few calendar as he wants. He can
+use none or all of them.
+
+=item * Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
+(Write Everything Twice).
+
+=item * No alteration to the core modules, including F<Date>.
+
+=back
+
+=head2 First Idea: Roles Everywhere
+
+My first idea was to make intensive use of the novelty in Perl 6 POO, roles.
+Only the Gregorian calendar is implemented as a class F<Date>, all others are roles
+to F<Date>. Example:
+
+  my Date $bastille-day does Date::Calendar::Hebrew
+                        does Date::Calendar::Hijri
+                        does Date::Calendar::FrenchRevolutionary
+                        does Date::Calendar::Mayan
+            .= new(year => 2019, month => 7, day => 14);
+
+The first problem is the conflict between the methods of the various roles.
+If we use
+
+  say $bastille-day.month-name
+
+should we get C<Tammuz>, C<Dhu al-Qada> or C<Messidor>?
+Granted, after reading pages 226 and following of I<Learning Perl 6>,
+you can write;
+
+  say $bastille-day.month-name( Date::Calendar::FrenchRevolutionary );
+  # → Messidor
+  say $bastille-day.month-name( Date::Calendar::Hebrew );
+  # → Tammuz
+
+but it is cumbersome.
+
+The second problem is that the concept of date is not the same across different
+civilizations. The Gregorian and French Revolutionary calendars use midnight-to-midnight
+dates, while the Hijri and Hebrew calendars (and others) use sunset-to-sunset dates.
+And it is possible that some other calendars use sunrise-to-sunrise dates. So, while
+you can equate 14 July 2019 to 26 Messidor 227, you cannot equate it to 11 Tammuz
+5779. Usually, date converters take the lazy path and mention in their documentation that
+the correspondance 14 July 2019 → 11 Tammuz 5779 is valid only until sunset,
+but we can imagine a hubristic programmer who would use two conversion routines
+or add a C<time-of-day> parameter to the conversion routine to get either
+
+  14 July 2019 → 11 Tammuz 5779
+
+or 
+
+  14 July 2019 → 12 Tammuz 5779
+
+With the Hebrew calendar as a role, that would not be possible, with the Hebrew
+calendar as a class, that would be possible. There are still a few problems,
+but at least we are not painted out in a corner.
+
+So the solution is: one calendar = one class.
+
+=head2 Taking a look at F<Date>
+
+I did not bother to deal with times, so I will look at the 
+F<Date> core module instead of F<DateTime>.
+
+=head3 Immutability
+
+One difference with Perl 5's F<DateTime>
+is that dates are immutable. Why not? It does not bother me.
+Therefore dates in a F<Date::Calendar::Whatever> module will be
+immutable too (but see below).
+
+=head3 Localization
+
+Another difference with Perl 5 is that there is no provision for
+localized string values: month names and the like. Maybe it was
+thought that the main purpose of this module would be to manage
+schedules, timetables and the like, for which we need the numerical
+values of the days and months but not their string localized values.
+
+For those interested in localized values, there is the CPAN6 module
+F<Date::Names>.
+
+In my opinion, calendar modules will be used to display dates, not to
+build schedules with them. I will keep the names in a separate module,
+but this module will be within the distribution. For example, the
+F<Date::Calendar::Hebrew> distribution will include both the
+F<Date::Calendar::Hebrew> module and the
+F<Date::Calendar::Hebrew::Names> module.
+
+If there are different languages and different localizations for a
+given calendar, I may put the mechanisms and all the data in the
+same F<Date::Calendar::Whatever::Names> module, or I may separate them
+with the mechanisms in F<Date::Calendar::Whatever::Names> and the data
+in F<Date::Calendar::Whatever::Names::en>
+F<Date::Calendar::Whatever::Names::fr>
+F<Date::Calendar::Whatever::Names::it> and others.
+It will depend on the size.
+
+Another point with multi-localization is that the F<Date::Calendar::Whatever>
+objects will have a C<locale> attribute and this attribute will be read-write.
+The year, month and day attributes will still be readonly, but the locale will
+be read-write. So the object is not fully immutable. Changing 
+« Sextidi 26 Messidor 227 » into « Sixday 26 Reapidor 227 » is 
+just a skin-deep cosmetic modification, while changing
+« Sextidi 26 Messidor 227 » into « Septidi 27 Messidor 227 » is
+a deep modification of the date's "identity".
+
+=head2 Calendars with variants
+
+=head3 French Revolutionary Calendar
+
+There are two ways of computing the change of a year to the
+next in the  French Revolutionary Calendar: either the first day
+of the year is the autumn equinox, or the length of each year is 365
+or 366 and computed with an algorithm similar to the Gregorian
+algorithm. Historically, the  French Revolutionary Calendar began
+with the astronomical rule and a reform to adopt the arithmetic rule
+was scheduled for year XX (Gregorian year 1811).
+
+So we can define three variants.
+
+=over 4
+
+=item * the astronomical variant, where the first day is always on
+the autumn equinox, even after year XX,
+
+=item * the arithmetic variant, where the year length is computed
+with Gregorian-like moduloes, event before year XX,
+
+=item * and the historical variant, which takes into account
+the year XX reform and the change of rule.
+
+=back
+
+How does this translate in Perl 6?
+
+A first idea is to define three different functions or methods to
+translate an other date into French Revolutionary Calendar
+and also three  different functions or methods to
+translate an French Revolutionary date into another calendar.
+
+This is a bad idea. What happens if the other calendar has also three
+variants, like the Mayan calendar? Should we define 9 functions/ methods
+for each direction?
+
+A second idea is defining only one function or method in each direction,
+using a parameter giving which variant to use. In the case of the
+French Revolutionary → Mayan conversion, we would have two parameters,
+the C<from_variant> parameter and the C<to_variant> parameter. These
+parameters would be optional and, in the cas of variantless calendars,
+ignored.
+
+This does not work either. Suppose we want to translate 22 Septembre 1795
+to French Revolutionary using the astronomical variant and then back
+to Gregorian using the arithmetic variant. The first step would result in
+"sextidi 6 sans-culottide III" (sixth additional day, which means that
+this is a leap year), and the second step would fail because according
+to the arithmetic rule, year III is a normal year, with only 5 additional
+days.
+
+A third possibility is adding a  C<variant> attribute to the  French Revolutionary Calendar
+class to keep track of the variant used when creating the date object.
+In this cas, the "here and back again" conversion will no longer be able
+to use two different variants. It will just add some code in the module
+to dispatch between variants of the "French Revolutionary Calendar to
+other" conversion functions. Not a problem to the module user, just some
+more code to write for the module author / maintainer (me).
+
+A fourth possibility consists in storing this information not in a attribute,
+but directly in the object's metadata, I mean, in the class. In other words,
+I define three different classes for the  French Revolutionary Calendar,
+one per variant. With that, the burden is no longer on the module writer /
+maintainer, but on the dispatch mechanism coded in the Perl 6 interpreter.
+Thus we have:
+
+=over 4
+
+=item * Three classes
+
+  Date::Calendar::FrenchRevolutionary
+  Date::Calendar::FrenchRevolutionary::Astronomical
+  Date::Calendar::FrenchRevolutionary::Arithmetic
+
+=item * One role
+
+  Date::Calendar::FrenchRevolutionary::Common
+
+=item * One procedural module
+
+  Date::Calendar::FrenchRevolutionary::Names
+
+=back
+
+This is the possibility I have adopted.
+
+Actually, there is even a fifth possibility, which merges possibilities 3 and
+4. Each one of the three classes has a C<algorithm> method which returns
+a constant result, which will be  C<"historic">, C<"astronomical">
+or C<"arithmetic"> depending on the class. If I think it can be useful,
+I will switch to this possibility.

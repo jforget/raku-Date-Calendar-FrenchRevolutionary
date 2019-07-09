@@ -1,0 +1,238 @@
+-*- encoding: utf-8; indent-tabs-mode: nil -*-
+
+=encoding utf8
+
+=head1 Notes du concepteur
+
+=head2 Préliminaire
+
+Il est préférable de faire référence à des exemples plutôt
+que d'utiliser des données génériques. Pour ce faire, j'utiliserai
+les dates suivantes (le 14 juillet de cette année) :
+
+  Dimanche 14 juillet 2019
+  Sunday 14 July 2019
+  11 Tammuz 5779
+  11 Dhu al-Qada 1440
+  Sextidi 26 Messidor 227
+  13.0.6.11.16, 8 Cib, 4 Xul
+
+=head2 Buts
+
+Les modules de calendrier doivent tendre vers ces buts contradictoires :
+
+=over 4
+
+=item * Un utilisateur peut décider de charger autant de modules qu'il
+souhaite. Il peut tous les utiliser ou n'utiliser aucun module outre
+le module central F<Date>.
+
+=item * Limiter autant que possible la duplication de code. Plutôt DRY
+(Don't Repeat Yourself, Ne vous répétez pas) que WET
+(Write Everything Twice, Tout écrire deux fois).
+
+=item * Ne pas toucher aux modules standards, y compris F<Date>.
+
+=back
+
+=head2 Première idée : des rôles partout
+
+Ma première idée était d'utiliser de manière intensive la nouveauté
+de Perl 6 en programmation objet, les rôles. Seul le calendrier grégorien
+serait implémenté en tant que classe, les autres calendriers seraient
+des rôles accolés à la classe F<Date>. Par exemple :
+
+  my Date $quatorze-juillet does Date::Calendar::Hebrew
+                            does Date::Calendar::Hijri
+                            does Date::Calendar::FrenchRevolutionary
+                            does Date::Calendar::Mayan
+            .= new(year => 2019, month => 7, day => 14);
+
+Le premier problème est le conflit de nom entre les méthodes des
+divers rôles. Si nous codons :
+
+  say $quatorze-juillet.month-name
+
+obtiendrons-nous C<Tammuz>, C<Dhu al-Qada> ou C<Messidor> ?
+D'accord, il suffit de lire la page 226 et les suivantes de 
+I<Learning Perl 6> et l'on apprend que l'on peut écrire :
+
+  say $quatorze-juillet.month-name( Date::Calendar::FrenchRevolutionary );
+  # → Messidor
+  say $quatorze-juillet.month-name( Date::Calendar::Hebrew );
+  # → Tammuz
+
+Mais c'est laborieux.
+
+Le second problème est que le concept de date n'est pas le même
+d'une civilisation à l'autre. Le calendrier grégorien et le calendrier
+républicain utilisent des dates de minuit à minuit, alors que le calendrier
+hébraïque, le calendrier islamique et plusieurs autres utilisent des
+dates du coucher du soleil au coucher suivant. On peut donc assimiler
+le 14 juillet 2019 au 26 Messidor 227, mais pas au 11 Tammuz 5579.
+Habituellement, les programmes de conversion s'en tirent en écrivant
+dans la documentation utilisateur que la conversion 14 juillet 2019
+→ 11 Tammuz 5779 est valide avant le coucher du soleil. Mais il pourrait
+y avoir un programmeur un peu plus aventureux qui coderait deux routines
+de conversion ou qui ajouterait un paramètre « moment de la journée »
+à sa routine de conversion pour obtenir soit :
+
+  14 juillet 2019 → 11 Tammuz 5779
+
+soit :
+
+  14 juillet 2019 → 12 Tammuz 5779
+
+En implémentant le calendrier hébraïque en tant que rôle affecté au
+calendrier grégorien, cette possibilité n'existerait plus. En implémentant
+le calendrier hébraïque en tant que classe séparée, la possibilité
+reste ouverte. Il reste des problèmes à résoudre dans ce cas, mais au
+moins nous ne sommes pas bloqués.
+
+La solution est donc : un calendrier = une classe.
+
+=head2 Examen du module standard F<Date>
+
+Je n'avais pas l'intention de traiter les heures (décimales ou 24×60×60)
+donc j'ai seulement regardé F<Date>, pas F<DateTime>.
+
+=head3 Immutabilité
+
+Une différence avec le module F<DateTime> de Perl 5, c'est que les dates
+ne sont pas modifiables. Et pourquoi pas ? Cela ne me dérange pas.
+Donc les dates dans F<Date::Calendar::xxx> ne seront pas modifiables.
+Voir cependant ci-dessous.
+
+=head3 Affichage en langage naturel
+
+Une autre différence avec Perl 5, c'est qu'il n'y a rien de prévu en
+standard pour afficher du langage naturel, essentiellement les noms
+des jours et les noms des mois. Peut-être a-t-on estimé que
+l'utilisation principale du module F<Date> serait la constitution
+d'horaires ou la planification de tâches, ce qui ne nécessite que les
+valeurs numériques des jours et des mois, pas les noms en clair.
+
+Et si vous avez quand même besoin des noms en clair, vous pouvez installer
+et utiliser F<Date::Names> disponible sur CPAN6.
+
+À mon avis, si quelqu'un utilise un module de calendrier autre que
+grégorien, c'est pour afficher la date convertie, pas pour faire des
+calculs de délai ou planifier des tâches. Les noms en clair seront
+dans un module séparé, mais ce module séparé fera partie intégrante de la
+distribution. Ainsi, la distribution F<Date::Calendar::Hebrew>
+incluera à la fois le module F<Date::Calendar::Hebrew> et le module
+F<Date::Calendar::Hebrew::Names>.
+
+Si les noms sont disponibles dans plusieurs langages pour un même
+calendrier, je peux dans certains cas tout mettre dans un même module
+F<Date::Calendar::xxx::Names>, mécanisme et données, ou bien je peux
+scinder cela en mettant le mécanisme dans
+F<Date::Calendar::xxx::Names> et les données dans
+F<Date::Calendar::xxx::Names::en>, F<Date::Calendar::xxx::Names::fr>,
+F<Date::Calendar::xxx::Names::it> et ainsi de suite. Tout dépendra
+de la taille.
+
+Un autre point est que dans le cas où plusieurs langages sont disponibles,
+l'objet F<Date::Calendar::xxx> aura un attribut C<locale> et 
+l'utilisateur pourra alors faire varier cet attribut pour afficher une même
+date dans plusieurs langues. Même si les attributs année, mois et jour
+sont invariants, l'attribut C<locale> sera modifiable. Et l'objet
+ne sera plus totalement « immutable ». Changer 
+« Sextidi 26 Messidor 227 » en « Sixday 26 Reapidor 227 » est
+une modification cosmétique et superficielle de l'instance de date, changer
+« Sextidi 26 Messidor 227 » en « Septidi 27 Messidor 227 » est
+une modification profonde et essentielle de l'instance.
+
+
+=head2 Calendriers avec variantes
+
+=head3 calendrier révolutionnaire
+
+Pour le calendrier révolutionnaire, il y a deux façons de déterminer le passage d'une année à la
+suivante. Ou bien le premier jour de l'année correspond à l'équinoxe
+d'automne, ou bien on calcule la durée de chaque année, 365 ou 366 jours,
+avec un algorithme similaire à celui du calendrier grégorien.
+Historiquement, nous avons commencé avec la règle astronomique
+et une réforme prévoyait de passer à la règle arithmétique en
+l'an XX.
+
+Nous avons donc trois variantes.
+
+=over 4
+
+=item * la variante astronomique, basée uniquement
+sur la détermination de l'équinoxe d'automne, même
+après l'an XX,
+
+=item * la variante arithmétique, qui s'étend sur toute
+la période de validité, y compris avant l'an XX,
+
+=item * et la variante historique, qui prend en compte
+le changement de règle en l'an XX.
+
+=back
+
+Comment cela se traduit-il en Perl 6 ?
+
+Une première idée consiste à prévoir trois fonctions différentes
+de conversion vers le calendrier républicain et trois fonctions
+différentes de conversion à partir du calendrier républicain.
+
+Cela ne tient pas la route. Que se passe-t-il si le calendrier d'en face
+est le calendrier maya, qui a lui aussi 3 variantes ?
+Faut-il définir 9 fonctions de conversion ?
+
+Une deuxième possibilité consiste à ne faire qu'une fonction de conversion
+dans chaque sens, laquelle admet un paramètre précisant la variante.
+Ou, pour prévoir le cas de la conversion républicain → maya, un
+paramètre donnant la variante du calendrier de départ et un deuxième
+paramètre pour la variante du calendrier d'arrivée. Ces paramètres
+sont facultatifs et les calendriers sans variante les ignorent.
+
+Cela ne tient pas la route non plus. Imaginons que l'on veuille convertir
+le 22 septembre 1795 vers le calendrier républicain avec la variante
+astronomique, puis en sens inverse avec la règle arithmétique.
+La première étape donne le «sextidi 6 sans-culottide III » (pour une année
+à 366 jours) et la deuxième étape plante, car avec la variante arithmétique,
+l'an III a 365 jours et le sixième jour complémentaire est invalide.
+
+Une troisième possibilité consiste à ajouter un nouvel attribut
+à la date pour mémoriser la variante utilisée à la création.
+De la sorte, l'aller-retour mentionné ci-dessus ne pourra pas se faire.
+Si une date est créée en tant que date du calendrier astronomique, au moment
+de la conversion républicain → grégorien (ou autre), elle utilisera la
+méthode astronomique. Le seul problème est que cela ajoute du code dans le module,
+pour tester à chaque conversion la méthode à utiliser. Pas très gênant pour l'utilisateur
+du module, juste un peu gonflant pour le créateur et le mainteneur du module (moi).
+
+Une quatrième possibilité consiste à mémoriser la variante non pas dans
+un attribut, mais dans les méta-informations de l'objet. Plus clairement,
+créer trois classes spécifiques pour le calendrier républicain, une classe
+par variante. Ainsi, ce n'est plus le créateur / mainteneur du module qui doit
+tester la variante à utiliser, c'est le mécanisme de dispatch inclus dans l'interpréteur
+Perl 6. On a donc ainsi :
+
+=over 4
+
+=item * Trois classes
+
+  Date::Calendar::FrenchRevolutionary
+  Date::Calendar::FrenchRevolutionary::Astronomical
+  Date::Calendar::FrenchRevolutionary::Arithmetic
+
+=item * Un rôle
+
+  Date::Calendar::FrenchRevolutionary::Common
+
+=item * Un module procédural
+
+  Date::Calendar::FrenchRevolutionary::Names
+
+=back
+
+C'est la possibilité que j'ai adoptée.
+
+Il existe une cinquième possibilité, fusionnant la troisième et la quatrième.
+Chacune des trois classes contient une méthode C<algorithm> donnant un résultat
+constant, C<"historic">, C<"astronomical"> ou C<"arithmetic"> selon le cas.
+Si j'en trouve l'utilité, j'adopterai cette cinquième possibilité.
