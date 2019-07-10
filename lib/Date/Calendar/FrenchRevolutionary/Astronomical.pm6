@@ -466,6 +466,13 @@ apply  the decimal  rule  (the  basis of  the  metric  system) to  the
 calendar. Therefore, the week disappeared,  replaced by the décade. In
 addition, all months have exactly 3 decades, no more, no less.
 
+Since 12 months of 30 days each do not make a full year (365.24 days),
+there are 5 or 6 additional days at  the end of a year. These days are
+called  "Sans-culottides", named  after  a political  faction, but  we
+often find the phrase "jours complémentaires" (additional days). These
+days do not  belong to any month, but for  programming purposes, it is
+convenient to consider they form a 13th month.
+
 At first,  the year was  beginning on the  equinox of autumn,  for two
 reasons.  First, the  republic had  been established  on 22  September
 1792, which  happened to be the  equinox, and second, the  equinox was
@@ -478,6 +485,27 @@ The  distribution contains  two other  classes, one  where the  reform
 replacing the astronomical rule by  the arithmetic rule took effect in
 year  XX (1811),  the  other  where this  reform  took  effect at  the
 creation of the calendar.
+
+=head1 PROBLEMS AND KNOWN BUGS
+
+The  equinox  rule  has  been  generated  according  to  Reingold  and
+Dershowitz's  book  I<Calendar  Calculations>  and  the  corresponding
+Common Lisp  program C<calendrica-3.0.cl>.  I have found  that running
+this  program with  the C<clisp>  interpreter gives  different results
+from running the  same program with the C<gcl>  interpreter. The first
+differences  occur  in  Gregorian  years 1807  and  1840.  The  French
+Revolutionary calendar was  no longer in use, but still...  I think it
+is caused by  a rounding error which pushes the  autumn equinox to the
+wrong side of midnight. I will investigate this matter.
+
+The values  used in this  version are  the values produced  by running
+C<calendrica-3.0.cl> with C<clisp>.
+
+In  addition,  the  algorithm  used  in  I<Calendar  Calculations>  is
+reliable, I think, for a few  centuries, but not for several millenia.
+The  problem is  I do  not know  when I  should stop  computing autumn
+equinoxes. Let us say that after 500 or 1000 years, the errors will be
+too many. Before that, we will have a few errors yet.
 
 =head1 AUTHOR
 
