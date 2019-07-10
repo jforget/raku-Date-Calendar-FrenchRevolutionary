@@ -12,6 +12,10 @@ class    Date::Calendar::FrenchRevolutionary:ver<0.0.1>:auth<cpan:JFORGET>
     $.new(year => $y, month => $m, day => $d);
   }
 
+  method vnd1 {
+    vnd1($.year + 1791);
+  }
+
   our sub vnd1(Int:D $year-gr --> Int) {
     if $year-gr < 1811 {
       return Date::Calendar::FrenchRevolutionary::Astronomical::vnd1($year-gr);

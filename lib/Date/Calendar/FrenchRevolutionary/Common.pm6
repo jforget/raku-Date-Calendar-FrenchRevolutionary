@@ -25,6 +25,17 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.1>:auth<cpan:JFORGET> {
     my $day   = 31 + $count - $vnd1_count - 30 × $month;
     return $year, $month, $day;
   }
+  method daycount {
+    Date.new(year => $.year + 1791, month => 9, day => $.vnd1()).daycount
+    + 30 × ($.month - 1)
+    + $.day
+    - 1;
+  }
+
+  method to-date() {
+    my Date $d .= new-from-daycount($.daycount);
+    return $d;
+  }
 
   method gist {
     sprintf("%04d-%02d-%02d", $.year, $.month, $.day);
