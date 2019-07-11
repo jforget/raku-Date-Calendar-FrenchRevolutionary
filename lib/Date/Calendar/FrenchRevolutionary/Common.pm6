@@ -2,9 +2,9 @@ use v6.c;
 use Date::Calendar::FrenchRevolutionary::Names;
 role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.1>:auth<cpan:JFORGET> {
 
-  has Int $.year;
-  has Int $.month;
-  has Int $.day;
+  has Int $.year  where { $_ ≥ 1 };
+  has Int $.month where { 1 ≤ $_ ≤ 13 };
+  has Int $.day   where { 1 ≤ $_ ≤ 30 };
   has Str $.locale is rw = 'fr';
 
   method new-from-date($date) {

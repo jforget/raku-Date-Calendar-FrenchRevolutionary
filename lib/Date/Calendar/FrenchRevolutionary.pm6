@@ -134,6 +134,24 @@ on the date's current locale.
 
 Clones the date into a core class C<Date> object.
 
+=head1 PROBLEMS AND KNOWN BUGS
+
+The  validation  of  C<new>  parameters  is  very  basic.  Especially,
+checking the day  number ignores the month value and  you can create a
+date  with the  30th I<sans-culottide>  (additional day),  despite the
+fact  that normal  and  leap  years have  respectively  only  5 and  6
+additional days.
+
+About  the  astronomical  variant:  the conversion  values  have  been
+computed with an  algorithm implemented in Common Lisp.  There are two
+problems with  this: First, the  conversion values have  been computed
+for a period spanning 6 millenia,  although the algorithm is not valid
+over  this  whole  period.  Second,  the  Common  Lisp  program  gives
+different results when running under C<clisp> or C<gcl>. I do not know
+yet the  reason. I  suppose it  is a rounding  error which  pushes the
+autumn equinox to the wrong side of midnight, but it deserves a deeper
+analysis.
+
 =head1 SEE ALSO
 
 =head2 Perl 5 Software
