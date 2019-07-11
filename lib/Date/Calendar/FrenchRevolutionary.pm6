@@ -44,10 +44,7 @@ my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
 my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
 say $Bonaparte's-coup-fr;
 # ---> "0008-02-18" for 18 Brumaire VIII
-say join ' ', $Bonaparte's-coup-fr.day-name
-            , $Bonaparte's-coup-fr.day
-            , $Bonaparte's-coup-fr.month-name
-            , $Bonaparte's-coup-fr.year;
+say "{.day-name} {.day} {.month-name} {.year}" with  $Bonaparte's-coup-fr;
 # ---> "Octidi 18 Brumaire 8"
 
 =end code
