@@ -81,6 +81,15 @@ With the Hebrew calendar as a role, that would not be possible, with the Hebrew
 calendar as a class, that would be possible. There are still a few problems,
 but at least we are not painted out in a corner.
 
+I found another reason when writing the French Revolutionary module.
+While there are reasons to allow negative years (or BC years) for the
+Julian and Gregorian calendars (even when considering that the Gregorian
+calendar took effect on 15 October 1582), there is no reason to take into
+account dates before the epochs of the other calendars. For example, 
+the French Revolutionary calendar's epoch is 22 September 1792, so
+21 September should not be allowed to use the FrenchRevolutionary role's
+methods.
+
 So the solution is: one calendar = one class.
 
 =head2 Taking a look at F<Date>

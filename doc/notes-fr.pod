@@ -89,6 +89,16 @@ le calendrier hébraïque en tant que classe séparée, la possibilité
 reste ouverte. Il reste des problèmes à résoudre dans ce cas, mais au
 moins nous ne sommes pas bloqués.
 
+Pendant que j'écrivais le module de calendrier républicain, j'ai
+trouvé un argument supplémentaire. L'utilisation d'années négatives
+(ou av J.C.) est justifiée pour le calendrier julien et le calendrier
+grégorien (même en considérant que le calendrier grégorien a pris 
+effet le 15 octobre 1582), ce n'est pas le cas pour les autres 
+calendriers. Ainsi, le calendrier républicain a pour origine des
+temps le 22 septembre 1792 et il n'y a alors aucune raison d'autoriser
+l'objet 21 septembre 1792 à utiliser les méthodes du rôle
+« calendrier républicain ».
+
 La solution est donc : un calendrier = une classe.
 
 =head2 Examen du module standard F<Date>
