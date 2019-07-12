@@ -6004,14 +6004,14 @@ my @tests = (<   1  1  1    1792-09-22    1792-09-22>
 	   , <5999  1  1    7790-09-16    7790-09-21>
 	   , <6000  1  1    7791-09-16    7791-09-21>
              );
-plan 1 × @tests.elems;
+plan 2 × @tests.elems;
 
 for @tests -> $test {
   my ($y, $m, $d, $str-astro, $str-arith) = $test;
   my Date::Calendar::FrenchRevolutionary::Astronomical $d-astro .= new(year => $y, month => $m, day => $d);
   my Date::Calendar::FrenchRevolutionary::Arithmetic   $d-arith .= new(year => $y, month => $m, day => $d);
   is($d-astro.to-date.gist, $str-astro);
-  #is($d-arith.to-date.gist, $str-arith);
+  is($d-arith.to-date.gist, $str-arith);
 }
 
 done-testing;
