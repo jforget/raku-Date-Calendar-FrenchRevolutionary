@@ -122,6 +122,7 @@ class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.1>:auth<cpan:
           when 7756       { $result = 16 }
           when 7760..7788 { $result = 15 }
         }
+        if $year-gr ≥ 7788  { $result = 15 }
       }
       when 1 {
         $result = 17;
@@ -227,6 +228,7 @@ class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.1>:auth<cpan:
           when 7701..7785 { $result = 16 }
           when 7789       { $result = 15 }
         }
+        if $year-gr ≥ 7789  { $result = 15 }
       }
       when 2 {
         $result = 22;
@@ -326,6 +328,7 @@ class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.1>:auth<cpan:
           when 7690..7694 { $result = 15 }
           when 7698..7790 { $result = 16 }
         }
+        if $year-gr ≥ 7790  { $result = 16 }
       }
       when 3 {
         $result = 22;
@@ -432,6 +435,7 @@ class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.1>:auth<cpan:
           when 7727       { $result = 17 }
           when 7731..7791 { $result = 16 }
         }
+        if $year-gr ≥ 7791  { $result = 16 }
       }
     }
     $result;
