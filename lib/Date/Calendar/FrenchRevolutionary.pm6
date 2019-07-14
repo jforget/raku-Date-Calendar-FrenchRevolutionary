@@ -275,6 +275,17 @@ method.
 
 Jean Forget <JFORGET at cpan dot org>
 
+=head1 THANKS
+
+Many  thanks to  all those  who were  involved in  Perl 6,  Rakudo and
+Rakudo-Star.
+
+Many thanks  to Andrew,  Laurent and C<brian>  for writing  books that
+helped me learn Perl 6.
+
+And some additional thanks to Laurent for  his help, even if I did not
+apply all his advices.
+
 =head1 COPYRIGHT AND LICENSE
 
 Copyright 2019 Jean Forget, all rights reserved
