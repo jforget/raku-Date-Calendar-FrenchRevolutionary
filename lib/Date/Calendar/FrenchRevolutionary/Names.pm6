@@ -92,7 +92,7 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.2> {
                    Q :ww/
                       1rose             0chêne            1fougère          2aubépine         0rossignol
                       2ancolie          0muguet           0champignon       1hyacinthe        0râteau
-                      1rhubarbe         0sainfoin         0bâton-d'or       0chamérisier     '0ver_à_soie'
+                      1rhubarbe         0sainfoin         0bâton-d'or       0chamérisier     '0ver à soie'
                       1consoude         1pimprenelle      1corbeille-d'or   2arroche          0sarcloir
                       0staticé          1fritillaire      1bourrache        1valériane        1carpe
                       0fusain           1civette          1buglosse         0sénevé           1houlette
@@ -139,7 +139,122 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.2> {
                       1révolution
                    /
       )
-     , 'en' => ();
+     , 'en' => (
+                   # Vendémiaire
+                   Q :ww/
+                     grape                saffron          "?sweet chestnut"      ?colchic        horse
+                     balsam               carrot            amaranth              parsnip         vat
+                     potato               everlasting       ?squash               mignonette      donkey
+                    "four o'clock flower" pumpkin           buckwheat             sunflower       wine-press
+                     hemp                 peach             turnip                amaryllis       ox
+                     eggplant            "chili pepper"     tomato                barley          barrel
+                   /,
+                   # Brumaire
+                   Q :ww/
+                     apple                celery            pear                  beetroot        goose
+                     heliotrope           fig              "black salsify"        ?whitebeam      plow
+                     salsify             "water chestnut"  "jerusalem artichoke"  endive          turkey
+                     skirret              cress             ?plumbago             pomegranate     harrow
+                     ?bacchante           azarole           madder                orange          pheasant
+                     pistachio           "tuberous pea"     quince               "service tree"   roller
+                   /,
+                   # Frimaire
+                   Q :ww/
+                     rampion              turnip            chicory               medlar          pig
+                    "corn salad"          cauliflower       honey                 juniper         pickaxe
+                     wax                  horseradish      "cedar tree"          "fir tree"      "roe deer"
+                     gorse               "cypress tree"     ivy                  "savin juniper"  grub-hoe
+                    "maple tree"          heather           reed                  sorrel          cricket
+                    "pine nut"            cork              truffle               olive           shovel
+                   /,
+                   # Nivôse
+                   Q :ww/
+                     peat                 coal              bitumen               sulphur         dog
+                     lava                 topsoil           manure                saltpeter       flail
+                     granite              clay              slate                 sandstone       rabbit
+                     flint                marl              limestone             marble         "winnowing basket"
+                     gypsum               salt              iron                  copper          cat
+                     tin                  lead              zinc                  mercury         sieve
+                   /,
+                   # Pluviôse
+                   Q :ww/
+                    "spurge laurel"       moss             "butcher's broom"	  snowdrop                bull
+                     laurustinus         "tinder polypore"  mezereon        	 "poplar tree"            axe
+                     hellebore            broccoli          laurel          	 "common hazel"           cow
+                    "box tree"            lichen            yew tree        	  lungwort                billhook
+                     penny-cress          daphne            couch grass     	 "common knotgrass"       hare
+                     woad                "hazel tree"       cyclamen        	  celandine               sleigh
+                   /,
+                   # Ventôse
+                   Q :ww/
+                     coltsfoot            dogwood                  "?hoary stock"     privet          billygoat
+                    "wild ginger"        "mediterranean buckthorn"  violet           "goat willow"    spade
+                     narcissus           "elm tree"                 fumitory         "hedge mustard"  goat
+                     spinach             "leopard's bane"           pimpernel         chervil         line
+                     mandrake             parsley                   scurvy-grass      daisy          "tuna fish"
+                     dandelion            windflower               "maidenhair fern" "ash tree"       dibble
+                   /,
+                   # Germinal
+                   Q :ww/
+                     primula             "plane tree"     asparagus       tulip           hen
+                     chard               "birch tree"     daffodil        alder           hatchery
+                     periwinkle           hornbeam        morel          "beech tree"     bee
+                     lettuce              larch           hemlock         radish          hive
+                     ?redbud             "roman lettuce" "chestnut tree"  rocket          pigeon
+                     lilac                anemone         pansy           blueberry       dibber
+                   /,
+                   # Floréal
+                   Q :ww/
+                     rose                "oak tree"               fern            hawthorn        nightingale
+                     columbine           "lily of the valley"     mushroom        hyacinth        rake
+                     rhubarb              sainfoin                wallflower      ?chamerops      silkworm
+                     comfrey              burnet                 "basket of gold" orache          hoe
+                     ?statice             fritillary              borage          valerian        carp
+                     spindletree          chive                   bugloss        "wild mustard"  "shepherd staff"
+                   /,
+                   # Prairial
+                   Q :ww/
+                     alfalfa              day-lily        clover          angelica        duck
+                    "lemon balm"         "oat grass"      martagon       "wild thyme"     scythe
+                     strawberry           betony          pea             acacia          quail
+                     carnation           "elder tree"     poppy           lime            pitchfork
+                     barbel               camomile        honeysuckle     bedstraw        tench
+                     jasmine              vervain         thyme           peony           carriage
+                   /,
+                   # Messidor
+                   Q :ww/
+                     rye                  oats            onion           speedwell       mule
+                     rosemary             cucumber        shallot         wormwood        sickle
+                     coriander            artichoke       clove           lavender        chamois
+                     tobacco              currant         vetchling       cherry          park
+                     mint                 cumin           bean            alkanet        "guinea hen"
+                     sage                 garlic          tare            corn            shawm
+                   /,
+                   # Thermidor
+                   Q :ww/
+                     spelt                mullein         melon           ryegrass        ram
+                     horsetail            mugwort         safflower       blackberry     "watering can"
+                     ?parsnip             glasswort       apricot         basil           ewe
+                     marshmallow          flax            almond          gentian         waterlock
+                    "carline thistle"     caper           lentil          horseheal       otter
+                     myrtle              "oil-seed rape"  lupin           cotton          mill
+                   /,
+                   # Fructidor
+                   Q :ww/
+                     plum                 millet          lycoperdon      barley          salmon
+                     tuberose             bere            dogbane         liquorice       stepladder      
+                     watermelon           fennel          barberry        walnut          trout
+                     lemon                teasel          buckthorn       marigold       "harvesting basket"
+                    "wild rose"           hazelnut        hops            sorghum         crayfish
+                    "bitter orange"       goldenrod       corn            chestnut        basket
+                   /,
+
+                   # Jours complémentaires
+                   Q :ww/
+                     virtue               engineering    labour          opinion          rewards
+                     revolution
+                   /
+      );
   my %prefix = 'fr' => ('jour du ', 'jour de la ', "jour de l'", 'jour des ')
              , 'en' => ('day of');
 
@@ -161,7 +276,12 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.2> {
       return $raw-feast.substr(1);
     }
     elsif $locale eq 'en' {
-      return $raw-feast.substr(1);
+      if $raw-feast.substr(0,1) eq '?' {
+        return $raw-feast.substr(1);
+      }
+      else {
+        return $raw-feast;
+      }
     }
       
   }
