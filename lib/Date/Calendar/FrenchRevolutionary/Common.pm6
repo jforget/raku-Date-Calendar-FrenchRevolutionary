@@ -1,6 +1,6 @@
 use v6.c;
 use Date::Calendar::FrenchRevolutionary::Names;
-role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.1>:auth<cpan:JFORGET> {
+role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.2>:auth<cpan:JFORGET> {
 
   has Int $.year  where { $_ ≥ 1 };
   has Int $.month where { 1 ≤ $_ ≤ 13 };

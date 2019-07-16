@@ -26,6 +26,8 @@
     , "calendar"
     , "fun"
   ],
-  "test-depends" : [ ],
-  "version" : "0.0.1"
+  "test-depends" : [ 
+      "Test::META"
+  ],
+  "version" : "0.0.2"
 }
