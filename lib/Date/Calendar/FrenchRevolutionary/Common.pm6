@@ -57,6 +57,10 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.2>:auth<cpan:JFORGET> {
     Date::Calendar::FrenchRevolutionary::Names::day-abbr($.locale, $.day);
   }
 
+  method feast {
+    Date::Calendar::FrenchRevolutionary::Names::feast($.locale, $.month, $.day);
+  }
+
 }
 
 =begin pod
