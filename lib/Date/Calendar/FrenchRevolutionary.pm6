@@ -145,7 +145,8 @@ C<"Day of Saffron">.
 
 Clones  the   date  into   a  core  class   C<Date>  object   or  some
 C<Date::Calendar::>I<xxx> compatible calendar  class. The target class
-name is given as a positional parameter.
+name is given  as a positional parameter. This  parameter is optional,
+the default value is C<"Date"> for the Gregorian calendar.
 
 To convert a date from a  calendar to another, you have two conversion
 styles,  a "push"  conversion and  a "pull"  conversion. For  example,
@@ -156,12 +157,13 @@ arithmetic variant, you can code:
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
-my Date::Calendar::FrenchRevolutionary::Astronomical $d-in .= new(year  => 4
-                                                                , month => 1
-                                                                , day   => 1);
-my Date::Calendar::FrenchRevolutionary::Arithmetic $d-out-push;
-my Date::Calendar::FrenchRevolutionary::Arithmetic $d-out-pull;
+my  Date::Calendar::FrenchRevolutionary::Astronomical $d-in;
+my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-out-push;
+my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-out-pull;
 
+$d-in .= new(year  => 4
+           , month => 1
+           , day   => 1);
 $d-out-push = $d-in.to-date("Date::Calendar::Arithmetic");
 $d-out-pull .= new-from-date($d-in);
 

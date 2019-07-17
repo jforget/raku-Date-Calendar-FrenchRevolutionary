@@ -28,6 +28,21 @@ my Date                                $Robespierre's-downfall-gr =  $Robespierr
 say $Robespierre's-downfall-gr;
 ```
 
+INSTALLATION
+============
+
+```shell
+zef install Date::Calendar::FrenchRevolutionary
+```
+
+or
+
+```shell
+git clone https://github.com/jforget/Date-Calendar-FrenchRevolutionary.git
+cd Date-Calendar-FrenchRevolutionary
+zef install .
+```
+
 DESCRIPTION
 ===========
 
