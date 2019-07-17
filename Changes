@@ -2,6 +2,7 @@ Revision history for Date-Calendar-FrenchRevolutionary
 
 0.0.2, released on ...
     - Fixed some mistakes in META6.json, Changes, etc.
+    - add feasts
 
 0.0.1, released on Sextidi 26 Messidor CCXXVII, jour de la Sauge (or Sunday, 14th July 2019)
     - Initial version

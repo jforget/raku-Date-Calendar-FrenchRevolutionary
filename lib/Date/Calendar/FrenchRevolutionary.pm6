@@ -44,8 +44,8 @@ my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
 my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
 say $Bonaparte's-coup-fr;
 # ---> "0008-02-18" for 18 Brumaire VIII
-say "{.day-name} {.day} {.month-name} {.year}" with  $Bonaparte's-coup-fr;
-# ---> "Octidi 18 Brumaire 8"
+say "{.day-name} {.day} {.month-name} {.year} {.feast-long}" with  $Bonaparte's-coup-fr;
+# ---> "Octidi 18 Brumaire 8 jour de la dentelaire"
 
 =end code
 
@@ -125,8 +125,19 @@ locale.
 
 =head3 day-name
 
-The name of the day withing the I<décade> (ten-day period). It depends
+The name of the day within  the I<décade> (ten-day period). It depends
 on the date's current locale.
+
+=head3 feast, feast-long, feast-caps
+
+The name  of the  feast of  the day, according  to the  date's current
+locale.
+
+While the  C<feast> method gives  the feast unadorned:  C<"safran"> or
+C<"saffron">,  the  C<feast-long> method  adds  a  prefix: C<"jour  du
+safran"> or C<"day of saffron">. In addition, the C<feast-caps> method
+use titlecase  for the prefix  and the  feast: C<"Jour du  Safran"> or
+C<"Day of Saffron">.
 
 =head2 Other Methods
 

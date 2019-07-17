@@ -4,7 +4,7 @@ use Date::Calendar::FrenchRevolutionary;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
-plan 54;
+plan 66;
 
 my Date::Calendar::FrenchRevolutionary               $d-hi .= new(year => 9, month => 2, day => 18);
 my Date::Calendar::FrenchRevolutionary::Astronomical $d-as .= new(year => 9, month => 2, day => 18);
@@ -20,6 +20,8 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-name,   'Octidi');
   is($d.day-abbr,   'Oct');
   is($d.feast,      'dentelaire');
+  is($d.feast-long, 'jour de la dentelaire');
+  is($d.feast-caps, 'Jour de la Dentelaire');
 
   $d.locale = 'en';
 
@@ -32,6 +34,8 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.month-abbr, 'Fog');
   is($d.month-name, 'Fogarious');
   is($d.feast,      'plumbago');
+  is($d.feast-long, 'day of plumbago');
+  is($d.feast-caps, 'Day of Plumbago');
 }
 
 done-testing;
