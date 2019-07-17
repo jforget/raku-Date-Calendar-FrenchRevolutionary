@@ -143,7 +143,34 @@ C<"Day of Saffron">.
 
 =head3 to-date
 
-Clones the date into a core class C<Date> object.
+Clones  the   date  into   a  core  class   C<Date>  object   or  some
+C<Date::Calendar::>I<xxx> compatible calendar  class. The target class
+name is given as a positional parameter.
+
+To convert a date from a  calendar to another, you have two conversion
+styles,  a "push"  conversion and  a "pull"  conversion. For  example,
+while converting from the astronomical  date "1 Vendémiaire IV" to the
+arithmetic variant, you can code:
+
+=begin code :lang<perl6>
+
+use Date::Calendar::FrenchRevolutionary::Astronomical;
+use Date::Calendar::FrenchRevolutionary::Arithmetic;
+my Date::Calendar::FrenchRevolutionary::Astronomical $d-in .= new(year  => 4
+                                                                , month => 1
+                                                                , day   => 1);
+my Date::Calendar::FrenchRevolutionary::Arithmetic $d-out-push;
+my Date::Calendar::FrenchRevolutionary::Arithmetic $d-out-pull;
+
+$d-out-push = $d-in.to-date("Date::Calendar::Arithmetic");
+$d-out-pull .= new-from-date($d-in);
+
+=end code
+
+When converting I<from> Gregorian, use the pull style. When converting
+I<to> Gregorian, use the push style. When converting from any calendar
+other than Gregorian  to any other calendar other  than Gregorian, use
+the style you prefer.
 
 =head1 PROBLEMS AND KNOWN BUGS
 

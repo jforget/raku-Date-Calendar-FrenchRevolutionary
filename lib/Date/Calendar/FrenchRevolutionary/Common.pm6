@@ -32,8 +32,9 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.2>:auth<cpan:JFORGET> {
     - 1;
   }
 
-  method to-date() {
-    my Date $d .= new-from-daycount($.daycount);
+  method to-date($class = 'Date') {
+    # See "Learning Perl 6" page 177
+    my $d = ::($class).new-from-daycount($.daycount);
     return $d;
   }
 
