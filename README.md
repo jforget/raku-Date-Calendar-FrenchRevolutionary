@@ -6,11 +6,21 @@ Date::Calendar::FrenchRevolutionary - Conversions from / to the French Revolutio
 SYNOPSIS
 ========
 
+Converting  a Gregorian  date  (e.g. 9th  November  1799) into  French
+Revolutionary (18 Brumaire VIII).
+
 ```perl6
 use Date::Calendar::FrenchRevolutionary;
 my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
 my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
 say $Bonaparte's-coup-fr;
+```
+
+Converting  a French  Revolutionary date  (e.g. 9th  Thermidor II)  to
+Gregorian (which gives 27th July 1794).
+
+```perl6
+use Date::Calendar::FrenchRevolutionary;
 my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr .= new(year    =>  2
                                                                        , month   => 11
                                                                        , day     =>  9);
