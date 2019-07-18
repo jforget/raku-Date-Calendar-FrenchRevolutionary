@@ -9,7 +9,7 @@ class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.0.2>:auth<cpan:JF
     vnd1($.year + 1791);
   }
 
-  method new-from-daycount(Int $count) {
+  method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
     my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
     $.new(year => $y, month => $m, day => $d);
   }
@@ -53,10 +53,14 @@ other  way. This  class uses  the  arithmetic rule  for computing  the
 successive year lengths since the beginning of the calendar.
 
 The Revolutionary calendar was in use  in France from 24 November 1793
-(4 Frimaire  II) to 31  December 1805 (10  Nivôse XIV). An  attempt to
-apply  the decimal  rule  (the  basis of  the  metric  system) to  the
-calendar. Therefore, the week disappeared,  replaced by the décade. In
-addition, all months have exactly 3 decades, no more, no less.
+(4 Frimaire  II) to 31 December  1805 (10 Nivôse XIV).  The modules in
+this distribution  extend the  calendar to  the present  and to  a few
+centuries in the future, not limiting to Gregorian year 1805.
+
+This new calendar was an attempt  to apply the decimal rule (the basis
+of  the   metric  system)  to   the  calendar.  Therefore,   the  week
+disappeared, replaced by the décade, a 10-day period. In addition, all
+months have exactly 3 decades, no more, no less.
 
 Since 12 months of 30 days each do not make a full year (365.24 days),
 there are 5 or 6 additional days at  the end of a year. These days are

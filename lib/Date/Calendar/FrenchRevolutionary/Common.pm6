@@ -89,8 +89,8 @@ use Date::Calendar::FrenchRevolutionary;
 =head1 DESCRIPTION
 
 Date::Calendar::FrenchRevolutionary is a module defining a role
-which is shared by the three variants of the Date::Calendar::FrenchRevolutionary
-class.
+which is shared by the three variants of the
+Date::Calendar::FrenchRevolutionary class.
 
 =head1 AUTHOR
 
