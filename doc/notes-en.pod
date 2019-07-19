@@ -64,9 +64,11 @@ but it is cumbersome.
 The second problem is that the concept of date is not the same across different
 civilizations. The Gregorian and French Revolutionary calendars use midnight-to-midnight
 dates, while the Hijri and Hebrew calendars (and others) use sunset-to-sunset dates.
+The Julian Day Number calendar (not to be confused with the Julian calendar) uses
+noon-to-noon dates.
 And it is possible that some other calendars use sunrise-to-sunrise dates. So, while
 you can equate 14 July 2019 to 26 Messidor 227, you cannot equate it to 11 Tammuz
-5779. Usually, date converters take the lazy path and mention in their documentation that
+5779. Usually, date conversion programs take the lazy path and mention in their documentation that
 the correspondance 14 July 2019 → 11 Tammuz 5779 is valid only until sunset,
 but we can imagine a hubristic programmer who would use two conversion routines
 or add a C<time-of-day> parameter to the conversion routine to get either
@@ -87,8 +89,8 @@ Julian and Gregorian calendars (even when considering that the Gregorian
 calendar took effect on 15 October 1582), there is no reason to take into
 account dates before the epochs of the other calendars. For example, 
 the French Revolutionary calendar's epoch is 22 September 1792, so
-21 September should not be allowed to use the FrenchRevolutionary role's
-methods.
+the 21 September 1792 object should not be allowed to use the
+FrenchRevolutionary role's methods.
 
 So the solution is: one calendar = one class.
 
@@ -97,9 +99,15 @@ So the solution is: one calendar = one class.
 I did not bother to deal with times, so I will look at the 
 F<Date> core module instead of F<DateTime>.
 
+=head3 Day-Only Counting
+
+The first difference with Perl 5's F<DateTime> is that Perl 6's F<Date>
+uses the MJD or Modified Julian Day Number instead of I<Rata Die>.
+Fine with me.
+
 =head3 Immutability
 
-One difference with Perl 5's F<DateTime>
+A second difference with Perl 5's F<DateTime>
 is that dates are immutable. Why not? It does not bother me.
 Therefore dates in a F<Date::Calendar::Whatever> module will be
 immutable too (but see below).
@@ -135,9 +143,9 @@ Another point with multi-localization is that the F<Date::Calendar::Whatever>
 objects will have a C<locale> attribute and this attribute will be read-write.
 The year, month and day attributes will still be readonly, but the locale will
 be read-write. So the object is not fully immutable. Changing 
-« Sextidi 26 Messidor 227 » into « Sixday 26 Reapidor 227 » is 
+"Sextidi 26 Messidor 227" into "Sixday 26 Reapidor 227" is 
 just a skin-deep cosmetic modification, while changing
-« Sextidi 26 Messidor 227 » into « Septidi 27 Messidor 227 » is
+"Sextidi 26 Messidor 227" into "Septidi 27 Messidor 227" is
 a deep modification of the date's "identity".
 
 =head2 Calendars with variants
@@ -228,8 +236,18 @@ Thus we have:
 
 This is the possibility I have adopted.
 
+Note that the shortest name is given to the main variant, which will
+certainly be the most often used variant.
+
 Actually, there is even a fifth possibility, which merges possibilities 3 and
 4. Each one of the three classes has a C<algorithm> method which returns
 a constant result, which will be  C<"historic">, C<"astronomical">
 or C<"arithmetic"> depending on the class. If I think it can be useful,
 I will switch to this possibility.
+
+=head3 Mayan Calendar and Aztec Calendar
+
+The case of the Mayan Calendar is similar, with the additional fact
+that we must consider the case of the Aztec Calendar at the same time
+
+To be continued

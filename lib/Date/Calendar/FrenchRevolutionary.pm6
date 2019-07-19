@@ -143,6 +143,11 @@ safran"> or C<"day of saffron">. In addition, the C<feast-caps> method
 use titlecase  for the prefix  and the  feast: C<"Jour du  Safran"> or
 C<"Day of Saffron">.
 
+=head3 daycount
+
+Convert the date to Modified Julian Day Number (a day-only scheme
+based on 17 November 1858).
+
 =head2 Other Methods
 
 =head3 to-date
@@ -161,15 +166,16 @@ arithmetic variant, you can code:
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
-my  Date::Calendar::FrenchRevolutionary::Astronomical $d-in;
-my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-out-push;
-my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-out-pull;
 
-$d-in .= new(year  => 4
-           , month => 1
-           , day   => 1);
-$d-out-push = $d-in.to-date("Date::Calendar::Arithmetic");
-$d-out-pull .= new-from-date($d-in);
+my  Date::Calendar::FrenchRevolutionary::Astronomical $d-orig;
+my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-dest-push;
+my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-dest-pull;
+
+$d-orig .= new(year  => 4
+             , month => 1
+             , day   => 1);
+$d-dest-push  = $d-orig.to-date("Date::Calendar::Arithmetic");
+$d-dest-pull .= new-from-date($d-orig);
 
 =end code
 
@@ -195,6 +201,17 @@ different results when running under C<clisp> or C<gcl>. I do not know
 yet the  reason. I  suppose it  is a rounding  error which  pushes the
 autumn equinox to the wrong side of midnight, but it deserves a deeper
 analysis.
+
+=head2 TODO
+
+Implement F<strftime>.
+
+Improve the error processing and the error messages.
+
+Examine all methods to mark some as private.
+
+The F<Date::Calendar::FrenchRevolutionary::Names> module should not be
+a class, but a simple procedural package.
 
 =head1 SEE ALSO
 

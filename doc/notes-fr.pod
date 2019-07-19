@@ -68,7 +68,11 @@ Le second problème est que le concept de date n'est pas le même
 d'une civilisation à l'autre. Le calendrier grégorien et le calendrier
 républicain utilisent des dates de minuit à minuit, alors que le calendrier
 hébraïque, le calendrier islamique et plusieurs autres utilisent des
-dates du coucher du soleil au coucher suivant. On peut donc assimiler
+dates du coucher du soleil au coucher suivant. Le I<Julian Day Number>
+(à ne pas confondre avec le calendrier julien)
+se base sur des dates de midi à midi. Et il n'est pas exclu que d'autres
+calendriers définissent les dates comme s'étendant du lever du soleil
+au lever suivant du soleil. On peut donc assimiler
 le 14 juillet 2019 au 26 Messidor 227, mais pas au 11 Tammuz 5579.
 Habituellement, les programmes de conversion s'en tirent en écrivant
 dans la documentation utilisateur que la conversion 14 juillet 2019
@@ -106,9 +110,15 @@ La solution est donc : un calendrier = une classe.
 Je n'avais pas l'intention de traiter les heures (décimales ou 24×60×60)
 donc j'ai seulement regardé F<Date>, pas F<DateTime>.
 
+=head3 Échelle de temps en jours
+
+La première différence entre le module F<Date> de Perl 6 et le module
+F<DateTime> de Perl 5 est que Perl 6 utilise le MJD (I<Modified Julian
+Day Number>) au lieu d'utiliser le I<Rata Die>. Cela me va très bien.
+
 =head3 Immutabilité
 
-Une différence avec le module F<DateTime> de Perl 5, c'est que les dates
+Une deuxième différence avec le module F<DateTime> de Perl 5, c'est que les dates
 ne sont pas modifiables. Et pourquoi pas ? Cela ne me dérange pas.
 Donc les dates dans F<Date::Calendar::xxx> ne seront pas modifiables.
 Voir cependant ci-dessous.
@@ -242,7 +252,17 @@ Perl 6. On a donc ainsi :
 
 C'est la possibilité que j'ai adoptée.
 
+Notons que j'ai attribué le nom court à la variante principale,
+ce qui sera vraisemblablement la plus utilisée.
+
 Il existe une cinquième possibilité, fusionnant la troisième et la quatrième.
 Chacune des trois classes contient une méthode C<algorithm> donnant un résultat
 constant, C<"historic">, C<"astronomical"> ou C<"arithmetic"> selon le cas.
 Si j'en trouve l'utilité, j'adopterai cette cinquième possibilité.
+
+=head3 Calendrier maya et calendrier aztèque
+
+Le cas du calendrier maya est semblable, avec la difficulté supplémentaire
+qu'il convient d'examiner en même temps le cas du calendrier aztèque.
+
+À suivre.
