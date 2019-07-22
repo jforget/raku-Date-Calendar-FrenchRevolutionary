@@ -1,9 +1,10 @@
 Revision history for Date-Calendar-FrenchRevolutionary
 
-0.0.2, released on ...
+0.0.2, released on Quartidi 4 Thermidor CCXXVII, jour de l'ivraie (or Monday, 22th July 2019)
     - Fixed some mistakes in META6.json, Changes, etc.
     - add feasts
     - enhance the "to-date" method to create a date from any target class
+    - improve documentation
 
 0.0.1, released on Sextidi 26 Messidor CCXXVII, jour de la Sauge (or Sunday, 14th July 2019)
     - Initial version
