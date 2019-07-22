@@ -152,16 +152,17 @@ F<Date::Calendar::xxx::Names::en>, F<Date::Calendar::xxx::Names::fr>,
 F<Date::Calendar::xxx::Names::it> et ainsi de suite. Tout dépendra
 de la taille.
 
-Un autre point est que dans le cas où plusieurs langages sont disponibles,
-l'objet F<Date::Calendar::xxx> aura un attribut C<locale> et 
-l'utilisateur pourra alors faire varier cet attribut pour afficher une même
-date dans plusieurs langues. Même si les attributs année, mois et jour
-sont invariants, l'attribut C<locale> sera modifiable. Et l'objet
-ne sera plus totalement « immutable ». Changer 
-« Sextidi 26 Messidor 227 » en « Sixday 26 Reapidor 227 » est
-une modification cosmétique et superficielle de l'instance de date, changer
-« Sextidi 26 Messidor 227 » en « Septidi 27 Messidor 227 » est
-une modification profonde et essentielle de l'instance.
+Un  autre  point est  que  dans  le  cas  où plusieurs  langages  sont
+disponibles, l'objet F<Date::Calendar::xxx> aura un attribut C<locale>
+et l'utilisateur pourra alors faire  varier cet attribut pour afficher
+une même  date dans  plusieurs langues. Même  si les  attributs année,
+mois et jour sont invariants, l'attribut C<locale> sera modifiable. Et
+l'objet ne  sera plus totalement «  immutable ». Changer «  Sextidi 26
+Messidor 227, jour de  la sauge » en « Sixday 26  Reapidor 227, day of
+sage » est une modification  cosmétique et superficielle de l'instance
+de  date,  changer  « Sextidi 26 Messidor  227 , jour de la  sauge» en
+«  Septidi 27  Messidor  227, jour  de l'ail  »  est une  modification
+profonde et essentielle de l'instance.
 
 
 =head2 Calendriers avec variantes

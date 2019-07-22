@@ -139,14 +139,15 @@ F<Date::Calendar::Whatever::Names::fr>
 F<Date::Calendar::Whatever::Names::it> and others.
 It will depend on the size.
 
-Another point with multi-localization is that the F<Date::Calendar::Whatever>
-objects will have a C<locale> attribute and this attribute will be read-write.
-The year, month and day attributes will still be readonly, but the locale will
-be read-write. So the object is not fully immutable. Changing 
-"Sextidi 26 Messidor 227" into "Sixday 26 Reapidor 227" is 
-just a skin-deep cosmetic modification, while changing
-"Sextidi 26 Messidor 227" into "Septidi 27 Messidor 227" is
-a deep modification of the date's "identity".
+Another     point    with     multi-localization    is     that    the
+F<Date::Calendar::Whatever>  objects will  have a  C<locale> attribute
+and  this  attribute will  be  read-write.  The  year, month  and  day
+attributes will still be readonly,  but the locale will be read-write.
+So the  object is not  fully immutable. Changing "Sextidi  26 Messidor
+227, jour de la  sauge" into "Sixday 26 Reapidor 227,  day of sage" is
+just  a skin-deep  cosmetic modification,  while changing  "Sextidi 26
+Messidor 227, jour de la sauge" into "Septidi 27 Messidor 227, jour de
+l'ail" is a deep modification of the date's inner self.
 
 =head2 Calendars with variants
 
