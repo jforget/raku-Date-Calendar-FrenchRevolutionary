@@ -1,3 +1,6 @@
+#
+# Checking the formatting of the feasts
+#
 use v6.c;
 use Test;
 use Date::Calendar::FrenchRevolutionary;
@@ -20,7 +23,7 @@ for @tests -> $test {
   my $feast-short = $d-fr.feast;
   is($feast-short, $short);
 
-  # Remembering RT ticket 100311 for the Perl 5 module.
+  # Remembering RT ticket 100311 for the Perl 5 module DateTime::Calendar::FrenchRevolutionary
   # Even if the relations between UTF-8 and Perl6 are much simpler than between UTF-8 and Perl5
   # better safe than sorry
   is($feast-short.chars, $length);

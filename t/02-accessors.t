@@ -1,10 +1,15 @@
+#
+# Checking the getters (and also the C<locale> setter)
+#
 use v6.c;
 use Test;
 use Date::Calendar::FrenchRevolutionary;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
-plan 66;
+plan  3  # classes
+   ×  2  # languages
+   × 11; # accessors
 
 my Date::Calendar::FrenchRevolutionary               $d-hi .= new(year => 9, month => 2, day => 18);
 my Date::Calendar::FrenchRevolutionary::Astronomical $d-as .= new(year => 9, month => 2, day => 18);

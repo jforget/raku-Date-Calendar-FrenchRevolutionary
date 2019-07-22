@@ -1,3 +1,6 @@
+# 
+# Checking the conversion from the historical variant of French Revolutionary to Gregorian
+#
 use v6.c;
 use Test;
 use Date::Calendar::FrenchRevolutionary;

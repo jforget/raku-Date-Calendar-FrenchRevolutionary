@@ -1,4 +1,7 @@
 #!perl6
+#
+# checking the META6.json file
+#
 
 use v6;
 use lib 'lib';

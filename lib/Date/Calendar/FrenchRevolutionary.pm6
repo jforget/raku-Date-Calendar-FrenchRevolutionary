@@ -7,6 +7,7 @@ use Date::Calendar::FrenchRevolutionary::Arithmetic;
 class    Date::Calendar::FrenchRevolutionary:ver<0.0.2>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
+  # -24161 is MJD for 1792-09-22, which is the FR epoch
   method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
     my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
     $.new(year => $y, month => $m, day => $d);
@@ -17,6 +18,8 @@ class    Date::Calendar::FrenchRevolutionary:ver<0.0.2>:auth<cpan:JFORGET>
   }
 
   our sub vnd1(Int:D $year-gr --> Int) {
+    # do not bother with the precise date in Vendémiaire / September of the switch from astronomical to arithmetic
+    # these calendars differ in 1803 and 1840, but they coincidate during all the years between
     if $year-gr < 1811 {
       return Date::Calendar::FrenchRevolutionary::Astronomical::vnd1($year-gr);
     }
@@ -142,6 +145,10 @@ C<"saffron">,  the  C<feast-long> method  adds  a  prefix: C<"jour  du
 safran"> or C<"day of saffron">. In addition, the C<feast-caps> method
 use titlecase  for the prefix  and the  feast: C<"Jour du  Safran"> or
 C<"Day of Saffron">.
+
+  feast       safran           saffron
+  feast-long  jour du safran   day of saffron
+  feast-caps  Jour du Safran   Day of Saffron
 
 =head3 daycount
 
@@ -329,8 +336,7 @@ L<https://gallica.bnf.fr/ark:/12148/bpt6k43978x>
 par les  Armées de  la République française,  depuis sa  fondation (22
 septembre 1792),  jusqu'au 9  floréal an  7, époque  de la  rupture du
 Congrès de Rastadt et de la reprise des hostilités" Moutardier, Paris,
-An  VIII de  la République  française.  The source  of the  C<on_date>
-method.
+An  VIII de  la République  française.
 
 =head1 AUTHOR
 
