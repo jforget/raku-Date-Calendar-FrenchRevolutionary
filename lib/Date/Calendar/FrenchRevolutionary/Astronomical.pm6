@@ -2,7 +2,7 @@ use v6.c;
 
 use Date::Calendar::FrenchRevolutionary::Common;
 
-class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.2>:auth<cpan:JFORGET>
+class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.3>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
   method vnd1 {

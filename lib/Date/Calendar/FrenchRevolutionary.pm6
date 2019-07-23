@@ -4,7 +4,7 @@ use Date::Calendar::FrenchRevolutionary::Common;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
-class    Date::Calendar::FrenchRevolutionary:ver<0.0.2>:auth<cpan:JFORGET>
+class    Date::Calendar::FrenchRevolutionary:ver<0.0.3>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
   # -24161 is MJD for 1792-09-22, which is the FR epoch
@@ -181,7 +181,7 @@ my  Date::Calendar::FrenchRevolutionary::Arithmetic   $d-dest-pull;
 $d-orig .= new(year  => 4
              , month => 1
              , day   => 1);
-$d-dest-push  = $d-orig.to-date("Date::Calendar::Arithmetic");
+$d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary::Arithmetic");
 $d-dest-pull .= new-from-date($d-orig);
 
 =end code
