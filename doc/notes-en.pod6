@@ -21,23 +21,19 @@ year):
 The various calendar module should obey the following contradictory
 purposes:
 
-=over 4
-
-=item * A user can use as many or as few calendar as he wants. He can
+=item A user can use as many or as few calendar as he wants. He can
 use none or all of them.
 
-=item * Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
+=item Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
 (Write Everything Twice).
 
-=item * No alteration to the core modules, including F<Date>.
-
-=back
+=item No alteration to the core modules, including C<Date>.
 
 =head2 First Idea: Roles Everywhere
 
 My first idea was to make intensive use of the novelty in Perl 6 POO, roles.
-Only the Gregorian calendar is implemented as a class F<Date>, all others are roles
-to F<Date>. Example:
+Only the Gregorian calendar is implemented as a class C<Date>, all others are roles
+to C<Date>. Example:
 
   my Date $bastille-day does Date::Calendar::Hebrew
                         does Date::Calendar::Hijri
@@ -94,23 +90,23 @@ FrenchRevolutionary role's methods.
 
 So the solution is: one calendar = one class.
 
-=head2 Taking a look at F<Date>
+=head2 Taking a look at C<Date>
 
 I did not bother to deal with times, so I will look at the 
-F<Date> core module instead of F<DateTime>.
+C<Date> core module instead of C<DateTime>.
 
 =head3 Day-Only Counting
 
-The first difference with Perl 5's F<DateTime> is that Perl 6's F<Date>
+The first difference with Perl 5's C<DateTime> is that Perl 6's C<Date>
 uses the MJD or Modified Julian Day Number instead of I<Rata Die>.
 Fine with me.
 
 =head3 Immutability
 
-A second difference with Perl 5's F<DateTime>
+A second difference with Perl 5's C<DateTime>
 is that dates are immutable. Why not? It does not bother me.
-Therefore dates in a F<Date::Calendar::Whatever> module will be
-immutable too (but see below).
+Therefore dates in a C<Date::Calendar::>R<Whatever> module will be
+immutable too (but see below for multilingual distributions).
 
 =head3 Localization
 
@@ -121,33 +117,62 @@ schedules, timetables and the like, for which we need the numerical
 values of the days and months but not their string localized values.
 
 For those interested in localized values, there is the CPAN6 module
-F<Date::Names>.
+C<Date::Names>.
+
+=head2 Simple Calendars
+
+As a simple calendar example, I will consider the Hebrew Calendar.
+In this discussion, simplicity is about the module architecture,
+not the conversion algorithms. So, with this point of view, the
+Hebrew calendar, with no variants, is a simple calendar.
+
+=head3 Calendar with one Locale
 
 In my opinion, calendar modules will be used to display dates, not to
 build schedules with them. I will keep the names in a separate module,
 but this module will be within the distribution. For example, the
-F<Date::Calendar::Hebrew> distribution will include both the
-F<Date::Calendar::Hebrew> module and the
-F<Date::Calendar::Hebrew::Names> module.
+C<Date::Calendar::Hebrew> distribution will include both the
+C<Date::Calendar::Hebrew> module and the
+C<Date::Calendar::Hebrew::Names> module.
 
-If there are different languages and different localizations for a
-given calendar, I may put the mechanisms and all the data in the
-same F<Date::Calendar::Whatever::Names> module, or I may separate them
-with the mechanisms in F<Date::Calendar::Whatever::Names> and the data
-in F<Date::Calendar::Whatever::Names::en>
-F<Date::Calendar::Whatever::Names::fr>
-F<Date::Calendar::Whatever::Names::it> and others.
-It will depend on the size.
+So we will have:
+
+  class    Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+
+=head3 Calendar with Several Locales
+
+If there  are different  languages and  different localizations  for a
+given calendar, I may put the mechanisms  and all the data in the same
+C<Date::Calendar::>R<Whatever>C<::Names>  module,  or I  may  separate
+them with  the mechanisms  in C<Date::Calendar::>R<Whatever>C<::Names>
+and    the   data    in   C<Date::Calendar::>R<Whatever>C<::Names::en>
+C<Date::Calendar::>R<Whatever>C<::Names::fr>,
+C<Date::Calendar::>R<Whatever>C<::Names::it>   and  others.   It  will
+depend on the size.
+
+In the case of the Hebrew calendar and the Hebrew, Yiddish and Aramaic
+languages, we would have:
+
+  class    Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+  routines Date::Calendar::Hebrew::Names::he
+  routines Date::Calendar::Hebrew::Names::yi
+  routines Date::Calendar::Hebrew::Names::arc
+
+(Sorry, there is no 2-char ISO 639 code for Aramaic, so I have to fall
+back to the 3-char code.)
 
 Another     point    with     multi-localization    is     that    the
-F<Date::Calendar::Whatever>  objects will  have a  C<locale> attribute
+C<Date::Calendar::>R<Whatever> objects will have a C<locale> attribute
 and  this  attribute will  be  read-write.  The  year, month  and  day
 attributes will still be readonly,  but the locale will be read-write.
-So the  object is not  fully immutable. Changing "Sextidi  26 Messidor
-227, jour de la  sauge" into "Sixday 26 Reapidor 227,  day of sage" is
-just  a skin-deep  cosmetic modification,  while changing  "Sextidi 26
-Messidor 227, jour de la sauge" into "Septidi 27 Messidor 227, jour de
-l'ail" is a deep modification of the date's inner self.
+So the object  is not fully immutable. Using  the French Revolutionary
+calendar as an example, changing "Sextidi  26 Messidor 227, jour de la
+sauge" into "Sixday 26 Reapidor 227,  day of sage" is just a skin-deep
+cosmetic modification,  while changing "Sextidi 26  Messidor 227, jour
+de la sauge" into  "Septidi 27 Messidor 227, jour de  l'ail" is a deep
+modification of the date's inner self.
 
 =head2 Calendars with variants
 
@@ -163,18 +188,14 @@ was scheduled for year XX (Gregorian year 1811).
 
 So we can define three variants.
 
-=over 4
-
-=item * the astronomical variant, where the first day is always on
+=item the astronomical variant, where the first day is always on
 the autumn equinox, even after year XX,
 
-=item * the arithmetic variant, where the year length is computed
+=item the arithmetic variant, where the year length is computed
 with Gregorian-like moduloes, event before year XX,
 
-=item * and the historical variant, which takes into account
+=item and the historical variant, which takes into account
 the year XX reform and the change of rule.
-
-=back
 
 How does this translate in Perl 6?
 
@@ -217,23 +238,19 @@ one per variant. With that, the burden is no longer on the module writer /
 maintainer, but on the dispatch mechanism coded in the Perl 6 interpreter.
 Thus we have:
 
-=over 4
+=item1 Three classes
 
-=item * Three classes
+=item2  Date::Calendar::FrenchRevolutionary
+=item2  Date::Calendar::FrenchRevolutionary::Astronomical
+=item2  Date::Calendar::FrenchRevolutionary::Arithmetic
 
-  Date::Calendar::FrenchRevolutionary
-  Date::Calendar::FrenchRevolutionary::Astronomical
-  Date::Calendar::FrenchRevolutionary::Arithmetic
+=item1 One role
 
-=item * One role
+=item2  Date::Calendar::FrenchRevolutionary::Common
 
-  Date::Calendar::FrenchRevolutionary::Common
+=item1 One procedural module
 
-=item * One procedural module
-
-  Date::Calendar::FrenchRevolutionary::Names
-
-=back
+=item2  Date::Calendar::FrenchRevolutionary::Names
 
 This is the possibility I have adopted.
 

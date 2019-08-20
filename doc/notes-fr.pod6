@@ -21,26 +21,22 @@ les dates suivantes (le 14 juillet de cette année) :
 
 Les modules de calendrier doivent tendre vers ces buts contradictoires :
 
-=over 4
-
-=item * Un utilisateur peut décider de charger autant de modules qu'il
+=item Un utilisateur peut décider de charger autant de modules qu'il
 souhaite. Il peut tous les utiliser ou n'utiliser aucun module outre
-le module central F<Date>.
+le module central C<Date>.
 
-=item * Limiter autant que possible la duplication de code. Plutôt DRY
-(Don't Repeat Yourself, Ne vous répétez pas) que WET
-(Write Everything Twice, Tout écrire deux fois).
+=item Limiter autant que possible la duplication de code. Plutôt DRY
+(I<Don't Repeat Yourself>, Ne vous répétez pas) que WET
+(I<Write Everything Twice>, Tout écrire deux fois).
 
-=item * Ne pas toucher aux modules standards, y compris F<Date>.
-
-=back
+=item Ne pas toucher aux modules standards, y compris C<Date>.
 
 =head2 Première idée : des rôles partout
 
 Ma première idée était d'utiliser de manière intensive la nouveauté
 de Perl 6 en programmation objet, les rôles. Seul le calendrier grégorien
 serait implémenté en tant que classe, les autres calendriers seraient
-des rôles accolés à la classe F<Date>. Par exemple :
+des rôles accolés à la classe C<Date>. Par exemple :
 
   my Date $quatorze-juillet does Date::Calendar::Hebrew
                             does Date::Calendar::Hijri
@@ -105,69 +101,97 @@ l'objet 21 septembre 1792 à utiliser les méthodes du rôle
 
 La solution est donc : un calendrier = une classe.
 
-=head2 Examen du module standard F<Date>
+=head2 Examen du module standard C<Date>
 
 Je n'avais pas l'intention de traiter les heures (décimales ou 24×60×60)
-donc j'ai seulement regardé F<Date>, pas F<DateTime>.
+donc j'ai seulement regardé C<Date>, pas C<DateTime>.
 
 =head3 Échelle de temps en jours
 
-La première différence entre le module F<Date> de Perl 6 et le module
-F<DateTime> de Perl 5 est que Perl 6 utilise le MJD (I<Modified Julian
+La première différence entre le module C<Date> de Perl 6 et le module
+C<DateTime> de Perl 5 est que Perl 6 utilise le MJD (I<Modified Julian
 Day Number>) au lieu d'utiliser le I<Rata Die>. Cela me va très bien.
 
 =head3 Immutabilité
 
-Une deuxième différence avec le module F<DateTime> de Perl 5, c'est que les dates
+Une deuxième différence avec le module C<DateTime> de Perl 5, c'est que les dates
 ne sont pas modifiables. Et pourquoi pas ? Cela ne me dérange pas.
-Donc les dates dans F<Date::Calendar::xxx> ne seront pas modifiables.
-Voir cependant ci-dessous.
+Donc les dates dans C<Date::Calendar::>R<xxx> ne seront pas modifiables.
+Voir cependant ci-dessous le cas d'un calendrier avec plusieurs langues.
 
 =head3 Affichage en langage naturel
 
 Une autre différence avec Perl 5, c'est qu'il n'y a rien de prévu en
 standard pour afficher du langage naturel, essentiellement les noms
 des jours et les noms des mois. Peut-être a-t-on estimé que
-l'utilisation principale du module F<Date> serait la constitution
+l'utilisation principale du module C<Date> serait la constitution
 d'horaires ou la planification de tâches, ce qui ne nécessite que les
 valeurs numériques des jours et des mois, pas les noms en clair.
 
 Et si vous avez quand même besoin des noms en clair, vous pouvez installer
-et utiliser F<Date::Names> disponible sur CPAN6.
+et utiliser C<Date::Names> disponible sur CPAN6.
+
+=head2 Calendrier simple
+
+Comme exemple de calendrier simple, je prendrai le calendrier hébraïque. 
+La simplicité concerne l'architecture du module, pas les algorithmes
+de conversion. Il n'y a pas de variante pour le calendrier hébraïque,
+donc de ce point de vue c'est un calendrier simple.
+
+=head3 Calendrier avec une seule langue
 
 À mon avis, si quelqu'un utilise un module de calendrier autre que
 grégorien, c'est pour afficher la date convertie, pas pour faire des
 calculs de délai ou planifier des tâches. Les noms en clair seront
 dans un module séparé, mais ce module séparé fera partie intégrante de la
-distribution. Ainsi, la distribution F<Date::Calendar::Hebrew>
-incluera à la fois le module F<Date::Calendar::Hebrew> et le module
-F<Date::Calendar::Hebrew::Names>.
+distribution. Ainsi, la distribution C<Date::Calendar::Hebrew>
+incluera à la fois le module C<Date::Calendar::Hebrew> et le module
+C<Date::Calendar::Hebrew::Names>.
+
+En résumé, nous avons dans ce cas :
+
+  classe   Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+
+=head3  Calendrier avec plusieurs langues
 
 Si les noms sont disponibles dans plusieurs langages pour un même
 calendrier, je peux dans certains cas tout mettre dans un même module
-F<Date::Calendar::xxx::Names>, mécanisme et données, ou bien je peux
+C<Date::Calendar::>R<xxx>C<::Names>, mécanisme et données, ou bien je peux
 scinder cela en mettant le mécanisme dans
-F<Date::Calendar::xxx::Names> et les données dans
-F<Date::Calendar::xxx::Names::en>, F<Date::Calendar::xxx::Names::fr>,
-F<Date::Calendar::xxx::Names::it> et ainsi de suite. Tout dépendra
+C<Date::Calendar::>R<xxx>C<::Names> et les données dans
+C<Date::Calendar::>R<xxx>C<::Names::en>, C<Date::Calendar::>R<xxx>C<::Names::fr>,
+C<Date::Calendar::>R<xxx>C<::Names::it> et ainsi de suite. Tout dépendra
 de la taille.
 
+Pour le calendrier hébraïque, avec l'hébreu, le yiddish et l'araméen, cela donnerait :
+
+  classe   Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+  routines Date::Calendar::Hebrew::Names::he
+  routines Date::Calendar::Hebrew::Names::yi
+  routines Date::Calendar::Hebrew::Names::arc
+
+(Désolé, l'araméen n'a pas de code  ISO 639 à deux caractères, j'ai dû
+me rabattre sur le code à trois caractères.)
+
 Un  autre  point est  que  dans  le  cas  où plusieurs  langages  sont
-disponibles, l'objet F<Date::Calendar::xxx> aura un attribut C<locale>
-et l'utilisateur pourra alors faire  varier cet attribut pour afficher
-une même  date dans  plusieurs langues. Même  si les  attributs année,
-mois et jour sont invariants, l'attribut C<locale> sera modifiable. Et
-l'objet ne  sera plus totalement «  immutable ». Changer «  Sextidi 26
-Messidor 227, jour de  la sauge » en « Sixday 26  Reapidor 227, day of
-sage » est une modification  cosmétique et superficielle de l'instance
-de  date,  changer  « Sextidi 26 Messidor  227 , jour de la  sauge» en
-«  Septidi 27  Messidor  227, jour  de l'ail  »  est une  modification
-profonde et essentielle de l'instance.
+disponibles,  l'objet   C<Date::Calendar::>R<xxx>  aura   un  attribut
+C<locale> et l'utilisateur pourra alors faire varier cet attribut pour
+afficher une même  date dans plusieurs langues. Même  si les attributs
+année,  mois  et  jour  sont  invariants,  l'attribut  C<locale>  sera
+modifiable.  Et l'objet  ne sera  plus  totalement «  immutable ».  En
+prenant un exemple  tiré du calendrier républicain,  changer « Sextidi
+26 Messidor 227, jour  de la sauge » en « Sixday  26 Reapidor 227, day
+of  sage  »  est  une  modification  cosmétique  et  superficielle  de
+l'instance de  date, changer «  Sextidi 26 Messidor  227 , jour  de la
+sauge»  en  «  Septidi 27  Messidor  227,  jour  de  l'ail »  est  une
+modification profonde et essentielle de l'instance.
 
 
 =head2 Calendriers avec variantes
 
-=head3 calendrier révolutionnaire
+=head3 Calendrier révolutionnaire
 
 Pour le calendrier révolutionnaire, il y a deux façons de déterminer le passage d'une année à la
 suivante. Ou bien le premier jour de l'année correspond à l'équinoxe
@@ -179,19 +203,15 @@ l'an XX.
 
 Nous avons donc trois variantes.
 
-=over 4
-
-=item * la variante astronomique, basée uniquement
+=item la variante astronomique, basée uniquement
 sur la détermination de l'équinoxe d'automne, même
 après l'an XX,
 
-=item * la variante arithmétique, qui s'étend sur toute
+=item la variante arithmétique, qui s'étend sur toute
 la période de validité, y compris avant l'an XX,
 
-=item * et la variante historique, qui prend en compte
+=item et la variante historique, qui prend en compte
 le changement de règle en l'an XX.
-
-=back
 
 Comment cela se traduit-il en Perl 6 ?
 
@@ -233,23 +253,19 @@ par variante. Ainsi, ce n'est plus le créateur / mainteneur du module qui doit
 tester la variante à utiliser, c'est le mécanisme de dispatch inclus dans l'interpréteur
 Perl 6. On a donc ainsi :
 
-=over 4
+=item1 Trois classes
 
-=item * Trois classes
+=item2  Date::Calendar::FrenchRevolutionary
+=item2  Date::Calendar::FrenchRevolutionary::Astronomical
+=item2  Date::Calendar::FrenchRevolutionary::Arithmetic
 
-  Date::Calendar::FrenchRevolutionary
-  Date::Calendar::FrenchRevolutionary::Astronomical
-  Date::Calendar::FrenchRevolutionary::Arithmetic
+=item1 Un rôle
 
-=item * Un rôle
+=item2  Date::Calendar::FrenchRevolutionary::Common
 
-  Date::Calendar::FrenchRevolutionary::Common
+=item1 Un module procédural
 
-=item * Un module procédural
-
-  Date::Calendar::FrenchRevolutionary::Names
-
-=back
+=item2  Date::Calendar::FrenchRevolutionary::Names
 
 C'est la possibilité que j'ai adoptée.
 
