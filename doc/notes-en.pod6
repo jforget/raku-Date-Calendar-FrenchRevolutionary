@@ -1,6 +1,6 @@
--*- encoding: utf-8; indent-tabs-mode: nil -*-
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
-=encoding utf8
+=begin pod
 
 =head1 Designer's Notes
 
@@ -252,3 +252,5 @@ The case of the Mayan Calendar is similar, with the additional fact
 that we must consider the case of the Aztec Calendar at the same time
 
 To be continued
+
+=end pod

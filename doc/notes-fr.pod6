@@ -1,6 +1,6 @@
--*- encoding: utf-8; indent-tabs-mode: nil -*-
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
-=encoding utf8
+=begin pod
 
 =head1 Notes du concepteur
 
@@ -267,3 +267,5 @@ Le cas du calendrier maya est semblable, avec la difficulté supplémentaire
 qu'il convient d'examiner en même temps le cas du calendrier aztèque.
 
 À suivre.
+
+=end pod
