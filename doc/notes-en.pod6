@@ -265,9 +265,40 @@ I will switch to this possibility.
 
 =head3 Mayan Calendar and Aztec Calendar
 
-The case of the Mayan Calendar is similar, with the additional fact
-that we must consider the case of the Aztec Calendar at the same time
+The case  of the Mayan Calendar  is similar, with the  additional fact
+that we must consider the case of the Aztec Calendar at the same time.
+
+Pedants  will argue  that  there  is not  I<one>  Mayan calendar,  but
+I<three>:
+
+=item the  long count, using  embedded cycles  of length 20  (with one
+exception)  and   usually  displayed   in  a  dotted   notation,  e.g.
+13.0.6.11.16
+
+=item the clerical calendar, or Tzolkin,  which combines a cycle of 13
+numbers with a cycle of 20 names, e.g. 8 Cib
+
+=item the  common calendar,  or Haab, consisting  of 18  named months,
+each with 20 numbered days, plus 5 additional days. E.g. 4 Xul
+
+So the various date converters deal with the "Mayan calendars system",
+with an  "s" to  "calendars", but to  streamline the  explanations, we
+will talk about the Mayan calendar (with no "s").
+
+It  is the  same, only  simpler, with  the Aztec  calendar. This  is a
+two-calendar system,  with a  clerical calendar,  or I<tonalpohualli>,
+similar to Tzolkin, and a  common calendar, or I<xiupohualli>, similar
+to Haab. Aztecs had nothing ressembling the Mayans' long count.
+
+For the conversion from Gregorian (or  other) to Mayan or Aztec, there
+are three opinions from the specialists: the Alfonso Caso method, with
+or without H.B. Nicholson's adjustment, or Francisco Cortes's method.
 
 To be continued
+
+=head1 License
+
+This  text is  licensed  under  the terms  of  Creative Commons,  with
+attribution and share-alike (CC-BY-SA).
 
 =end pod

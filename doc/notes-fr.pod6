@@ -282,6 +282,40 @@ Si j'en trouve l'utilité, j'adopterai cette cinquième possibilité.
 Le cas du calendrier maya est semblable, avec la difficulté supplémentaire
 qu'il convient d'examiner en même temps le cas du calendrier aztèque.
 
+Les  coupeurs de  cheveux  en  quatre diront  qu'il  n'y  a pas  I<un>
+calendrier maya, mais I<trois> :
+
+=item  le compte  long, constitué  de cycles  emboîtés de  longueur 20
+(avec  une  exception) et  habituellement  affiché  avec une  notation
+pointée, par exemple 13.0.6.11.16,
+
+=item le calendrier  clérical, ou Tzolkin, qui combine un  cycle de 13
+nombres avec un cycle de 20 noms, par exemple 8 Cib,
+
+=item le calendrier profane, ou Haab, constitué de 18 mois (nommés) de
+20 jours (numérotés) plus 5 jours complémentaires, par exemple 4 Xul.
+
+En  fait,  les programmes  de  conversion  traitent  le «  système  de
+calendriers mayas » (avec un « s » à « calendrier », mais pour alléger
+et  fluidifier  les  phrases,  nous nous  permettons  d'évoquer  I<le>
+calendrier maya.
+
+C'est la même chose, en plus simple, avec le calendrier aztèque. C'est
+un   système  de   deux   calendriers,  le   calendrier  clérical   ou
+I<tonalpohualli>, semblable  au Tzolkin, et le  calendrier profane, ou
+I<xiupohualli>,  semblable  au  Haab.   Les  Aztèques  n'avaient  rien
+d'analogue au compte long des Mayas.
+
+Pour  la  conversion  du  calendrier  grégorien  (ou  autre)  vers  le
+calendrier maya ou  aztèque, il existe plusieurs avis  différents : la
+méthode d'Alfonso Cortes, avec ou  sans l'ajustement de H.B. Nicholson
+et la méthode de Francisco Cortes.
+
 À suivre.
+
+=head1 Licence
+
+Texte  diffusé  sous  la  licence CC-BY-SA  :  Creative  Commons  avec
+attribution, partage dans les mêmes conditions.
 
 =end pod
