@@ -7,6 +7,27 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.3>:auth<cpan:JFORGET> {
   has Int $.day   where { 1 ≤ $_ ≤ 30 };
   has Str $.locale is rw = 'fr';
 
+  method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
+    unless 1 ≤ $month ≤ 13 {
+      X::OutOfRange.new(:what<Month>, :got($month), :range<1..13>).throw;
+    }
+    if $month ≤ 12 {
+      unless 1 ≤ $day ≤ 30 {
+	X::OutOfRange.new(:what<Day>, :got($day), :range<1..30>).throw;
+      }
+    }
+    else {
+      # Complicated, because you must know if the year is leap or not.
+      # For the moment, use the lazy way, accept 6 for both leap and normal years.
+      unless 1 ≤ $day ≤ 6 {
+	X::OutOfRange.new(:what<Day>,:got($day),:range<1..6>).throw;
+      }
+    }
+    $!year   = $year;
+    $!month  = $month;
+    $!day    = $day;
+    $!locale = $locale;
+  }
   method new-from-date($date) {
     $.new-from-daycount($date.daycount);
   }
