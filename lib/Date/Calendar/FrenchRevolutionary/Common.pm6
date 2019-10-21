@@ -23,6 +23,10 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.3>:auth<cpan:JFORGET> {
 	X::OutOfRange.new(:what<Day>,:got($day),:range<1..6>).throw;
       }
     }
+    if $locale ne 'fr' && $locale ne 'en' {
+      X::Invalid::Value.new(:method<BUILD>, :name<locale>, :value($locale)).throw;
+    }
+    
     $!year   = $year;
     $!month  = $month;
     $!day    = $day;
