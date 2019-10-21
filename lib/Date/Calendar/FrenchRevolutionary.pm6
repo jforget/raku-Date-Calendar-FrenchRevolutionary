@@ -7,6 +7,10 @@ use Date::Calendar::FrenchRevolutionary::Arithmetic;
 class    Date::Calendar::FrenchRevolutionary:ver<0.0.3>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
+  method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
+    $._chek-build-args($year, $month, $day, $locale, &vnd1);
+    $._build-from-args($year, $month, $day, $locale);
+  }
   # -24161 is MJD for 1792-09-22, which is the FR epoch
   method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
     my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);

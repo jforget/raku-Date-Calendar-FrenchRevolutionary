@@ -5,6 +5,11 @@ use Date::Calendar::FrenchRevolutionary::Common;
 class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.3>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common {
 
+  method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
+    $._chek-build-args($year, $month, $day, $locale, &vnd1);
+    $._build-from-args($year, $month, $day, $locale);
+  }
+
   method vnd1 {
     vnd1($.year + 1791);
   }
