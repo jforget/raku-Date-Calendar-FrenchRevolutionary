@@ -368,9 +368,35 @@ Date::Calendar::FrenchRevolutionary::Astronomical - Conversions from / to the Fr
 
 =head1 SYNOPSIS
 
+Converting from a Gregorian date to a French Revolutionary date
+
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
+my  Date                                              $Bonaparte's-coup-gr;
+my  Date::Calendar::FrenchRevolutionary::Astronomical $Bonaparte's-coup-fr;
+
+$Bonaparte's-coup-gr .= new(1799, 11, 9);
+$Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
+
+say $Bonaparte's-coup-fr;
+# ---> "0008-02-18" for 18 Brumaire VIII
+say "{.day-name} {.day} {.month-name} {.year} {.feast-long}" with  $Bonaparte's-coup-fr;
+# ---> "Octidi 18 Brumaire 8 jour de la dentelaire"
+
+=end code
+
+Converting from a French Revolutionary date to a Gregorian date
+
+=begin code :lang<perl6>
+
+use Date::Calendar::FrenchRevolutionary::Astronomical;
+my  Date::Calendar::FrenchRevolutionary::Astronomical $Robespierre's-downfall-frv:
+my  Date                                              $Robespierre's-downfall-grg;
+
+$Robespierre's-downfall-frv .= new(year =>  2, month => 11, day =>  9);
+$Robespierre's-downfall-grg  = $Robespierre's-downfall-frv.to-date;
+say $Robespierre's-downfall-grg;
 
 =end code
 
@@ -414,24 +440,25 @@ creation of the calendar.
 
 =head1 PROBLEMS AND KNOWN BUGS
 
-The  equinox  rule  has  been  generated  according  to  Reingold  and
-Dershowitz's  book  I<Calendar  Calculations>  and  the  corresponding
+Previously, the equinox rule had  been generated according to Reingold
+and Dershowitz's  book I<Calendar Calculations> and  the corresponding
 Common Lisp  program C<calendrica-3.0.cl>.  I have found  that running
 this  program with  the C<clisp>  interpreter gives  different results
 from running the  same program with the C<gcl>  interpreter. The first
 differences  occur  in  Gregorian  years 1807  and  1840.  The  French
 Revolutionary calendar was  no longer in use, but still...  I think it
 is caused by  a rounding error which pushes the  autumn equinox to the
-wrong side of midnight. I will investigate this matter.
+wrong side of midnight.
 
-The values  used in this  version are  the values produced  by running
-C<calendrica-3.0.cl> with C<clisp>.
+Anyhow, the  values used in  this version  are the values  produced by
+running C<calendar.l>,  which are  identical when running  C<clisp> or
+C<gcl>. No more rounding errors (I still have to check, though).
 
 In  addition,  the  algorithm  used  in  I<Calendar  Calculations>  is
 reliable, I think, for a few  centuries, but not for several millenia.
 The  problem is  I do  not know  when I  should stop  computing autumn
 equinoxes. Let us say that after 500 or 1000 years, the errors will be
-too many. Before that, we will have a few errors yet.
+too many. Before that, we will already have a few errors.
 
 =head1 AUTHOR
 
@@ -441,6 +468,7 @@ Jean Forget <JFORGET at cpan dot org>
 
 Copyright 2019 Jean Forget, all rights reserved
 
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+This library is  free software; you can redistribute  it and/or modify
+it under the Artistic License 2.0.
 
 =end pod
