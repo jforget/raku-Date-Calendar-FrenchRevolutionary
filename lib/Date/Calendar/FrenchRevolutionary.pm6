@@ -1,11 +1,13 @@
 use v6.c;
 
+use Date::Calendar::Strftime;
 use Date::Calendar::FrenchRevolutionary::Common;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
 class    Date::Calendar::FrenchRevolutionary:ver<0.0.3>:auth<cpan:JFORGET>
-    does Date::Calendar::FrenchRevolutionary::Common {
+    does Date::Calendar::FrenchRevolutionary::Common
+    does Date::Calendar::Strftime {
 
   method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
     $._chek-build-args($year, $month, $day, $locale, &vnd1);
@@ -158,6 +160,10 @@ C<"Day of Saffron">.
 
 Convert the date to Modified Julian Day Number (a day-only scheme
 based on 17 November 1858).
+
+=head3 strftime
+
+Work in progress.
 
 =head2 Other Methods
 
