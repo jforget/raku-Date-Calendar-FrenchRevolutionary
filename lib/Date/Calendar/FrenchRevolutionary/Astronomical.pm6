@@ -1,9 +1,11 @@
 use v6.c;
 
+use Date::Calendar::Strftime;
 use Date::Calendar::FrenchRevolutionary::Common;
 
 class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.3>:auth<cpan:JFORGET>
-    does Date::Calendar::FrenchRevolutionary::Common {
+    does Date::Calendar::FrenchRevolutionary::Common
+    does Date::Calendar::Strftime {
 
   method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
     $._chek-build-args($year, $month, $day, $locale, &vnd1);
@@ -459,6 +461,10 @@ reliable, I think, for a few  centuries, but not for several millenia.
 The  problem is  I do  not know  when I  should stop  computing autumn
 equinoxes. Let us say that after 500 or 1000 years, the errors will be
 too many. Before that, we will already have a few errors.
+
+=head1 USAGE
+
+See the documentation for the main class, C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
 

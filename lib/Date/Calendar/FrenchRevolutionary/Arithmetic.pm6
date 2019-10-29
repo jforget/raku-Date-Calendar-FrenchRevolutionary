@@ -1,9 +1,11 @@
 use v6.c;
 
+use Date::Calendar::Strftime;
 use Date::Calendar::FrenchRevolutionary::Common;
 
 class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.0.3>:auth<cpan:JFORGET>
-    does Date::Calendar::FrenchRevolutionary::Common {
+    does Date::Calendar::FrenchRevolutionary::Common
+    does Date::Calendar::Strftime {
 
   method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
     $._chek-build-args($year, $month, $day, $locale, &vnd1);
@@ -86,6 +88,10 @@ The  distribution contains  two other  classes, one  where the  reform
 replacing the astronomical rule by  the arithmetic rule took effect in
 year XX  (1811), the other  where there was  no reform and  the automn
 equinox rule stayed in effect even after year XX.
+
+=head1 USAGE
+
+See the documentation for the main class, C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
 
