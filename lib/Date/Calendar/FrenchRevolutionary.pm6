@@ -49,12 +49,16 @@ Converting from a Gregorian date to a French Revolutionary date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary;
-my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
-my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
+my Date                                $Bonaparte's-coup-gr;
+my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr;
+$Bonaparte's-coup-gr .= new(1799, 11, 9);
+$Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
 say $Bonaparte's-coup-fr;
 # ---> "0008-02-18" for 18 Brumaire VIII
 say "{.day-name} {.day} {.month-name} {.year} {.feast-long}" with  $Bonaparte's-coup-fr;
 # ---> "Octidi 18 Brumaire 8 jour de la dentelaire"
+say $Bonaparte's-coup-fr.strftime("%Y-%m-%d");
+# ---> "0008-02-18" for 18 Brumaire VIII
 
 =end code
 
@@ -63,10 +67,10 @@ Converting from a  French Revolutionary date to a Gregorian date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary;
-my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr .= new(year    =>  2
-                                                                       , month   => 11
-                                                                       , day     =>  9);
-my Date                                $Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
+my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr;
+my Date                                $Robespierre's-downfall-gr;
+$Robespierre's-downfall-fr .= new(year => 2, month => 11, day => 9);
+$Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
 say $Robespierre's-downfall-gr;
 
 =end code
@@ -119,7 +123,7 @@ numbers and optionaly the locale.
 
 Build a  French Revolutionary date  by cloning an object  from another
 class.  This  other  class  can  be the  core  class  C<Date>  or  any
-C<Date::Calendar::xxx> class with a C<daycount> method.
+C<Date::Calendar::>R<xxx> class with a C<daycount> method.
 
 =head3 new-from-daycount
 
@@ -165,6 +169,26 @@ based on 17 November 1858).
 
 Work in progress.
 
+This method is  very similar to the homonymous functions  you can find
+in several  languages (C, shell, etc).  It also takes some  ideas from
+C<printf>-similar functions. For example
+
+=begin code :lang<perl6>
+
+$df.strftime("%04d blah blah blah %-25B")
+
+=end code
+
+will give  the day number  padded on  the left with  2 or 3  zeroes to
+produce a 4-digit substring, plus the substring C<" blah blah blah ">,
+plus the month name, padded on the right with enough spaces to produce
+a 25-char substring.  Thus, the whole string will be at least 42 chars
+long. By  the way, you  can drop the  "at least" mention,  because the
+longest month name  is 15-char long, so the padding  will always occur
+and will always include at least 10 spaces.
+
+The list of C<strftime> specifiers is given below.
+
 =head2 Other Methods
 
 =head3 to-date
@@ -201,23 +225,142 @@ I<to> Gregorian, use the push style. When converting from any calendar
 other than Gregorian  to any other calendar other  than Gregorian, use
 the style you prefer.
 
+=head2 C<strftime> specifiers
+
+A C<strftime> specifier consists of:
+
+=item A percent sign,
+
+=item An  optional minus sign, to  indicate on which side  the padding
+occurs. If the minus sign is present, the value is aligned to the left
+and the padding chars are added to  the right. If it is not there, the
+value is aligned to  the right and the padding chars  are added to the
+left.
+
+=item An optional zero digit, to  choose the padding char. If the zero
+char is  present, padding is  done with zeroes.  Else, it is  done wih
+spaces.
+
+=item An optional length, which specifies the minimum length of
+the result substring.
+
+=item  An optional  C<"E">  or  C<"O"> modifier.  On  some older  UNIX
+system,  these  were used  to  give  the I<extended>  or  I<localized>
+version  of  the date  attribute.  Here,  they rather  give  alternate
+variants of the date attribute.
+
+=item A mandatory type code.
+
+The allowed type codes are:
+
+=defn C<%a>
+
+The abbreviated day of decade name.
+
+=defn C<%A>
+
+The full day of decade name.
+
+=defn C<%b>
+
+The abbreviated month name, or 'S-C' for additional days (abbreviation
+of Sans-culottide, another name for these days).
+
+=defn C<%B>
+
+The full month name.
+
+=defn C<%c>
+
+The date-time, using the default format, as defined by the current locale.
+
+=defn C<%d>
+
+The day of the month as a decimal number (range 01 to 30).
+
+=defn C<%e>
+
+Like C<%d>, the  day of the month  as a decimal number,  but a leading
+zero is replaced by a space.
+
+=defn C<%f>
+
+The month as a decimal number (1  to 13). Unlike C<%m>, a leading zero
+is replaced by a space.
+
+=defn C<%F>
+
+Equivalent to %Y-%m-%d (the ISO 8601 date format)
+
+=defn C<%G>
+
+The year as a decimal number. Strictly similar to C<%L> and C<%Y>.
+
+=defn C<%j>
+
+The day of the year as a decimal number (range 001 to 366).
+
+=defn C<%Ej>
+
+The feast for the  day, in long format ("jour de  la pomme de terre").
+Also available as C<%*>.
+
+=defn C<%EJ>
+
+The feast for  the day, in capitalised long format  ("Jour de la Pomme
+de terre").
+
+=defn C<%Oj>
+
+The feast for the day, in short format ("pomme de terre").
+
+=defn C<%L>
+
+The year as a decimal number. Strictly similar to C<%G> and C<%Y>.
+
+=defn C<%m>
+
+The month as a two-digit decimal  number (range 01 to 13), including a
+leading zero if necessary.
+
+=defn C<%n>
+
+A newline character.
+
+=defn C<%t>
+
+A tab character.
+
+=defn C<%Y>
+
+The year as a decimal number. Strictly similar to C<%G> and C<%L>.
+
+=defn C<%Ey>
+
+The year as a lowercase Roman number.
+
+=defn C<%EY>
+
+The year as a uppercase Roman  number, which is the traditional way to
+write years when using the French Revolutionary calendar.
+
+=defn C<%*>
+
+The feast for the  day, in long format ("jour de  la pomme de terre").
+Also available as C<%Ej>.
+
+=defn C<%%>
+
+A literal `%' character.
+
 =head1 PROBLEMS AND KNOWN BUGS
 
-The  validation  of  C<new>  parameters  is  very  basic.  Especially,
-checking the day  number ignores the month value and  you can create a
-date  with the  30th I<sans-culottide>  (additional day),  despite the
-fact  that normal  and  leap  years have  respectively  only  5 and  6
-additional days.
-
 About  the  astronomical  variant:  the conversion  values  have  been
-computed with an  algorithm implemented in Common Lisp.  There are two
-problems with  this: First, the  conversion values have  been computed
-for a period spanning 6 millenia,  although the algorithm is not valid
-over  this  whole  period.  Second,  the  Common  Lisp  program  gives
-different results when running under C<clisp> or C<gcl>. I do not know
-yet the  reason. I  suppose it  is a rounding  error which  pushes the
-autumn equinox to the wrong side of midnight, but it deserves a deeper
-analysis.
+computed  with an  algorithm  implemented  in Common  Lisp  on a  span
+covering six millenia. This is a problem, because the algorithm is not
+valid over this whole period. But I  have no idea when the common Lisp
+program becomes inaccurate and generates  errors. As a pure guesswork,
+I will suppose it will be rather accurate during five centuries or so.
 
 =head2 TODO
 
@@ -231,6 +374,11 @@ The F<Date::Calendar::FrenchRevolutionary::Names> module should not be
 a class, but a simple procedural package.
 
 =head1 SEE ALSO
+
+=head2 Perl 6 Software
+
+L<Date::Calendar::Strftime>
+or L<https://github.com/jforget/p6-Date-Calendar-Strftime>
 
 =head2 Perl 5 Software
 
@@ -258,7 +406,6 @@ L<https://github.com/jforget/hp41-calfr>
 
 CALENDRICA 4.0 -- Common Lisp, which can be download in the "Resources" section of
 L<https://www.cambridge.org/us/academic/subjects/computer-science/computing-general-interest/calendrical-calculations-ultimate-edition-4th-edition?format=PB&isbn=9781107683167>
-(Actually, I have used the 3.0 version which is not longer available)
 
 French Calendar for Android at
 L<https://f-droid.org/packages/ca.rmen.android.frenchcalendar/>
@@ -357,8 +504,8 @@ Jean Forget <JFORGET at cpan dot org>
 Many  thanks to  all those  who were  involved in  Perl 6,  Rakudo and
 Rakudo-Star.
 
-Many thanks  to Andrew,  Laurent and C<brian>  for writing  books that
-helped me learn Perl 6.
+Many thanks to Andrew, Laurent,  C<brian> and Moritz for writing books
+that helped me learn Perl 6.
 
 And some additional thanks to Laurent for  his help, even if I did not
 apply all his advices.
@@ -367,6 +514,7 @@ apply all his advices.
 
 Copyright 2019 Jean Forget, all rights reserved
 
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+This library is  free software; you can redistribute  it and/or modify
+it under the Artistic License 2.0.
 
 =end pod

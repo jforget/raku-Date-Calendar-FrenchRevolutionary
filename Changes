@@ -2,6 +2,9 @@ Revision history for Date-Calendar-FrenchRevolutionary
 
 0.0.3, released on...
     - Fixed some mistakes in POD
+    - checking the ranges of the parameters to new
+    - the astronomical version is based on "calendar.l" (Calendrical Calculations 4th Edition)
+    - add the Strftime role enabling the strftime method
 
 0.0.2, released on Quartidi 4 Thermidor CCXXVII, jour de l'ivraie (or Monday, 22th July 2019)
     - Fixed some mistakes in META6.json, Changes, etc.
