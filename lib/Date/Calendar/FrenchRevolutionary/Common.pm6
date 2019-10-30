@@ -147,6 +147,34 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.3>:auth<cpan:JFORGET> {
   method feast-caps {
     Date::Calendar::FrenchRevolutionary::Names::feast-caps($.locale, $.month, $.day);
   }
+  method year-roman {
+    my $res = '';
+    my $n = $.year;
+    if 1 ≤ $n ≤ 3999 {
+      for (                                       (2000, 'MM'), (1000, 'M'),
+            (900, 'CM'), (500, 'D'), (400, 'CD'), ( 200, 'CC'), ( 100, 'C'),
+            ( 90, 'XC'), ( 50, 'L'), ( 40, 'XL'), (  20, 'XX'), (  10, 'X'),
+            (  9, 'IX'), (  5, 'V'), (  4, 'IV'), (   2, 'II'), (   1, 'I'),
+            ) -> $node {
+        my (Int $val,  $str) = $node;
+        if $n ≥ $val {
+          $n   -= $val;
+          $res ~= $str;
+        }
+      }
+    }
+    else {
+      $res = "$n";
+    }
+    $res;
+  }
+  method specific-format { %( Oj => { $.feast },
+                             '*' => { $.feast },
+                              Ej => { $.feast-long },
+                              EJ => { $.feast-caps },
+                              Ey => { $.year-roman.lc },
+                              EY => { $.year-roman },
+                             ) }
 
 }
 
