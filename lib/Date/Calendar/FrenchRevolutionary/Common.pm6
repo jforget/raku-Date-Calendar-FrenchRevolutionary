@@ -120,6 +120,10 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.3>:auth<cpan:JFORGET> {
     sprintf("%04d-%02d-%02d", $.year, $.month, $.day);
   }
 
+  method day-of-year {
+    $.day + 30 × ($.month - 1);
+  }
+
   method month-name {
     Date::Calendar::FrenchRevolutionary::Names::month-name($.locale, $.month);
   }

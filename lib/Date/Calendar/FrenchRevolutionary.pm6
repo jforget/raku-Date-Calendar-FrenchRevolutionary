@@ -233,16 +233,16 @@ A C<strftime> specifier consists of:
 
 =item An  optional minus sign, to  indicate on which side  the padding
 occurs. If the minus sign is present, the value is aligned to the left
-and the padding chars are added to  the right. If it is not there, the
-value is aligned to  the right and the padding chars  are added to the
-left.
+and the padding spaces are added to the right. If it is not there, the
+value is aligned to the right and the padding chars (spaces or zeroes)
+are added to the left.
 
-=item An optional zero digit, to  choose the padding char. If the zero
-char is  present, padding is  done with zeroes.  Else, it is  done wih
-spaces.
+=item  An  optional  zero  digit,  to  choose  the  padding  char  for
+right-aligned values.  If the  zero char is  present, padding  is done
+with zeroes. Else, it is done wih spaces.
 
-=item An optional length, which specifies the minimum length of
-the result substring.
+=item An  optional length, which  specifies the minimum length  of the
+result substring.
 
 =item  An optional  C<"E">  or  C<"O"> modifier.  On  some older  UNIX
 system,  these  were used  to  give  the I<extended>  or  I<localized>
@@ -363,8 +363,6 @@ program becomes inaccurate and generates  errors. As a pure guesswork,
 I will suppose it will be rather accurate during five centuries or so.
 
 =head2 TODO
-
-Implement F<strftime>.
 
 Improve the error processing and the error messages.
 
@@ -509,6 +507,15 @@ that helped me learn Perl 6.
 
 And some additional thanks to Laurent for  his help, even if I did not
 apply all his advices.
+
+=head1 SUPPORT
+
+You can  send me  a mail using  the address above.  Please be  sure to
+include a subject  sufficiently clear and sufficiently  specific to be
+green-flagged by my spam filter.
+
+Or  you can  send a  pull request  to the  Github repository  for this
+module.
 
 =head1 COPYRIGHT AND LICENSE
 
