@@ -14,6 +14,8 @@ year):
   11 Tammuz 5779
   11 Dhu al-Qada 1440
   Sextdi 26 Messidor 227
+  Abib 7, 1735
+  Hamle 7, 2011
   13.0.6.11.16, 8 Cib, 4 Xul
 
 =head2 Purposes
@@ -231,12 +233,15 @@ to dispatch between variants of the "French Revolutionary Calendar to
 other" conversion functions. Not a problem to the module user, just some
 more code to write for the module author / maintainer (me).
 
-A fourth possibility consists in storing this information not in a attribute,
-but directly in the object's metadata, I mean, in the class. In other words,
-I define three different classes for the  French Revolutionary Calendar,
-one per variant. With that, the burden is no longer on the module writer /
-maintainer, but on the dispatch mechanism coded in the Perl 6 interpreter.
-Thus we have:
+A fourth  possibility consists  in storing this  information not  in a
+attribute,  but directly  in the  object's  metadata, I  mean, in  the
+class. In other words, I define three different classes for the French
+Revolutionary Calendar, one  per variant. With that, the  burden is no
+longer  on  the  module  writer  / maintainer,  but  on  the  dispatch
+mechanism  coded in  the Perl  6 interpreter.  Yet, the  three classes
+would contain much duplicated code.  To prevent code duplication, this
+code will  be written  in a role  used by the  three classes.  Thus we
+have:
 
 =item1 Three classes
 

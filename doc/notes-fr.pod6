@@ -15,6 +15,8 @@ les dates suivantes (le 14 juillet de cette année) :
   11 Tammuz 5779
   11 Dhu al-Qada 1440
   Sextidi 26 Messidor 227
+  Abib 7, 1735
+  Hamle 7, 2011
   13.0.6.11.16, 8 Cib, 4 Xul
 
 =head2 Buts
@@ -104,7 +106,7 @@ La solution est donc : un calendrier = une classe.
 =head2 Examen du module standard C<Date>
 
 Je n'avais pas l'intention de traiter les heures (décimales ou 24×60×60)
-donc j'ai seulement regardé C<Date>, pas C<DateTime>.
+donc je n'ai pas  regardé C<DateTime>, seulement C<Date>.
 
 =head3 Échelle de temps en jours
 
@@ -233,7 +235,7 @@ sont facultatifs et les calendriers sans variante les ignorent.
 Cela ne tient pas la route non plus. Imaginons que l'on veuille convertir
 le 22 septembre 1795 vers le calendrier républicain avec la variante
 astronomique, puis en sens inverse avec la règle arithmétique.
-La première étape donne le «sextidi 6 sans-culottide III » (pour une année
+La première étape donne le « sextidi 6 sans-culottide III » (pour une année
 à 366 jours) et la deuxième étape plante, car avec la variante arithmétique,
 l'an III a 365 jours et le sixième jour complémentaire est invalide.
 
@@ -246,12 +248,15 @@ méthode astronomique. Le seul problème est que cela ajoute du code dans le mod
 pour tester à chaque conversion la méthode à utiliser. Pas très gênant pour l'utilisateur
 du module, juste un peu gonflant pour le créateur et le mainteneur du module (moi).
 
-Une quatrième possibilité consiste à mémoriser la variante non pas dans
-un attribut, mais dans les méta-informations de l'objet. Plus clairement,
-créer trois classes spécifiques pour le calendrier républicain, une classe
-par variante. Ainsi, ce n'est plus le créateur / mainteneur du module qui doit
-tester la variante à utiliser, c'est le mécanisme de dispatch inclus dans l'interpréteur
-Perl 6. On a donc ainsi :
+Une quatrième  possibilité consiste  à mémoriser  la variante  non pas
+dans un  attribut, mais  dans les  méta-informations de  l'objet. Plus
+clairement,  créer  trois  classes   spécifiques  pour  le  calendrier
+républicain, une classe par variante. Ainsi, ce n'est plus le créateur
+/ mainteneur du  module qui doit tester la variante  à utiliser, c'est
+le mécanisme de dispatch inclus dans l'interpréteur Perl 6. Toutefois,
+il y a beaucoup de code similaire entre ces trois classes. Pour éviter
+la duplication de ce code, il sera  écrit dans un rôle utilisé par les
+trois classes. On a donc ainsi :
 
 =item1 Trois classes
 
