@@ -268,10 +268,54 @@ a constant result, which will be  C<"historic">, C<"astronomical">
 or C<"arithmetic"> depending on the class. If I think it can be useful,
 I will switch to this possibility.
 
+=head3 Coptic and Ethiopic Calendars
+
+The Coptic and Ethiopic calendars are very simple calendars, sharing a
+common structure:
+
+=item1 12 months of 30 days each
+=item1 followed by 5 or 6 additional days, called I<epagomenal days>.
+
+Leap years are years  multiple of 4, no matter if they  are at the end
+of a century or not.
+
+There are two differences between these calendars:
+
+=item1 Obviously, months and days have different names.
+
+=item1 The conversion  with other calendars is not the  same. In other
+words, the Gregorian date for Coptic 0001-01-01 is not the same as the
+Gregorian date for Ethiopic 0001-01-01.
+
+But there  are still  many common points,  which suggest  code sharing
+between the two modules. So we will have:
+
+=item1 Two classes
+
+=item2  Date::Calendar::Coptic
+=item2  Date::Calendar::Ethiopic
+
+=item1 One role
+
+=item2  Date::Calendar::CopticEthiopic (no need to add C<"::Common">)
+
+=item1 Two procedural modules
+
+=item2  Date::Calendar::Coptic::Names
+=item2  Date::Calendar::Ethiopic::Names
+
+The only remaining point is the  name of the distribution. There is no
+reason  to call  it after  the Coptic  calendar while  belittleing the
+Ethiopic calendar.  And vice-versa. So  the distribution name  will be
+C<Date::Calendar::CopticEthiopic>.
+
 =head3 Mayan Calendar and Aztec Calendar
 
-The case  of the Mayan Calendar  is similar, with the  additional fact
-that we must consider the case of the Aztec Calendar at the same time.
+The case of the Mayan Calendar  is similar to the French Revolutionary
+calendar, because there  are several ways to convert  dates between it
+and the Gregorian calendar. It is also similar to the Coptic calendar,
+because it shares  many mechanisms with the Aztec  calendar, just like
+the Coptic calendar shares manu mechanisms with the Ethiopic calendar.
 
 Pedants  will argue  that  there  is not  I<one>  Mayan calendar,  but
 I<three>:

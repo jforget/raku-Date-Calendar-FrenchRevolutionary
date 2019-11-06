@@ -282,10 +282,54 @@ Chacune des trois classes contient une méthode C<algorithm> donnant un résulta
 constant, C<"historic">, C<"astronomical"> ou C<"arithmetic"> selon le cas.
 Si j'en trouve l'utilité, j'adopterai cette cinquième possibilité.
 
+=head3 Calendrier copte et calendrier éthiopien
+
+Le calendrier copte  et le calendrier éthiopien  sont deux calendriers
+très simples, avec la même structure :
+
+=item1 12 mois de trente jours
+=item1 suivis de 5 ou 6 jours complémentaires, dits « épagomènes ».
+
+Les années bisextiles sont les années divisibles par 4, qu'il s'agisse
+d'années séculaires ou non.
+
+Il y a deux différences entre ces deux calendriers :
+
+=item1 de façon évidente, les noms des jours et des mois,
+
+=item et  la correspondance avec les  autres calendriers, c'est-â-dire
+la date (grégorienne par exemple) du jour 0001-01-01.
+
+Les  nombreuses  similitudes entre  les  deux  calendriers incitent  à
+partager le code entre les deux modules.  Nous aurons ainsi :
+
+=item1 Deux classes
+
+=item2  Date::Calendar::Coptic
+=item2  Date::Calendar::Ethiopic
+
+=item1 Un rôle
+
+=item2  Date::Calendar::CopticEthiopic (à la réflexion, pas besoin d'ajouter « ::Common »)
+
+=item1 Deux modules procéduraux
+
+=item2  Date::Calendar::Coptic::Names
+=item2  Date::Calendar::Ethiopic::Names
+
+Le seul point qui pose problème,  c'est le nom de la distribution.  Je
+pense que le  meilleur nom, ou plutôt le moins  mauvais, serait un nom
+qui ne  passe sous silence  ni le  calendrier copte, ni  le calendrier
+éthiopien, c'est-à-dire C<Date::Calendar::CopticEthiopic>.
+
 =head3 Calendrier maya et calendrier aztèque
 
-Le cas du calendrier maya est semblable, avec la difficulté supplémentaire
-qu'il convient d'examiner en même temps le cas du calendrier aztèque.
+Le  cas  du  calendrier  maya  est  semblable  au  cas  du  calendrier
+républicain,  en  ce  qu'il  existe  plusieurs  façons  de  faire  les
+conversions avec  le calendrier grégorien. Il  est également semblable
+au cas du calendrier copte  parce qu'il partage de nombreux mécanismes
+avec  le  calendrier  aztèque,  comme  le  calendrier  copte  avec  le
+calendrier éthiopien.
 
 Les  coupeurs de  cheveux  en  quatre diront  qu'il  n'y  a pas  I<un>
 calendrier maya, mais I<trois> :
