@@ -11,9 +11,12 @@ Revolutionary (18 Brumaire VIII).
 
 ```perl6
 use Date::Calendar::FrenchRevolutionary;
-my Date                                $Bonaparte's-coup-gr .= new(1799, 11, 9);
-my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
-say $Bonaparte's-coup-fr;
+my Date                                $Bonaparte's-coup-gr;
+my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr;
+
+$Bonaparte's-coup-gr .= new(1799, 11, 9);
+$Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
+say $Bonaparte's-coup-fr.strftime("%A %e %B %Y");
 ```
 
 Converting  a French  Revolutionary date  (e.g. 9th  Thermidor II)  to
@@ -21,10 +24,13 @@ Gregorian (which gives 27th July 1794).
 
 ```perl6
 use Date::Calendar::FrenchRevolutionary;
-my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr .= new(year    =>  2
-                                                                       , month   => 11
-                                                                       , day     =>  9);
-my Date                                $Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
+my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr;
+my Date                                $Robespierre's-downfall-gr;
+
+$Robespierre's-downfall-fr .= new(year    =>  2
+                                , month   => 11
+                                , day     =>  9);
+$Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
 say $Robespierre's-downfall-gr;
 ```
 
@@ -89,5 +95,6 @@ COPYRIGHT AND LICENSE
 
 Copyright 2019 Jean Forget, all rights reserved
 
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+This library is  free software; you can redistribute  it and/or modify
+it under the Artistic License 2.0.
 
