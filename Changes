@@ -1,6 +1,6 @@
 Revision history for Date-Calendar-FrenchRevolutionary
 
-0.0.3, released on...
+0.0.3, released on Octidi 18 Brumaire CCXXVII, jour de la Dentelaire (or 220th anniversary of Bonaparte's coup, or Friday 8th November 2019)
     - Fixed some mistakes in POD
     - checking the ranges of the parameters to new
     - the astronomical version is based on "calendar.l" (Calendrical Calculations 4th Edition)
