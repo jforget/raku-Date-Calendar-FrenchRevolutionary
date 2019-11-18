@@ -3,7 +3,7 @@ use v6.c;
 use Date::Calendar::Strftime;
 use Date::Calendar::FrenchRevolutionary::Common;
 
-class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.3>:auth<cpan:JFORGET>
+class    Date::Calendar::FrenchRevolutionary::Astronomical:ver<0.0.4>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common
     does Date::Calendar::Strftime {
 
