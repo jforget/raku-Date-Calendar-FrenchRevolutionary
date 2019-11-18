@@ -342,6 +342,43 @@ to Haab. Aztecs had nothing ressembling the Mayans' long count.
 For the conversion from Gregorian (or  other) to Mayan or Aztec, there
 are three opinions from the specialists: the Alfonso Caso method, with
 or without H.B. Nicholson's adjustment, or Francisco Cortes's method.
+Here is a table showing how these methods work and differ.
+
+  Gregorian        Caso               Caso          Francisco
+             without Nicholson    with Nicholson      Cortes
+  2019-09-26   17 Tititl          17 Tititl         20 Tititl
+  2019-09-27   18 Tititl          18 Tititl          1 Nemontemi
+  2019-09-28   19 Tititl          19 Tititl          2 Nemontemi
+  2019-09-29   20 Tititl          20 Tititl          3 Nemontemi
+  2019-09-30    1 Nemontemi        1 Izcalli         4 Nemontemi
+  2019-10-01    2 Nemontemi        2 Izcalli         5 Nemontemi
+  2019-10-02    3 Nemontemi        3 Izcalli         1 Izcalli
+  2019-10-03    4 Nemontemi        4 Izcalli         2 Izcalli
+  2019-10-04    5 Nemontemi        5 Izcalli         3 Izcalli
+  2019-10-05    1 Izcalli          6 Izcalli         4 Izcalli
+  ...
+  2019-10-19   15 Izcalli         20 Izcalli        18 Izcalli
+  2019-10-20   16 Izcalli          1 Nemontemi      19 Izcalli
+  2019-10-21   17 Izcalli          2 Nemontemi      20 Izcalli
+  2019-10-22   18 Izcalli          3 Nemontemi       1 Cuauhuitlehua
+  2019-10-23   19 Izcalli          4 Nemontemi       2 Cuauhuitlehua
+  2019-10-24   20 Izcalli          5 Nemontemi       3 Cuauhuitlehua
+  2019-10-25    1 Cuauhuitlehua    1 Cuauhuitlehua   4 Cuauhuitlehua
+
+A small reminder  about the French Revolutionary,  Coptic and Ethiopic
+calendars:  the year  is  incremented after  the  last additional  day
+(sans-culottide and epagomene). So  the month following the additional
+days is  the first month of  the year and  is given the number  1. The
+month just before these additional days  is the last month of the year
+and receive the number 12.
+
+Now,  in the  Aztec calendar,  which is  the first  month of  the year
+Izcalli or Cuauhuitlehua? And the last month, is it Tititl or Izcalli?
+So  I have  decided  to  ignore the  "Caso  with Nicholson  adustment"
+method, so Izcalli will always be  the number 1 and Tititl will always
+be the number  18. By the way, Reingold and  Dershowitz too ignore the
+method with  Nicholson's adjustment. They also  ignore Cortes' method,
+but there I differ from them.
 
 To be continued
 

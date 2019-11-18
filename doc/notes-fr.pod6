@@ -357,8 +357,46 @@ d'analogue au compte long des Mayas.
 
 Pour  la  conversion  du  calendrier  grégorien  (ou  autre)  vers  le
 calendrier maya ou  aztèque, il existe plusieurs avis  différents : la
-méthode d'Alfonso Cortes, avec ou  sans l'ajustement de H.B. Nicholson
-et la méthode de Francisco Cortes.
+méthode d'Alfonso Caso, avec ou sans l'ajustement de H.B. Nicholson et
+la  méthode  de  Francisco  Cortes.  Voici  un  aperçu  de  ces  trois
+correspondances.
+
+
+  Grégorien      Caso               Caso            Francisco
+             sans Nicholson     avec Nicholson        Cortes
+  2019-09-26   17 Tititl          17 Tititl         20 Tititl
+  2019-09-27   18 Tititl          18 Tititl          1 Nemontemi
+  2019-09-28   19 Tititl          19 Tititl          2 Nemontemi
+  2019-09-29   20 Tititl          20 Tititl          3 Nemontemi
+  2019-09-30    1 Nemontemi        1 Izcalli         4 Nemontemi
+  2019-10-01    2 Nemontemi        2 Izcalli         5 Nemontemi
+  2019-10-02    3 Nemontemi        3 Izcalli         1 Izcalli
+  2019-10-03    4 Nemontemi        4 Izcalli         2 Izcalli
+  2019-10-04    5 Nemontemi        5 Izcalli         3 Izcalli
+  2019-10-05    1 Izcalli          6 Izcalli         4 Izcalli
+  ...
+  2019-10-19   15 Izcalli         20 Izcalli        18 Izcalli
+  2019-10-20   16 Izcalli          1 Nemontemi      19 Izcalli
+  2019-10-21   17 Izcalli          2 Nemontemi      20 Izcalli
+  2019-10-22   18 Izcalli          3 Nemontemi       1 Cuauhuitlehua
+  2019-10-23   19 Izcalli          4 Nemontemi       2 Cuauhuitlehua
+  2019-10-24   20 Izcalli          5 Nemontemi       3 Cuauhuitlehua
+  2019-10-25    1 Cuauhuitlehua    1 Cuauhuitlehua   4 Cuauhuitlehua
+
+Rappel sur les calendriers républicain, copte et éthiopien : on change
+d'année  juste après  les  jours  complémentaires (sans-culottides  ou
+épagomènes). Le mois  qui suit est le premier mois  de l'année, auquel
+on attribue le numéro 1. Le mois qui précède ces jours complémentaires
+est le dernier mois de l'année et prend le numéro 12.
+
+Dans  le cas  du  calendrier  aztèque, quel  est  le  premier mois  de
+l'année,  Izcalli ou  Cuauhuitlehua ?  Et le  dernier mois  de l'année
+est-il  Tititl ou  Izcalli ?  J'ai décidé  de faire  l'impasse sur  la
+méthode  de Caso  avec  l'ajustement de  Nicholson,  ce qui  permettra
+d'attribuer le numéro 1 à Izcalli et le numéro 18 à Tititl. Remarquons
+que Reingold et  Dershowitz font eux ausi l'impasse sur  la méthode de
+Caso avec  l'ajustement de Nicholson.  Il font aussi l'impasse  sur la
+méthode de Cortes, mais là je ne les suis plus.
 
 À suivre.
 
