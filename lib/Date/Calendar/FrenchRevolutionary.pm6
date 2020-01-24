@@ -373,10 +373,16 @@ a class, but a simple procedural package.
 
 =head1 SEE ALSO
 
-=head2 Perl 6 Software
+=head2 Raku Software
 
 L<Date::Calendar::Strftime>
-or L<https://github.com/jforget/p6-Date-Calendar-Strftime>
+or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
+
+L<Date::Calendar::Hebrew>
+or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
+
+L<Date::Calendar::CopticEthiopic>
+or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
 =head2 Perl 5 Software
 
@@ -519,7 +525,7 @@ module.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2019 Jean Forget, all rights reserved
+Copyright © 2019, 2020 Jean Forget, all rights reserved
 
 This library is  free software; you can redistribute  it and/or modify
 it under the Artistic License 2.0.
