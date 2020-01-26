@@ -19,7 +19,7 @@
     , "Date::Calendar::FrenchRevolutionary::Names"        : "lib/Date/Calendar/FrenchRevolutionary/Names.pm6"
   },
   "resources"  : [ ],
-  "source-url" : "https://github.com/jforget/Date-Calendar-FrenchRevolutionary.git",
+  "source-url" : "https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary.git",
   "support" : {
     "email" : "JFORGET@cpan.org"
   },

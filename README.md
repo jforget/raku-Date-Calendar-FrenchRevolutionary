@@ -44,8 +44,8 @@ zef install Date::Calendar::FrenchRevolutionary
 or
 
 ```shell
-git clone https://github.com/jforget/Date-Calendar-FrenchRevolutionary.git
-cd Date-Calendar-FrenchRevolutionary
+git clone https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary.git
+cd raku-Date-Calendar-FrenchRevolutionary
 zef install .
 ```
 
