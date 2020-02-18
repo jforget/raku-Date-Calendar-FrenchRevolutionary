@@ -7,7 +7,7 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
   has Int $.day   where { 1 ≤ $_ ≤ 30 };
   has Str $.locale is rw = 'fr';
 
-  method _chek-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) {
+  method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) {
 
     unless 1 ≤ $month ≤ 13 {
       X::OutOfRange.new(:what<Month>, :got($month), :range<1..13>).throw;
@@ -78,7 +78,7 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
     }
   }
 
-  method _build-from-args(Int $year, Int $month, Int $day, Str $locale) {
+  method !build-from-args(Int $year, Int $month, Int $day, Str $locale) {
     $!year   = $year;
     $!month  = $month;
     $!day    = $day;

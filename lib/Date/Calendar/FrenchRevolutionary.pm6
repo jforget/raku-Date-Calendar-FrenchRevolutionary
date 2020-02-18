@@ -10,8 +10,8 @@ class    Date::Calendar::FrenchRevolutionary:ver<0.0.4>:auth<cpan:JFORGET>
     does Date::Calendar::Strftime {
 
   method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
-    $._chek-build-args($year, $month, $day, $locale, &vnd1);
-    $._build-from-args($year, $month, $day, $locale);
+    self!check-build-args($year, $month, $day, $locale, &vnd1);
+    self!build-from-args( $year, $month, $day, $locale);
   }
   # -24161 is MJD for 1792-09-22, which is the FR epoch
   method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {

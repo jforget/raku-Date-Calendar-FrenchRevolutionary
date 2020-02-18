@@ -8,8 +8,8 @@ class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.0.4>:auth<cpan:JF
     does Date::Calendar::Strftime {
 
   method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
-    $._chek-build-args($year, $month, $day, $locale, &vnd1);
-    $._build-from-args($year, $month, $day, $locale);
+    self!check-build-args($year, $month, $day, $locale, &vnd1);
+    self!build-from-args( $year, $month, $day, $locale);
   }
 
   method vnd1 {
