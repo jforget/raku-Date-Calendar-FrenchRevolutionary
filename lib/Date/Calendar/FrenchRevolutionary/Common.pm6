@@ -124,6 +124,14 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
     $.day + 30 × ($.month - 1);
   }
 
+  method décade-number {
+    ($.day / 10).ceiling + 3 × ($.month - 1);
+  }
+
+  method day-of-décade {
+    $.day % 10 || 10;
+  }
+
   method month-name {
     Date::Calendar::FrenchRevolutionary::Names::month-name($.locale, $.month);
   }
@@ -178,6 +186,8 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
                               EJ => { $.feast-caps },
                               Ey => { $.year-roman.lc },
                               EY => { $.year-roman },
+                               u => { $.day-of-décade },
+                               V => { $.décade-number },
                              ) }
 
 }

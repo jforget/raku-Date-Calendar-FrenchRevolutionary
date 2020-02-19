@@ -9,7 +9,8 @@ use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
 plan  3  # classes
    ×  2  # languages
-   × 11; # accessors
+   × 14  # accessors
+   +  1; # special case
 
 my Date::Calendar::FrenchRevolutionary               $d-hi .= new(year => 9, month => 2, day => 18);
 my Date::Calendar::FrenchRevolutionary::Astronomical $d-as .= new(year => 9, month => 2, day => 18);
@@ -25,8 +26,11 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-name,   'Octidi');
   is($d.day-abbr,   'Oct');
   is($d.feast,      'dentelaire');
-  is($d.feast-long, 'jour de la dentelaire');
-  is($d.feast-caps, 'Jour de la Dentelaire');
+  is($d.feast-long   , 'jour de la dentelaire');
+  is($d.feast-caps   , 'Jour de la Dentelaire');
+  is($d.day-of-year  , 48);
+  is($d.day-of-décade,  8);
+  is($d.décade-number,  5);
 
   $d.locale = 'en';
 
@@ -39,8 +43,14 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.month-abbr, 'Fog');
   is($d.month-name, 'Fogarious');
   is($d.feast,      'plumbago');
-  is($d.feast-long, 'day of plumbago');
-  is($d.feast-caps, 'Day of Plumbago');
+  is($d.feast-long   , 'day of plumbago');
+  is($d.feast-caps   , 'Day of Plumbago');
+  is($d.day-of-year  , 48);
+  is($d.day-of-décade,  8);
+  is($d.décade-number,  5);
 }
+
+$d-hi .= new(year => 228, month => 6, day => 10);
+is($d-hi.day-of-décade, 10);
 
 done-testing;

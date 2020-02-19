@@ -135,15 +135,31 @@ Build a French Revolutionary date from the Modified Julian Day number.
 
 The numbers defining the date.
 
+=head3 locale
+
+The  locale which  controls the  month names,  the day  names and  the
+feasts. For the moment, only the French locale C<'fr'> and the English
+locale C<'en'> are available.
+
+This attribute is rewriteable, unlike the year, the month and the day.
+
 =head3 month-name
 
 The month of the date, as a string. This depends on the date's current
 locale.
 
+=head3 month-abbr
+
+The abbreviated month of the date.
+
 =head3 day-name
 
 The name of the day within  the I<décade> (ten-day period). It depends
 on the date's current locale.
+
+=head3 day-abbr
+
+The abbreviated day of the date.
 
 =head3 feast, feast-long, feast-caps
 
@@ -164,6 +180,19 @@ C<"Day of Saffron">.
 
 Convert the date to Modified Julian Day Number (a day-only scheme
 based on 17 November 1858).
+
+=head3 day-of-year
+
+How many  days since  the beginning of  the year. 1  to 365  on normal
+years, 1 to 366 on leap years.
+
+=head3 day-of-décade
+
+The day of the I<décade>, as a number (1 for Primidi, 10 for Décadi).
+
+=head3 décade-number
+
+The number of the I<décade> within the year, 1 to 31.
 
 =head3 strftime
 
@@ -330,6 +359,29 @@ A newline character.
 =defn C<%t>
 
 A tab character.
+
+=defn C<%u>
+
+The day number within the I<décade>, 1 to 10.
+
+This allows  to print  a date  similar to the  so-called ISO  date for
+Gregorian, by using the format string C<"%G-W%V-%u">. Some caveats:
+
+=item Since the I<décades> are synchronised with the years, and even
+with the months, the C<%G> specifier gives the same result as the
+C<%Y> specifier.
+
+=item The letter  C<"W"> for "week" may surprise  some people, because
+it introduce the number of the I<décade>.
+
+=item The C<%u>  specifier gives a 2-char result  for "Décadi". Beware
+if you sort the dates with an alphabetic sort on the ISO date strings,
+or  if you  use  a  fixed-width font  in  order  to maintain  vertical
+alignment in a list of dates.
+
+=defn C<%V>
+
+The I<décade> number within the year.
 
 =defn C<%Y>
 

@@ -4,6 +4,7 @@ Revision history for Date-Calendar-FrenchRevolutionary
     - The Github repository is renamed with a "raku-" prefix
     - More tests.
     - Private methods when appropriate
+    - Accessors related to the "décades" and strftime specifiers %V and %u
 
 0.0.3, released on Octidi 18 Brumaire CCXXVII, jour de la Dentelaire (or 220th anniversary of Bonaparte's coup, or Friday 8th November 2019)
     - Fixed some mistakes in POD
