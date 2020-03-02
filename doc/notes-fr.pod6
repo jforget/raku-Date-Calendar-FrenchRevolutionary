@@ -190,6 +190,60 @@ l'instance de  date, changer «  Sextidi 26 Messidor  227 , jour  de la
 sauge»  en  «  Septidi 27  Messidor  227,  jour  de  l'ail »  est  une
 modification profonde et essentielle de l'instance.
 
+=head3 Autre calendrier multilingue, le calendrier julien
+
+L'architecture  du calendrier  julien  est simple.  Un premier  module
+classe C<Date::Calendar::Julian>  plus un module pour  donner les noms
+de mois  et de jours. Évidemment,  pour ce deuxième module,  j'ai pris
+C<Date::Names> de T. Browder plutôt que de tout réécrire. Le seul hic,
+par rapport à ce que j'ai écrit ci-dessus, c'est que C<Date::Names> a,
+en partie, une interface orientée  objet. Pour les abréviations, c'est
+une bête procédure, mais pour les noms de jour et les noms de mois, il
+faut instancier un objet de la classe C<Date::Names>.
+
+J'aurais pu créer une méthode C<month-name> et une méthode C<day-name>
+qui, chacune, instancient  à la volée un objet  C<Date::Names> et qui,
+une fois le nom de jour ou de mois obtenu, l'oublient et le laissent à
+la merci  du ramasse-miettes (I<garbage collector>).  Comme en général
+l'utilisateur demandera à  la fois le nom  du jour et le  nom du mois,
+cette  solution  n'est  pas   fameuse,  l'objet  C<Date::Names>  étant
+instancié deux fois au lieu d'une.
+
+J'aurais  pu   instancier  l'objet  C<Date::Names>  chaque   fois  que
+l'attribut C<locale> est modifié. J'ai  deux arguments contre, mais il
+faut reconnaître que ces arguments sont médiocres. Tout d'abord, je ne
+sais   pas  comment   déclencher   un   traitement  particulier   (ici
+l'instanciation  d'un  C<Date::Names>)   chaque  fois  qu'un  attribut
+particulier (ici  l'attribut C<locale>) est modifié.  Ensuite, dans le
+cas où  l'utilisateur de mon  module s'amuserait à  modifier plusieurs
+fois   de    suite   l'attribut   C<locale>,   cela    ferait   autant
+d'instanciations de C<Date::Names>, toutes  inutiles sauf la dernière.
+Mais pourquoi un programmeur  s'amuserait-il à modifier plusieurs fois
+de suite le même attribut ?
+
+La solution  que j'ai  retenue consiste  en quelque  sorte à  faire de
+l'instanciation paresseuse.  Chaque fois que l'attribut  C<locale> est
+mis  à  jour,  l'objet   C<Date::Calendar::Julian>  ne  fait  rien  de
+particulier. Chaque fois que le programme  demande à l'objet un nom de
+mois ou de jour,  l'objet C<Date::Calendar::Julian> vérifie si l'objet
+C<Date::Names> a  déjà été instancié et  s'il a été instancié  avec la
+bonne    valeur   de    C<locale>.   Dans    la   négative,    l'objet
+C<Date::Calendar::Julian> instancie la classe C<Date::Names> et stocke
+cette  instance en  cache  dans  un attribut  privé  de l'instance  de
+C<Date::Calendar::Julian>. Il  stocke également la valeur  actuelle de
+C<locale>  dans  un   autre  attribut  privé,  C<instantiated-locale>.
+Exemple
+
+  code               $.locale  $!inst-l  $!date-names
+  $.locale = 'en'    en        vide      vide
+  $.locale = 'fr'    fr        vide      vide
+  $.locale = 'de'    de        vide      vide
+  say $.month-name   de        de        Date::Names::de.new
+  say $.day-name     de        de        Date::Names::de
+  $.locale = 'it'    it        de        Date::Names::de
+  $.locale = 'en'    en        de        Date::Names::de
+  say $.day-name     en        en        Date::Names::en.new
+  say $.month-name   en        en        Date::Names::en
 
 =head2 Calendriers avec variantes
 
@@ -362,8 +416,8 @@ la  méthode  de  Francisco  Cortes.  Voici  un  aperçu  de  ces  trois
 correspondances.
 
 
-  Grégorien      Caso               Caso            Francisco
-             sans Nicholson     avec Nicholson        Cortes
+  Grégorien        Caso               Caso          Francisco
+               sans Nicholson     avec Nicholson      Cortes
   2019-09-26   17 Tititl          17 Tititl         20 Tititl
   2019-09-27   18 Tititl          18 Tititl          1 Nemontemi
   2019-09-28   19 Tititl          19 Tititl          2 Nemontemi
@@ -394,7 +448,7 @@ l'année,  Izcalli ou  Cuauhuitlehua ?  Et le  dernier mois  de l'année
 est-il  Tititl ou  Izcalli ?  J'ai décidé  de faire  l'impasse sur  la
 méthode  de Caso  avec  l'ajustement de  Nicholson,  ce qui  permettra
 d'attribuer le numéro 1 à Izcalli et le numéro 18 à Tititl. Remarquons
-que Reingold et  Dershowitz font eux ausi l'impasse sur  la méthode de
+que Reingold et Dershowitz font eux  aussi l'impasse sur la méthode de
 Caso avec  l'ajustement de Nicholson.  Il font aussi l'impasse  sur la
 méthode de Cortes, mais là je ne les suis plus.
 

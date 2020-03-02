@@ -176,6 +176,55 @@ cosmetic modification,  while changing "Sextidi 26  Messidor 227, jour
 de la sauge" into  "Septidi 27 Messidor 227, jour de  l'ail" is a deep
 modification of the date's inner self.
 
+=head3 Another Multilingual Calendar, The Julian Calendar
+
+The structure for  the Julian calendar is very simple.  A first module
+for the C<Date::Calendar::Julian> class and a second one for the month
+names and  the day names.  Of course, for  this second module,  I have
+chosen an  already existing  one, Tom Browder's  C<Date::Names> rather
+than rewriting everything. The only  glitch, when compared with what I
+wrote above, is that C<Date::Names> has, partially, an object-oriented
+interface. For  abbreviations, it is  a procedural interface,  but for
+the  month  names  and  the  day   names  we  need  to  instantiate  a
+C<Date::Names> object.
+
+I could have  created a C<month-name> method and  a C<day-name> method
+which would have created on-the-fly  an instance of C<Date::Names> and
+which would discard it just  after, letting the garbage collector reap
+it. But usually, the module user asks  both the month name and the day
+name,  so  this  solution  is  not  optimal,  because  there  are  two
+instantiated C<Date::Names> objects where one would be enough.
+
+I  could  have instantiated  a  C<Date::Names>  object each  time  the
+C<locale> attribute is  updated. I have not done this  for two reasons
+of dubious value. Firstly, I do not know how to trigger some code when
+an object attribute  is updated. Secondly, if the  module user updates
+the C<locale>  attribute several times in  a row without asking  for a
+month name or  a day name, several C<Date::Names>  instances will have
+been created  and all  of them  except the last  are useless.  But why
+would a programmer do this?
+
+So  I  have decided  to  do  lazy  instantiation. When  the  C<locale>
+attribute  is  updated,   the  C<Date::Calendar::Julian>  object  does
+nothing special. Each time the program asks  for a month name or a day
+name, the  C<Date::Calendar::Julian> object  first checks  whether the
+C<Date::Names> class was instantiated  and whether it was instantiated
+with  the   proper  value.   If  no,   the  object   instantiates  the
+C<Date::Names> class and caches the  new objet instance into a private
+attribute. It also stores the  current value of C<locale> into another
+private attribute, C<$!instantiated-locale>. Example
+
+  code               $.locale  $!inst-l  $!date-names
+  $.locale = 'en'    en        empty     empty
+  $.locale = 'fr'    fr        empty     empty
+  $.locale = 'de'    de        empty     empty
+  say $.month-name   de        de        Date::Names::de.new
+  say $.day-name     de        de        Date::Names::de
+  $.locale = 'it'    it        de        Date::Names::de
+  $.locale = 'en'    en        de        Date::Names::de
+  say $.day-name     en        en        Date::Names::en.new
+  say $.month-name   en        en        Date::Names::en
+
 =head2 Calendars with variants
 
 =head3 French Revolutionary Calendar
@@ -374,9 +423,9 @@ and receive the number 12.
 
 Now,  in the  Aztec calendar,  which is  the first  month of  the year
 Izcalli or Cuauhuitlehua? And the last month, is it Tititl or Izcalli?
-So  I have  decided  to  ignore the  "Caso  with Nicholson  adustment"
-method, so Izcalli will always be  the number 1 and Tititl will always
-be the number  18. By the way, Reingold and  Dershowitz too ignore the
+So  I have  decided to  ignore  the "Caso  with Nicholson  adjustment"
+method, Izcalli will always be the  number 1 and Tititl will always be
+the number  18. By  the way,  Reingold and  Dershowitz too  ignore the
 method with  Nicholson's adjustment. They also  ignore Cortes' method,
 but there I differ from them.
 
