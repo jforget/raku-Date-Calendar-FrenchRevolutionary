@@ -72,6 +72,7 @@ my Date                                $Robespierre's-downfall-gr;
 $Robespierre's-downfall-fr .= new(year => 2, month => 11, day => 9);
 $Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
 say $Robespierre's-downfall-gr;
+# ---> "1794-07-27" for 27th July 1794
 
 =end code
 
@@ -88,8 +89,8 @@ centuries in the future, not limiting to Gregorian year 1805.
 
 This new calendar was an attempt  to apply the decimal rule (the basis
 of  the   metric  system)  to   the  calendar.  Therefore,   the  week
-disappeared, replaced by the décade, a 10-day period. In addition, all
-months have exactly 3 decades, no more, no less.
+disappeared, replaced by the I<décade>,  a 10-day period. In addition,
+all months have exactly 3 I<décades>, no more, no less.
 
 Since 12 months of 30 days each do not make a full year (365.24 days),
 there are 5 or 6 additional days at  the end of a year. These days are
@@ -223,7 +224,7 @@ The list of C<strftime> specifiers is given below.
 =head3 to-date
 
 Clones  the   date  into   a  core  class   C<Date>  object   or  some
-C<Date::Calendar::>I<xxx> compatible calendar  class. The target class
+C<Date::Calendar::>R<xxx> compatible calendar  class. The target class
 name is given  as a positional parameter. This  parameter is optional,
 the default value is C<"Date"> for the Gregorian calendar.
 
@@ -284,11 +285,11 @@ The allowed type codes are:
 
 =defn C<%a>
 
-The abbreviated day of decade name.
+The abbreviated day of I<décade> name.
 
 =defn C<%A>
 
-The full day of decade name.
+The full day of I<décade> name.
 
 =defn C<%b>
 
@@ -416,10 +417,6 @@ I will suppose it will be rather accurate during five centuries or so.
 
 =head2 TODO
 
-Improve the error processing and the error messages.
-
-Examine all methods to mark some as private.
-
 The F<Date::Calendar::FrenchRevolutionary::Names> module should not be
 a class, but a simple procedural package.
 
@@ -429,6 +426,9 @@ a class, but a simple procedural package.
 
 L<Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
+
+L<Date::Calendar::Julian>
+or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
 L<Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
@@ -557,11 +557,11 @@ Jean Forget <JFORGET at cpan dot org>
 
 =head1 THANKS
 
-Many  thanks to  all those  who were  involved in  Perl 6,  Rakudo and
-Rakudo-Star.
+Many thanks to all those who  were involved in Raku (formerly Perl 6),
+Rakudo and Rakudo-Star.
 
 Many thanks to Andrew, Laurent,  C<brian> and Moritz for writing books
-that helped me learn Perl 6.
+that helped me learn Raku.
 
 And some additional thanks to Laurent for  his help, even if I did not
 apply all his advices.
