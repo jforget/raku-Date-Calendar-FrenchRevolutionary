@@ -35,9 +35,9 @@ le module central C<Date>.
 
 =head2 Première idée : des rôles partout
 
-Ma première idée était d'utiliser de manière intensive la nouveauté
-de Perl 6 en programmation objet, les rôles. Seul le calendrier grégorien
-serait implémenté en tant que classe, les autres calendriers seraient
+Ma première idée était d'utiliser de manière intensive la nouveauté de
+Raku en programmation  objet, les rôles. Seul  le calendrier grégorien
+serait implémenté en tant que  classe, les autres calendriers seraient
 des rôles accolés à la classe C<Date>. Par exemple :
 
   my Date $quatorze-juillet does Date::Calendar::Hebrew
@@ -110,8 +110,8 @@ donc je n'ai pas  regardé C<DateTime>, seulement C<Date>.
 
 =head3 Échelle de temps en jours
 
-La première différence entre le module C<Date> de Perl 6 et le module
-C<DateTime> de Perl 5 est que Perl 6 utilise le MJD (I<Modified Julian
+La première  différence entre le module  C<Date> de Raku et  le module
+C<DateTime> de Perl  5 est que Raku utilise le  MJD (I<Modified Julian
 Day Number>) au lieu d'utiliser le I<Rata Die>. Cela me va très bien.
 
 =head3 Immutabilité
@@ -238,12 +238,17 @@ Exemple
   $.locale = 'en'    en        vide      vide
   $.locale = 'fr'    fr        vide      vide
   $.locale = 'de'    de        vide      vide
-  say $.month-name   de        de        Date::Names::de.new
+  say $.month-name   de        vide→de   Date::Names::de.new
   say $.day-name     de        de        Date::Names::de
   $.locale = 'it'    it        de        Date::Names::de
   $.locale = 'en'    en        de        Date::Names::de
-  say $.day-name     en        en        Date::Names::en.new
+  say $.day-name     en        de→en     Date::Names::en.new
   say $.month-name   en        en        Date::Names::en
+
+Ce système d'instanciation paresseuse est  bien dans le style de Raku,
+donc  je n'ai  pas cherché  à approfondir  la solution  précédente qui
+consistait  à  intercepter les  mises  à  jour  de C<$.locale>  et  en
+profiter pour instancier C<Date::Names>.
 
 =head2 Calendriers avec variantes
 
@@ -269,7 +274,7 @@ la période de validité, y compris avant l'an XX,
 =item et la variante historique, qui prend en compte
 le changement de règle en l'an XX.
 
-Comment cela se traduit-il en Perl 6 ?
+Comment cela se traduit-il en Raku ?
 
 Une première idée consiste à prévoir trois fonctions différentes
 de conversion vers le calendrier républicain et trois fonctions
@@ -307,7 +312,7 @@ dans un  attribut, mais  dans les  méta-informations de  l'objet. Plus
 clairement,  créer  trois  classes   spécifiques  pour  le  calendrier
 républicain, une classe par variante. Ainsi, ce n'est plus le créateur
 / mainteneur du  module qui doit tester la variante  à utiliser, c'est
-le mécanisme de dispatch inclus dans l'interpréteur Perl 6. Toutefois,
+le mécanisme  de dispatch inclus dans  l'interpréteur Raku. Toutefois,
 il y a beaucoup de code similaire entre ces trois classes. Pour éviter
 la duplication de ce code, il sera  écrit dans un rôle utilisé par les
 trois classes. On a donc ainsi :

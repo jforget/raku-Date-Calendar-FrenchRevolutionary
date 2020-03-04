@@ -33,9 +33,10 @@ use none or all of them.
 
 =head2 First Idea: Roles Everywhere
 
-My first idea was to make intensive use of the novelty in Perl 6 POO, roles.
-Only the Gregorian calendar is implemented as a class C<Date>, all others are roles
-to C<Date>. Example:
+My first idea was to make intensive  use of the novelty in Raku Object
+Oriented   Programming,  roles.   Only  the   Gregorian  calendar   is
+implemented  as a  class C<Date>,  all  others are  roles to  C<Date>.
+Example:
 
   my Date $bastille-day does Date::Calendar::Hebrew
                         does Date::Calendar::Hijri
@@ -99,8 +100,8 @@ C<Date> core module instead of C<DateTime>.
 
 =head3 Day-Only Counting
 
-The first difference with Perl 5's C<DateTime> is that Perl 6's C<Date>
-uses the MJD or Modified Julian Day Number instead of I<Rata Die>.
+The first difference with Perl  5's C<DateTime> is that Raku's C<Date>
+uses the  MJD or Modified  Julian Day  Number instead of  I<Rata Die>.
 Fine with me.
 
 =head3 Immutability
@@ -218,12 +219,16 @@ private attribute, C<$!instantiated-locale>. Example
   $.locale = 'en'    en        empty     empty
   $.locale = 'fr'    fr        empty     empty
   $.locale = 'de'    de        empty     empty
-  say $.month-name   de        de        Date::Names::de.new
+  say $.month-name   de        empty→de  Date::Names::de.new
   say $.day-name     de        de        Date::Names::de
   $.locale = 'it'    it        de        Date::Names::de
   $.locale = 'en'    en        de        Date::Names::de
-  say $.day-name     en        en        Date::Names::en.new
+  say $.day-name     en        de→en     Date::Names::en.new
   say $.month-name   en        en        Date::Names::en
+
+Since this  lazy instanciation method is  well in the Raku's  style, I
+have not tried  to come back to the previous  solution of intercepting
+updates of C<$.locale> and instantiating C<Date::Names>.
 
 =head2 Calendars with variants
 
@@ -248,7 +253,7 @@ with Gregorian-like moduloes, event before year XX,
 =item and the historical variant, which takes into account
 the year XX reform and the change of rule.
 
-How does this translate in Perl 6?
+How does this translate in Raku?
 
 A first idea is to define three different functions or methods to
 translate an other date into French Revolutionary Calendar
