@@ -82,11 +82,13 @@ reasons.  First, the  republic had  been established  on 22  September
 the symbol of equality, the day and the night lasting exactly 12 hours
 each. It  was therefore  in tune with  the republic's  motto "Liberty,
 Equality, Fraternity". But  it was not practical, so  Romme proposed a
-leap year rule similar to the Gregorian calendar rule.
+leap year  rule similar  to the Gregorian  calendar rule.  This module
+assumes that  Romme's arithmetic  rule was in  effect since  the first
+year of the calendar.
 
 The  distribution contains  two other  classes, one  where the  reform
 replacing the astronomical rule by  the arithmetic rule took effect in
-year XX  (1811), the other  where there was  no reform and  the automn
+year XX  (1811), the other  where there was  no reform and  the autumn
 equinox rule stayed in effect even after year XX.
 
 =head1 USAGE

@@ -258,6 +258,10 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.4> {
   my %prefix = 'fr' => ('jour du ', 'jour de la ', "jour de l'", 'jour des ')
              , 'en' => ('day of ');
 
+  our sub allowed-locale(Str:D $locale) {
+    %month-names{$locale}:exists;
+  }
+
   our sub month-name(Str:D $locale, Int:D $month --> Str) {
     %month-names{$locale}[$month - 1];
   }
@@ -337,9 +341,12 @@ use Date::Calendar::FrenchRevolutionary;
 
 =head1 DESCRIPTION
 
-Date::Calendar::FrenchRevolutionary::Names  is  a companion  class  to
+Date::Calendar::FrenchRevolutionary::Names  is a  companion module  to
 Date::Calendar::FrenchRevolutionary,  giving  the French  and  English
 names for months and days.
+
+See the full documentation in the main module, 
+C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
 

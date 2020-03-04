@@ -5,7 +5,7 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
   has Int $.year  where { $_ ≥ 1 };
   has Int $.month where { 1 ≤ $_ ≤ 13 };
   has Int $.day   where { 1 ≤ $_ ≤ 30 };
-  has Str $.locale is rw = 'fr';
+  has Str $.locale is rw where { Date::Calendar::FrenchRevolutionary::Names::allowed-locale($_) } = 'fr';
 
   method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) {
 
@@ -73,7 +73,7 @@ role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.4>:auth<cpan:JFORGET> {
         }
       }
     }
-    if $locale ne 'fr' && $locale ne 'en' {
+    unless Date::Calendar::FrenchRevolutionary::Names::allowed-locale($locale) {
       X::Invalid::Value.new(:method<BUILD>, :name<locale>, :value($locale)).throw;
     }
   }
@@ -211,6 +211,9 @@ use Date::Calendar::FrenchRevolutionary;
 Date::Calendar::FrenchRevolutionary is a module defining a role
 which is shared by the three variants of the
 Date::Calendar::FrenchRevolutionary class.
+
+See the full documentation in the main module, 
+C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
 
