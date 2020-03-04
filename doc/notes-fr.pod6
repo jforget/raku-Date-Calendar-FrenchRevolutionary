@@ -415,9 +415,9 @@ I<xiupohualli>,  semblable  au  Haab.   Les  Aztèques  n'avaient  rien
 d'analogue au compte long des Mayas.
 
 Pour  la  conversion  du  calendrier  grégorien  (ou  autre)  vers  le
-calendrier maya ou  aztèque, il existe plusieurs avis  différents : la
-méthode d'Alfonso Caso, avec ou sans l'ajustement de H.B. Nicholson et
-la  méthode  de  Francisco  Cortes.  Voici  un  aperçu  de  ces  trois
+calendrier aztèque, il  existe plusieurs avis différents  : la méthode
+d'Alfonso  Caso, avec  ou sans  l'ajustement de  H.B. Nicholson  et la
+méthode  de   Francisco  Cortes.   Voici  un   aperçu  de   ces  trois
 correspondances.
 
 
@@ -456,6 +456,57 @@ d'attribuer le numéro 1 à Izcalli et le numéro 18 à Tititl. Remarquons
 que Reingold et Dershowitz font eux  aussi l'impasse sur la méthode de
 Caso avec  l'ajustement de Nicholson.  Il font aussi l'impasse  sur la
 méthode de Cortes, mais là je ne les suis plus.
+
+Quelles sont les règles de correspondances entre le calendrier maya et
+les  autres  calendriers ?  Reingold  et  Dershowitz mentionnent  deux
+règles  : la  règle  de Goodman-Martinez-Thompson,  qu'ils ont  choisi
+d'implémenter et  la règle de  Spinden, qu'ils n'implémentent  pas. Le
+module  C<Date::Maya> d'Abigail  donne trois  règles sans  les nommer,
+mais    il    est    possible    de   reconnaître    la    règle    de
+Goodman-Martinez-Thompson  et  celle  de  Spinden.  La  FAQ  de  Claus
+Tøndering  (L<https://www.tondering.dk/claus/cal/maya.php>)  mentionne
+les mêmes  règles, également sans les  nommer. Et le site  de la FAMSI
+(L<http://research.famsi.org/date_mayaLC.php>)  propose   huit  règles
+différentes. Par  défaut, c'est la règle  I<GMT>, qui n'a rien  à voir
+avec le  I<Greenwich Mean  Time> (temps moyen  de Greenwich)  mais qui
+s'interprête en « Goodman-Martinez-Thompson ».
+
+Dans un premier temps, j'implémenterai  les trois règles proposées par
+Abigail  et Claus  Tøndering.  Ultérieurement, pourquoi  pas, il  sera
+possible d'ajouter les autres règles de la FAMSI. Nous aurons ainsi
+
+=item1 Cinq classes
+
+=item2  Date::Calendar::Maya
+implémentant la règle de Goodman-Martinez-Thompson
+
+=item2  Date::Calendar::Maya::Spinden
+implémentant la règle de Spinden
+
+=item2  Date::Calendar::Maya::Astronomical
+implémentant la règle du même nom de la FAMSI
+
+=item2  Date::Calendar::Aztec
+implémentant la règle d'Alfonso Caso
+
+=item2  Date::Calendar::Aztec::Cortes
+implémentant la règle de Francisco Cortès
+
+=item1 Trois rôles
+
+=item2  Date::Calendar::MayaAztec
+(à la réflexion, pas besoin d'ajouter « ::Common »), implémentant le calendrier profane et le calendrier clérical
+
+=item2  Date::Calendar::Maya::Common
+implémentant le compte long et attribuant les synonymes I<Haab> et I<Tzolkin> aux calendriers profane et clérical
+
+=item2  Date::Calendar::Aztec::Common
+attribuant les synonymes I<xiupohualli> et I<tonalpohualli> aux calendriers profane et clérical
+
+=item1 Deux modules procéduraux
+
+=item2  Date::Calendar::Maya::Names
+=item2  Date::Calendar::Aztec::Names
 
 À suivre.
 

@@ -393,9 +393,9 @@ two-calendar system,  with a  clerical calendar,  or I<tonalpohualli>,
 similar to Tzolkin, and a  common calendar, or I<xiupohualli>, similar
 to Haab. Aztecs had nothing ressembling the Mayans' long count.
 
-For the conversion from Gregorian (or  other) to Mayan or Aztec, there
-are three opinions from the specialists: the Alfonso Caso method, with
-or without H.B. Nicholson's adjustment, or Francisco Cortes's method.
+For the conversion from Gregorian (or other) to Aztec, there are three
+opinions  from  the specialists:  the  Alfonso  Caso method,  with  or
+without  H.B. Nicholson's  adjustment, or  Francisco Cortes's  method.
 Here is a table showing how these methods work and differ.
 
   Gregorian        Caso               Caso          Francisco
@@ -429,10 +429,59 @@ and receive the number 12.
 Now,  in the  Aztec calendar,  which is  the first  month of  the year
 Izcalli or Cuauhuitlehua? And the last month, is it Tititl or Izcalli?
 So  I have  decided to  ignore  the "Caso  with Nicholson  adjustment"
-method, Izcalli will always be the  number 1 and Tititl will always be
-the number  18. By  the way,  Reingold and  Dershowitz too  ignore the
+method, Izcalli will  always be month number 1 and  Tititl will always
+be month number 18. By the way, Reingold and Dershowitz too ignore the
 method with  Nicholson's adjustment. They also  ignore Cortes' method,
 but there I differ from them.
+
+How do  we correlate the  Mayan calendar  to the others?  Reingold and
+Dershowitz  describe  two  rules, the  Goodman-Martinez-Thompson  rule
+(which  they  implement) and  the  Spinden  rule  (which they  do  not
+implement). Abigail's module C<Date::Maya>  gives three unnamed rules,
+but we  recognize the  Goodman-Martinez-Thompson rule and  the Spinden
+rule. We  find the same three  unnamed rules in Claus  Tøndering's FAQ
+(L<https://www.tondering.dk/claus/cal/maya.php>).  The  FAMSI  website
+(L<http://research.famsi.org/date_mayaLC.php>) suggest eight different
+rules. The default rule is the GMT  rule, which has nothing to do with
+the     Greenwich      Mean     Time,     but      which     represent
+Goodman-Martinez-Thompson.
+
+At first,  I will implement the  three rules suggested by  Abigail and
+Claus Tøndering.  Later, it  will still  be possible  to add  the five
+remaining rules mentionned by the FAMSI. So we will have
+
+=item1 Five classes
+
+=item2  Date::Calendar::Maya
+implementing the Goodman-Martinez-Thompson rule
+
+=item2  Date::Calendar::Maya::Spinden
+implementing the Spinden rule
+
+=item2  Date::Calendar::Maya::Astronomical
+implementing the rule with the same name
+
+=item2  Date::Calendar::Aztec
+implementing the Alfonso Caso rule
+
+=item2  Date::Calendar::Aztec::Cortes
+implementing the Francisco Cortes rule
+
+=item1 Three roles
+
+=item2  Date::Calendar::MayaAztec
+(no need to add "::Common"), implementing the civil and clerical calendars
+
+=item2  Date::Calendar::Maya::Common
+implementing the long count and giving the aliases I<Haab> and I<Tzolkin> to the civil and clerical calendars
+
+=item2  Date::Calendar::Aztec::Common
+giving the aliases I<xiupohualli> and I<tonalpohualli>  to the civil and clerical calendars
+
+=item1 Two procedural modules
+
+=item2  Date::Calendar::Maya::Names
+=item2  Date::Calendar::Aztec::Names
 
 To be continued
 
