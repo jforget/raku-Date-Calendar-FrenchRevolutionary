@@ -1,5 +1,5 @@
 use v6.c;
-class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.4> {
+class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
 
   my %month-names = 'fr' => <Vendémiaire   Brumaire  Frimaire
                              Nivôse        Pluviôse  Ventôse

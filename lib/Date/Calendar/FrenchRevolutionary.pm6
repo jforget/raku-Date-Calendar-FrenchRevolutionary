@@ -5,7 +5,7 @@ use Date::Calendar::FrenchRevolutionary::Common;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
-class    Date::Calendar::FrenchRevolutionary:ver<0.0.4>:auth<cpan:JFORGET>
+class    Date::Calendar::FrenchRevolutionary:ver<0.0.5>:auth<cpan:JFORGET>
     does Date::Calendar::FrenchRevolutionary::Common
     does Date::Calendar::Strftime {
 
