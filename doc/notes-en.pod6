@@ -41,7 +41,7 @@ Example:
   my Date $bastille-day does Date::Calendar::Hebrew
                         does Date::Calendar::Hijri
                         does Date::Calendar::FrenchRevolutionary
-                        does Date::Calendar::Mayan
+                        does Date::Calendar::Maya
             .= new(year => 2019, month => 7, day => 14);
 
 The first problem is the conflict between the methods of the various roles.
@@ -117,7 +117,7 @@ Another difference with Perl 5 is that there is no provision for
 localized string values: month names and the like. Maybe it was
 thought that the main purpose of this module would be to manage
 schedules, timetables and the like, for which we need the numerical
-values of the days and months but not their string localized values.
+values of the days and months but not their localized string values.
 
 For those interested in localized values, there is the CPAN6 module
 C<Date::Names>.
@@ -202,7 +202,7 @@ of dubious value. Firstly, I do not know how to trigger some code when
 an object attribute  is updated. Secondly, if the  module user updates
 the C<locale>  attribute several times in  a row without asking  for a
 month name or  a day name, several C<Date::Names>  instances will have
-been created  and all  of them  except the last  are useless.  But why
+been created and all of them except  the last one are useless. But why
 would a programmer do this?
 
 So  I  have decided  to  do  lazy  instantiation. When  the  C<locale>
@@ -211,7 +211,7 @@ nothing special. Each time the program asks  for a month name or a day
 name, the  C<Date::Calendar::Julian> object  first checks  whether the
 C<Date::Names> class was instantiated  and whether it was instantiated
 with  the   proper  value.   If  no,   the  object   instantiates  the
-C<Date::Names> class and caches the  new objet instance into a private
+C<Date::Names> class and caches the new object instance into a private
 attribute. It also stores the  current value of C<locale> into another
 private attribute, C<$!instantiated-locale>. Example
 
@@ -226,7 +226,7 @@ private attribute, C<$!instantiated-locale>. Example
   say $.day-name     en        de→en     Date::Names::en.new
   say $.month-name   en        en        Date::Names::en
 
-Since this  lazy instanciation method is  well in the Raku's  style, I
+Since this  lazy instantiation method is  well in the Raku's  style, I
 have not tried  to come back to the previous  solution of intercepting
 updates of C<$.locale> and instantiating C<Date::Names>.
 
@@ -260,24 +260,24 @@ translate an other date into French Revolutionary Calendar
 and also three  different functions or methods to
 translate an French Revolutionary date into another calendar.
 
-This is a bad idea. What happens if the other calendar has also three
-variants, like the Mayan calendar? Should we define 9 functions/ methods
-for each direction?
+This is a bad idea. What happens  if the other calendar has also three
+variants,  like  the Maya  calendar?  Should  we define  9  functions/
+methods for each direction?
 
-A second idea is defining only one function or method in each direction,
-using a parameter giving which variant to use. In the case of the
-French Revolutionary → Mayan conversion, we would have two parameters,
-the C<from_variant> parameter and the C<to_variant> parameter. These
-parameters would be optional and, in the cas of variantless calendars,
-ignored.
+A  second  idea is  defining  only  one  function  or method  in  each
+direction, using a parameter giving which  variant to use. In the case
+of  the French  Revolutionary →  Maya  conversion, we  would have  two
+parameters,  the  C<from_variant>   parameter  and  the  C<to_variant>
+parameter.  These parameters  would be  optional  and, in  the cas  of
+variantless calendars, ignored.
 
-This does not work either. Suppose we want to translate 22 Septembre 1795
-to French Revolutionary using the astronomical variant and then back
-to Gregorian using the arithmetic variant. The first step would result in
-"sextidi 6 sans-culottide III" (sixth additional day, which means that
-this is a leap year), and the second step would fail because according
-to the arithmetic rule, year III is a normal year, with only 5 additional
-days.
+This does not  work either. Suppose we want to  translate 22 September
+1795 to French  Revolutionary using the astronomical  variant and then
+back to Gregorian  using the arithmetic variant. The  first step would
+result in "sextidi 6 sans-culottide  III" (sixth additional day, which
+means  that this  is a  leap  year), and  the second  step would  fail
+because according to  the arithmetic rule, year III is  a normal year,
+with only 5 additional days.
 
 A third possibility is adding a  C<variant> attribute to the  French Revolutionary Calendar
 class to keep track of the variant used when creating the date object.
@@ -330,8 +330,8 @@ common structure:
 =item1 12 months of 30 days each
 =item1 followed by 5 or 6 additional days, called I<epagomenal days>.
 
-Leap years are years  multiple of 4, no matter if they  are at the end
-of a century or not.
+Leap years are years preceding a multiple of 4, or equal to 4 × n + 3,
+no matter if they are near the end of a century or not.
 
 There are two differences between these calendars:
 
@@ -363,15 +363,15 @@ reason  to call  it after  the Coptic  calendar while  belittleing the
 Ethiopic calendar.  And vice-versa. So  the distribution name  will be
 C<Date::Calendar::CopticEthiopic>.
 
-=head3 Mayan Calendar and Aztec Calendar
+=head3 Maya Calendar and Aztec Calendar
 
-The case of the Mayan Calendar  is similar to the French Revolutionary
+The case of  the Maya Calendar is similar to  the French Revolutionary
 calendar, because there  are several ways to convert  dates between it
 and the Gregorian calendar. It is also similar to the Coptic calendar,
 because it shares  many mechanisms with the Aztec  calendar, just like
-the Coptic calendar shares manu mechanisms with the Ethiopic calendar.
+the Coptic calendar shares many mechanisms with the Ethiopic calendar.
 
-Pedants  will argue  that  there  is not  I<one>  Mayan calendar,  but
+Pedants  will  argue that  there  is  not  I<one> Maya  calendar,  but
 I<three>:
 
 =item the  long count, using  embedded cycles  of length 20  (with one
@@ -384,14 +384,14 @@ numbers with a cycle of 20 names, e.g. 8 Cib
 =item the  common calendar,  or Haab, consisting  of 18  named months,
 each with 20 numbered days, plus 5 additional days. E.g. 4 Xul
 
-So the various date converters deal with the "Mayan calendars system",
+So the various date converters  deal with the "Maya calendars system",
 with an  "s" to  "calendars", but to  streamline the  explanations, we
-will talk about the Mayan calendar (with no "s").
+will talk about the Maya calendar (with no "s").
 
 It  is the  same, only  simpler, with  the Aztec  calendar. This  is a
 two-calendar system,  with a  clerical calendar,  or I<tonalpohualli>,
 similar to Tzolkin, and a  common calendar, or I<xiupohualli>, similar
-to Haab. Aztecs had nothing ressembling the Mayans' long count.
+to Haab. Aztecs had nothing ressembling the Mayas' long count.
 
 For the conversion from Gregorian (or other) to Aztec, there are three
 opinions  from  the specialists:  the  Alfonso  Caso method,  with  or
@@ -414,27 +414,27 @@ Here is a table showing how these methods work and differ.
   2019-10-19   15 Izcalli         20 Izcalli        18 Izcalli
   2019-10-20   16 Izcalli          1 Nemontemi      19 Izcalli
   2019-10-21   17 Izcalli          2 Nemontemi      20 Izcalli
-  2019-10-22   18 Izcalli          3 Nemontemi       1 Cuauhuitlehua
-  2019-10-23   19 Izcalli          4 Nemontemi       2 Cuauhuitlehua
-  2019-10-24   20 Izcalli          5 Nemontemi       3 Cuauhuitlehua
-  2019-10-25    1 Cuauhuitlehua    1 Cuauhuitlehua   4 Cuauhuitlehua
+  2019-10-22   18 Izcalli          3 Nemontemi       1 Atlcahualo
+  2019-10-23   19 Izcalli          4 Nemontemi       2 Atlcahualo
+  2019-10-24   20 Izcalli          5 Nemontemi       3 Atlcahualo
+  2019-10-25    1 Atlcahualo       1 Atlcahualo      4 Atlcahualo
 
 A small reminder  about the French Revolutionary,  Coptic and Ethiopic
 calendars:  the year  is  incremented after  the  last additional  day
-(sans-culottide and epagomene). So  the month following the additional
+(sans-culottide and epagomenal). So the month following the additional
 days is  the first month of  the year and  is given the number  1. The
 month just before these additional days  is the last month of the year
 and receive the number 12.
 
 Now,  in the  Aztec calendar,  which is  the first  month of  the year
-Izcalli or Cuauhuitlehua? And the last month, is it Tititl or Izcalli?
-So  I have  decided to  ignore  the "Caso  with Nicholson  adjustment"
-method, Izcalli will  always be month number 1 and  Tititl will always
-be month number 18. By the way, Reingold and Dershowitz too ignore the
-method with  Nicholson's adjustment. They also  ignore Cortes' method,
-but there I differ from them.
+Izcalli or Atlcahualo? And the last month, is it Tititl or Izcalli? So
+I have decided to ignore  the "Caso with Nicholson adjustment" method,
+Izcalli will always be month number  1 and Tititl will always be month
+number 18. By  the way, Reingold and Dershowitz too  ignore the method
+with  Nicholson's adjustment.  They  also ignore  Cortes' method,  but
+there I differ from them.
 
-How do  we correlate the  Mayan calendar  to the others?  Reingold and
+How do  we correlate  the Maya  calendar to  the others?  Reingold and
 Dershowitz  describe  two  rules, the  Goodman-Martinez-Thompson  rule
 (which  they  implement) and  the  Spinden  rule  (which they  do  not
 implement). Abigail's module C<Date::Maya>  gives three unnamed rules,

@@ -43,7 +43,7 @@ des rôles accolés à la classe C<Date>. Par exemple :
   my Date $quatorze-juillet does Date::Calendar::Hebrew
                             does Date::Calendar::Hijri
                             does Date::Calendar::FrenchRevolutionary
-                            does Date::Calendar::Mayan
+                            does Date::Calendar::Maya
             .= new(year => 2019, month => 7, day => 14);
 
 Le premier problème est le conflit de nom entre les méthodes des
@@ -349,8 +349,9 @@ très simples, avec la même structure :
 =item1 12 mois de trente jours
 =item1 suivis de 5 ou 6 jours complémentaires, dits « épagomènes ».
 
-Les années bisextiles sont les années divisibles par 4, qu'il s'agisse
-d'années séculaires ou non.
+Les années  bisextiles sont les  années précédant une  année divisible
+par 4,  c'est-à-dire de la  forme 4 × n  + 3, qu'il  s'agisse d'années
+séculaires ou non.
 
 Il y a deux différences entre ces deux calendriers :
 
@@ -437,10 +438,10 @@ correspondances.
   2019-10-19   15 Izcalli         20 Izcalli        18 Izcalli
   2019-10-20   16 Izcalli          1 Nemontemi      19 Izcalli
   2019-10-21   17 Izcalli          2 Nemontemi      20 Izcalli
-  2019-10-22   18 Izcalli          3 Nemontemi       1 Cuauhuitlehua
-  2019-10-23   19 Izcalli          4 Nemontemi       2 Cuauhuitlehua
-  2019-10-24   20 Izcalli          5 Nemontemi       3 Cuauhuitlehua
-  2019-10-25    1 Cuauhuitlehua    1 Cuauhuitlehua   4 Cuauhuitlehua
+  2019-10-22   18 Izcalli          3 Nemontemi       1 Atlcahualo
+  2019-10-23   19 Izcalli          4 Nemontemi       2 Atlcahualo
+  2019-10-24   20 Izcalli          5 Nemontemi       3 Atlcahualo
+  2019-10-25    1 Atlcahualo       1 Atlcahualo      4 Atlcahualo
 
 Rappel sur les calendriers républicain, copte et éthiopien : on change
 d'année  juste après  les  jours  complémentaires (sans-culottides  ou
@@ -449,13 +450,13 @@ on attribue le numéro 1. Le mois qui précède ces jours complémentaires
 est le dernier mois de l'année et prend le numéro 12.
 
 Dans  le cas  du  calendrier  aztèque, quel  est  le  premier mois  de
-l'année,  Izcalli ou  Cuauhuitlehua ?  Et le  dernier mois  de l'année
-est-il  Tititl ou  Izcalli ?  J'ai décidé  de faire  l'impasse sur  la
-méthode  de Caso  avec  l'ajustement de  Nicholson,  ce qui  permettra
-d'attribuer le numéro 1 à Izcalli et le numéro 18 à Tititl. Remarquons
-que Reingold et Dershowitz font eux  aussi l'impasse sur la méthode de
-Caso avec  l'ajustement de Nicholson.  Il font aussi l'impasse  sur la
-méthode de Cortes, mais là je ne les suis plus.
+l'année, Izcalli ou Atlcahualo ? Et  le dernier mois de l'année est-il
+Tititl ou Izcalli  ? J'ai décidé de faire l'impasse  sur la méthode de
+Caso avec l'ajustement  de Nicholson, ce qui  permettra d'attribuer le
+numéro 1 à  Izcalli et le numéro 18 à  Tititl. Remarquons que Reingold
+et Dershowitz  font eux aussi  l'impasse sur  la méthode de  Caso avec
+l'ajustement de Nicholson.  Il font aussi l'impasse sur  la méthode de
+Cortes, mais là je ne les suis plus.
 
 Quelles sont les règles de correspondances entre le calendrier maya et
 les  autres  calendriers ?  Reingold  et  Dershowitz mentionnent  deux
