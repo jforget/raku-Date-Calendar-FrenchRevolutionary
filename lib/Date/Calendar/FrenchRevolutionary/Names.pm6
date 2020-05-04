@@ -1,5 +1,6 @@
 use v6.c;
-class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
+
+unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5>;
 
   my %month-names = 'fr' => <Vendémiaire   Brumaire  Frimaire
                              Nivôse        Pluviôse  Ventôse
@@ -242,7 +243,7 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
                    # Fructidor
                    Q :ww/
                      plum                 millet          lycoperdon      barley          salmon
-                     tuberose             bere            dogbane         liquorice       stepladder      
+                     tuberose             bere            dogbane         liquorice       stepladder
                      watermelon           fennel          barberry        walnut          trout
                      lemon                teasel          buckthorn       marigold       "harvesting basket"
                     "wild rose"           hazelnut        hops            sorghum         crayfish
@@ -323,7 +324,6 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
     }
   }
 
-}
 
 =begin pod
 
@@ -345,7 +345,7 @@ Date::Calendar::FrenchRevolutionary::Names  is a  companion module  to
 Date::Calendar::FrenchRevolutionary,  giving  the French  and  English
 names for months and days.
 
-See the full documentation in the main module, 
+See the full documentation in the main module,
 C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
