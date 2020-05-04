@@ -197,8 +197,6 @@ The number of the I<décade> within the year, 1 to 31.
 
 =head3 strftime
 
-Work in progress.
-
 This method is  very similar to the homonymous functions  you can find
 in several  languages (C, shell, etc).  It also takes some  ideas from
 C<printf>-similar functions. For example
@@ -250,10 +248,17 @@ $d-dest-pull .= new-from-date($d-orig);
 
 =end code
 
-When converting I<from> Gregorian, use the pull style. When converting
-I<to> Gregorian, use the push style. When converting from any calendar
-other than Gregorian  to any other calendar other  than Gregorian, use
-the style you prefer.
+When converting  I<from> the core  class C<Date>, use the  pull style.
+When converting I<to> the core class C<Date>, use the push style. When
+converting from  any class other  than the  core class C<Date>  to any
+other  class other  than the  core class  C<Date>, use  the style  you
+prefer.
+
+Note: the  class C<Date::Calendar::Gregorian>  offers the same  API as
+the  other C<Class::Calendar::>R<xxx>  classes,  including the  choice
+between the  push style and  the pull style.  And it derives  from the
+core  class C<Date>,  so you  also have  all the  methods of  the core
+class.
 
 =head2 C<strftime> specifiers
 
