@@ -19,7 +19,7 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
   # (which gives a 0..n-1 result) and the calendrical modulus (which gives a 1..n result)
   my %day-names  = 'fr' => <Décadi Primidi Duodi    Tridi   Quartidi Quintidi Sextidi Septidi  Octidi  Nonidi  >
                  , 'en' => <Tenday Firsday Seconday Thirday Fourday  Fifday   Sixday  Sevenday Eightday Nineday>;
-		 ;
+                 ;
   my %day-abbr   = 'fr' => <Déc Pri Duo Tri Qua Qui Sex Sep Oct Non>
                  , 'en' => <Ten Fir Two Thi Fou Fif Six Sev Eig Nin>
                  ;
@@ -92,8 +92,8 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
                    Q :ww/
                       1rose             0chêne            1fougère          2aubépine         0rossignol
                       2ancolie          0muguet           0champignon       1hyacinthe        0râteau
-                      1rhubarbe         0sainfoin         0bâton-d'or       0chamérisier     '0ver à soie'
-                      1consoude         1pimprenelle      1corbeille-d'or   2arroche          0sarcloir
+                      1rhubarbe         0sainfoin        "0bâton-d'or"      0chamérisier     '0ver à soie'
+                      1consoude         1pimprenelle     "1corbeille-d'or"  2arroche          0sarcloir
                       0staticé          1fritillaire      1bourrache        1valériane        1carpe
                       0fusain           1civette          1buglosse         0sénevé           1houlette
                    /,
@@ -169,39 +169,39 @@ class Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5> {
                    /,
                    # Nivôse
                    Q :ww/
-                     peat                 coal              bitumen               sulphur         dog
-                     lava                 topsoil           manure                saltpeter       flail
-                     granite              clay              slate                 sandstone       rabbit
-                     flint                marl              limestone             marble         "winnowing basket"
-                     gypsum               salt              iron                  copper          cat
-                     tin                  lead              zinc                  mercury         sieve
+                     peat                 coal                      bitumen               sulphur         dog
+                     lava                 topsoil                   manure                saltpeter       flail
+                     granite              clay                      slate                 sandstone       rabbit
+                     flint                marl                      limestone             marble         "winnowing basket"
+                     gypsum               salt                      iron                  copper          cat
+                     tin                  lead                      zinc                  mercury         sieve
                    /,
                    # Pluviôse
                    Q :ww/
-                    "spurge laurel"       moss             "butcher's broom"	  snowdrop                bull
-                     laurustinus         "tinder polypore"  mezereon        	 "poplar tree"            axe
-                     hellebore            broccoli          laurel          	 "common hazel"           cow
-                    "box tree"            lichen            yew tree        	  lungwort                billhook
-                     penny-cress          daphne            couch grass     	 "common knotgrass"       hare
-                     woad                "hazel tree"       cyclamen        	  celandine               sleigh
+                    "spurge laurel"       moss                     "butcher's broom"      snowdrop                bull
+                     laurustinus         "tinder polypore"          mezereon             "poplar tree"            axe
+                     hellebore            broccoli                  laurel               "common hazel"           cow
+                    "box tree"            lichen                   "yew tree"             lungwort                billhook
+                     penny-cress          daphne                   "couch grass"         "common knotgrass"       hare
+                     woad                "hazel tree"               cyclamen              celandine               sleigh
                    /,
                    # Ventôse
                    Q :ww/
-                     coltsfoot            dogwood                  "?hoary stock"     privet          billygoat
-                    "wild ginger"        "mediterranean buckthorn"  violet           "goat willow"    spade
-                     narcissus           "elm tree"                 fumitory         "hedge mustard"  goat
-                     spinach             "leopard's bane"           pimpernel         chervil         line
-                     mandrake             parsley                   scurvy-grass      daisy          "tuna fish"
-                     dandelion            windflower               "maidenhair fern" "ash tree"       dibble
+                     coltsfoot            dogwood                  "?hoary stock"         privet          billygoat
+                    "wild ginger"        "mediterranean buckthorn"  violet               "goat willow"    spade
+                     narcissus           "elm tree"                 fumitory             "hedge mustard"  goat
+                     spinach             "leopard's bane"           pimpernel             chervil         line
+                     mandrake             parsley                   scurvy-grass          daisy          "tuna fish"
+                     dandelion            windflower               "maidenhair fern"     "ash tree"       dibble
                    /,
                    # Germinal
                    Q :ww/
-                     primula             "plane tree"     asparagus       tulip           hen
-                     chard               "birch tree"     daffodil        alder           hatchery
-                     periwinkle           hornbeam        morel          "beech tree"     bee
-                     lettuce              larch           hemlock         radish          hive
-                     ?redbud             "roman lettuce" "chestnut tree"  rocket          pigeon
-                     lilac                anemone         pansy           blueberry       dibber
+                     primula             "plane tree"               asparagus       tulip           hen
+                     chard               "birch tree"               daffodil        alder           hatchery
+                     periwinkle           hornbeam                  morel          "beech tree"     bee
+                     lettuce              larch                     hemlock         radish          hive
+                     ?redbud             "roman lettuce"           "chestnut tree"  rocket          pigeon
+                     lilac                anemone                   pansy           blueberry       dibber
                    /,
                    # Floréal
                    Q :ww/
