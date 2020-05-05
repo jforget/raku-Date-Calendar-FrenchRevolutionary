@@ -52,7 +52,7 @@ divers rôles. Si nous codons :
   say $quatorze-juillet.month-name
 
 obtiendrons-nous C<Tammuz>, C<Dhu al-Qada> ou C<Messidor> ?
-D'accord, il suffit de lire la page 226 et les suivantes de 
+D'accord, il suffit de lire la page 226 et les suivantes de
 I<Learning Perl 6> et l'on apprend que l'on peut écrire :
 
   say $quatorze-juillet.month-name( Date::Calendar::FrenchRevolutionary );
@@ -94,8 +94,8 @@ moins nous ne sommes pas bloqués.
 Pendant que j'écrivais le module de calendrier républicain, j'ai
 trouvé un argument supplémentaire. L'utilisation d'années négatives
 (ou av J.C.) est justifiée pour le calendrier julien et le calendrier
-grégorien (même en considérant que le calendrier grégorien a pris 
-effet le 15 octobre 1582), ce n'est pas le cas pour les autres 
+grégorien (même en considérant que le calendrier grégorien a pris
+effet le 15 octobre 1582), ce n'est pas le cas pour les autres
 calendriers. Ainsi, le calendrier républicain a pour origine des
 temps le 22 septembre 1792 et il n'y a alors aucune raison d'autoriser
 l'objet 21 septembre 1792 à utiliser les méthodes du rôle
@@ -135,7 +135,7 @@ et utiliser C<Date::Names> disponible sur CPAN6.
 
 =head2 Calendrier simple
 
-Comme exemple de calendrier simple, je prendrai le calendrier hébraïque. 
+Comme exemple de calendrier simple, je prendrai le calendrier hébraïque.
 La simplicité concerne l'architecture du module, pas les algorithmes
 de conversion. Il n'y a pas de variante pour le calendrier hébraïque,
 donc de ce point de vue c'est un calendrier simple.
@@ -349,16 +349,17 @@ très simples, avec la même structure :
 =item1 12 mois de trente jours
 =item1 suivis de 5 ou 6 jours complémentaires, dits « épagomènes ».
 
-Les années  bisextiles sont les  années précédant une  année divisible
-par 4,  c'est-à-dire de la  forme 4 × n  + 3, qu'il  s'agisse d'années
-séculaires ou non.
+Les années bissextiles  sont les années précédant  une année divisible
+par 4, c'est-à-dire de la forme 4  × n + 3, qu'il s'agisse d'années au
+voisinage d'un changement de siècle ou non.
 
 Il y a deux différences entre ces deux calendriers :
 
 =item1 de façon évidente, les noms des jours et des mois,
 
 =item et  la correspondance avec les  autres calendriers, c'est-â-dire
-la date (grégorienne par exemple) du jour 0001-01-01.
+la date (grégorienne par exemple) de la date copte 0001-01-01 et celle
+de la date éthiopienne 0001-01-01.
 
 Les  nombreuses  similitudes entre  les  deux  calendriers incitent  à
 partager le code entre les deux modules.  Nous aurons ainsi :
@@ -509,7 +510,55 @@ attribuant les synonymes I<xiupohualli> et I<tonalpohualli> aux calendriers prof
 =item2  Date::Calendar::Maya::Names
 =item2  Date::Calendar::Aztec::Names
 
-À suivre.
+=head1 Après Coup
+
+Finalement, l'architecture  que j'ai imaginée  il y a quelques  mois a
+l'air de  tenir la route.  Ce n'est  pas forcément la  meilleure, mais
+elle convient. J'ai un léger doute sur la séparation entre les modules
+annexes  C<Calendar::>R<xxx>C<::Names>   et  les   modules  principaux
+C<alendar::>R<xxx>.
+
+Mais j'ai eu  des surprises, des points auxquels je  n'avais pas pensé
+ou pour lesquels j'avais envisagé une autre solution, moins élégante.
+
+Le premier point est la méthode C<strftime>. Au début, je pensais être
+obligé  de la  dupliquer  d'un  module à  l'autre,  bafouant ainsi  le
+principe I<DRY>.  Et puis un  jour, j'ai  réalisé que je  pouvais très
+bien écrire  un role indépendant, installable  séparément et appelable
+par les différents calendriers.  Il suffisait juste d'adopter quelques
+conventions, notamment  sur les noms  de méthodes et sur  la structure
+d'une table de dispatch.
+
+L'autre  point que  je n'avais  pas prévu,  c'est que  parmi tous  les
+modules que  j'écrirais, il y  aurait le calendrier grégorien.  Dès le
+début, les  conversions vers la  classe C<Date>  ou à partir  de cette
+classe  étaient  prévues. En  revanche,  lorsque  j'ai écrit  le  rôle
+C<Date::Calendar::Strftime>,   dans   ma    première   idée,   il   ne
+s'appliquerait pas  à la classe  C<Date>. Puis après  quelques essais,
+j'ai  constaté  qu'avec   quelques  instructions  supplémentaires,  un
+programmeur pouvait coller  ce rôle à la classe  C<Date> et bénéficier
+au moins de l'affichage des données numériques, même si ce n'était pas
+le cas pour les données alphabétiques (noms des jours et des mois).
+
+Si l'on veut  un support complet de C<strftime> dans  C<Date>, il faut
+écrire un  peu plus de  code, notamment les méthodes  C<month-name> et
+C<day-name>  et gérer  un nouvel  attribut C<locale>  pour changer  si
+nécessaire de langage.  Donc, au lieu de laisser  à chaque programmeur
+le soin d'écrire  ces nouvelles méthodes, j'ai réalisé  que je pouvais
+le  faire  à  leur  place,  en  créant  I<mon>  module  de  calendrier
+grégorien. Pour  créer ce  module, bien sûr,  je respecte  le principe
+I<DRY> et je déclare que ma classe C<Date::Calendar::Gregorian> hérite
+de  la  classe standard  C<Date>.  Je  n'avais  plus qu'à  ajouter  un
+attribut C<locale> ainsi que quelques méthodes pour les conversions de
+date et  pour avoir  les noms des  mois et de  jours. Et  réécrire les
+méthodes C<new> pour  y inclure le nouvel attribut  C<locale>. Éh bien
+non, ce dernier point n'était  même pas nécessaire. Heureusement, j'ai
+écrit les  tests avant d'adapter le  module. J'ai écrit les  tests, je
+les ai exécutés et  à ma grande stupeur, il n'y a  eu aucune erreur là
+où j'en attendais  beaucoup. Ainsi, l'appel d'une  méthode C<new> avec
+le  paramètre C<locale>  permet d'alimenter  l'attribut homonyme  sans
+avoir besoin d'écrire quoi que ce  soit dans la classe mère C<Date> ou
+dans la classe fille C<Date::Calendar::Gregorian>.
 
 =head1 Licence
 

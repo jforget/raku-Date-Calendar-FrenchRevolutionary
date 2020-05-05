@@ -483,7 +483,56 @@ giving the aliases I<xiupohualli> and I<tonalpohualli>  to the civil and clerica
 =item2  Date::Calendar::Maya::Names
 =item2  Date::Calendar::Aztec::Names
 
-To be continued
+=head1 In Hindsight
+
+After having  implemented the calendars  mentioned above, I  find that
+the architecture I have designed is a correct one. Not necessarily the
+best one,  but good enough.  I am still  not sure about  splitting the
+C<Calendar::>R<xxx>C<::Names>  modules  from  the  corresponding  main
+class C<Calendar::>R<xxx>, but it works.
+
+But there  are things  I had  not foreseen, or  for which  my original
+intention would have led to a bad design.
+
+The first point is the C<strftime> method. At first, I thought I would
+have to write different, yet  similar, methods for each calendar, thus
+trampling the  DRY principle. Then  I realised  that I could  write an
+independent  role  with  just  this  method,  released  and  installed
+separately from  the calendar classes,  and the various  classes would
+just invoke  this role. All  I needed was to  define some kind  of API
+with  common  names for  the  calendar  class  methods and  a  precise
+structure for a dispatch table.
+
+The other point I discovered while writing my modules is that it would
+be a good idea to write a  Gregorian calendar module, even if there is
+already  the  core class  C<Date>.  Since  the  beginning, I  had  the
+intention  to make  my  conversions methods  compatible with  C<Date>,
+hence the "push  style" and the "pull style". On  the other hand, even
+after     defining    C<strftime>     as    an     independant    role
+C<Date::Calendar::Strftime>,  I did  not  bother  to make  C<strftime>
+compatible with  C<Date>. I  still made some  checks and  I discovered
+that  by  writing a  few  additional  lines,  a programmer  could  use
+C<strftime> with standard dates and get at least the numerical values.
+The alphabetic values (month names and day names) were still lacking.
+
+If we want a complete support of C<strftime> in C<Date>, we must write
+some  additional code,  especially a  C<month-name> and  a C<day-name>
+methods, plus the management of  a new C<locale> attribute. Instead of
+requesting  every user  of  my  C<Date::Calendar::Strftime> module  to
+write  this additional  code, I  realised that  I could  write it  and
+release it as  a new class C<Date::Calendar::Gregorian>.  Of course, I
+would follow  the DRY  principle and  my class  would inherit  all the
+stuff of C<Date>. I had only to add conversion methods, and getters to
+give the month names and the day  names. Oh, and also tweak the C<new>
+methods  to allow  a C<locale>  parameter which  would initialize  the
+homonymous attribute. Well,  no, it was not  necessary. Fortunately, I
+wrote the  tests before changing  the module.  I wrote the  tests, ran
+them, and  I was  astonished (and  glad) to  see absolutely  no errors
+where I expected a whole truckload of them. So calling a C<new> method
+from  the class  C<Date>  with  a C<locale>  parameter  would have  no
+problems  at  all with  storing  this  parameter into  the  homonymous
+atribute, without having to change a  line in the parent C<Date> class
+nor in the child C<Date::Calendar::Gregorian> class.
 
 =head1 License
 
