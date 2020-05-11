@@ -375,8 +375,9 @@ Converting from a Gregorian date to a French Revolutionary date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
-my  Date                                              $Bonaparte's-coup-gr;
-my  Date::Calendar::FrenchRevolutionary::Astronomical $Bonaparte's-coup-fr;
+my  Date $Bonaparte's-coup-gr;
+my  Date::Calendar::FrenchRevolutionary::Astronomical
+         $Bonaparte's-coup-fr;
 
 $Bonaparte's-coup-gr .= new(1799, 11, 9);
 $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
@@ -393,8 +394,9 @@ Converting from a French Revolutionary date to a Gregorian date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
-my  Date::Calendar::FrenchRevolutionary::Astronomical $Robespierre's-downfall-frv:
-my  Date                                              $Robespierre's-downfall-grg;
+my  Date::Calendar::FrenchRevolutionary::Astronomical
+         $Robespierre's-downfall-frv;
+my  Date $Robespierre's-downfall-grg;
 
 $Robespierre's-downfall-frv .= new(year =>  2, month => 11, day =>  9);
 $Robespierre's-downfall-grg  = $Robespierre's-downfall-frv.to-date;

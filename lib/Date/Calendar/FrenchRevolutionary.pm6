@@ -49,10 +49,13 @@ Converting from a Gregorian date to a French Revolutionary date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary;
-my Date                                $Bonaparte's-coup-gr;
-my Date::Calendar::FrenchRevolutionary $Bonaparte's-coup-fr;
+my Date $Bonaparte's-coup-gr;
+my Date::Calendar::FrenchRevolutionary
+        $Bonaparte's-coup-fr;
+
 $Bonaparte's-coup-gr .= new(1799, 11, 9);
 $Bonaparte's-coup-fr .= new-from-date($Bonaparte's-coup-gr);
+
 say $Bonaparte's-coup-fr;
 # ---> "0008-02-18" for 18 Brumaire VIII
 say "{.day-name} {.day} {.month-name} {.year} {.feast-long}" with  $Bonaparte's-coup-fr;
@@ -67,10 +70,13 @@ Converting from a  French Revolutionary date to a Gregorian date
 =begin code :lang<perl6>
 
 use Date::Calendar::FrenchRevolutionary;
-my Date::Calendar::FrenchRevolutionary $Robespierre's-downfall-fr;
-my Date                                $Robespierre's-downfall-gr;
+my  Date::Calendar::FrenchRevolutionary
+        $Robespierre's-downfall-fr;
+my Date $Robespierre's-downfall-gr;
+
 $Robespierre's-downfall-fr .= new(year => 2, month => 11, day => 9);
 $Robespierre's-downfall-gr =  $Robespierre's-downfall-fr.to-date;
+
 say $Robespierre's-downfall-gr;
 # ---> "1794-07-27" for 27th July 1794
 
@@ -420,17 +426,15 @@ valid over this whole period. But I  have no idea when the common Lisp
 program becomes inaccurate and generates  errors. As a pure guesswork,
 I will suppose it will be rather accurate during five centuries or so.
 
-=head2 TODO
-
-The F<Date::Calendar::FrenchRevolutionary::Names> module should not be
-a class, but a simple procedural package.
-
 =head1 SEE ALSO
 
 =head2 Raku Software
 
 L<Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
+
+L<Date::Calendar::Gregorian>
+or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
 L<Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
@@ -440,6 +444,9 @@ or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
 L<Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
+
+L<Date::Calendar::MayaAztec>
+or L<https://github.com/jforget/raku-Date-Calendar-MayaAztec>
 
 =head2 Perl 5 Software
 
