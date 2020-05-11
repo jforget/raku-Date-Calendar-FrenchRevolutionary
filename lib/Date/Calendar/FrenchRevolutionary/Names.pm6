@@ -1,6 +1,6 @@
 use v6.c;
 
-unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.5>;
+unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.6>;
 
   my %month-names = 'fr' => <Vendémiaire   Brumaire  Frimaire
                              Nivôse        Pluviôse  Ventôse

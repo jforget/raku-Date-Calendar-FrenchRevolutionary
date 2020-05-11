@@ -28,8 +28,8 @@
     , "calendar"
     , "fun"
   ],
-  "test-depends" : [ 
+  "test-depends" : [
       "Test::META"
   ],
-  "version" : "0.0.5"
+  "version" : "0.0.6"
 }

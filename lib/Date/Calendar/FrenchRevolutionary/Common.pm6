@@ -1,6 +1,6 @@
 use v6.c;
 use Date::Calendar::FrenchRevolutionary::Names;
-role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.5>:auth<cpan:JFORGET> {
+role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.6>:auth<cpan:JFORGET> {
 
   has Int $.year  where { $_ ≥ 1 };
   has Int $.month where { 1 ≤ $_ ≤ 13 };
@@ -212,7 +212,7 @@ Date::Calendar::FrenchRevolutionary is a module defining a role
 which is shared by the three variants of the
 Date::Calendar::FrenchRevolutionary class.
 
-See the full documentation in the main module, 
+See the full documentation in the main module,
 C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
