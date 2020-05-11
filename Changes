@@ -1,7 +1,9 @@
 Revision history for Date-Calendar-FrenchRevolutionary
 
-0.0.5, released on...
-    - ...
+0.0.5, released on Tridi 23 Floréal CCXXVIII, jour de la Bourrache (or Monday 11 May 2020)
+    - Fix a bug about the feasts in Floréal.
+    - More documentation, more designer's notes.
+    - Do not declare a class when a simple module would be enough (D::C::FR::Names).
 
 0.0.4, released on Sextidi 16 Ventôse CCXXVIII, jour des épinards (or Thursday 5 March 2020)
     - The Github repository is renamed with a "raku-" prefix
