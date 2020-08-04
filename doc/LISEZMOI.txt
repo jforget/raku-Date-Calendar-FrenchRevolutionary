@@ -1,0 +1,11 @@
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+
+Ce  répertoire  contient des  notes  du  concepteur pour  I<tous>  les
+modules Raku de  calendrier, et pas seulement le  module de calendrier
+républicain.
+
+Ces notes  sont écrites avec  le jeu de  balises prévu pour  le format
+POD6 documentant les  modules et programmes Raku. Ce  format n'est pas
+encore  reconnu par  Github. Vous  devrez donc  cliquer sur  le bouton
+I<Raw> pour afficher le texte source  brut, qui est plus facile à lire
+que le texte source mis en page avec un formatteur inapproprié.

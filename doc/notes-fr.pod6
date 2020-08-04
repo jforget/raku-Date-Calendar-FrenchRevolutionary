@@ -6,17 +6,20 @@
 
 =head2 Préliminaire
 
-Il est préférable de faire référence à des exemples plutôt
-que d'utiliser des données génériques. Pour ce faire, j'utiliserai
-les dates suivantes (le 14 juillet de cette année) :
+Si vous affichez  ce texte sous Github, il est  préférable de demander
+l'affichage brut (bouton I<raw>) que l'affichage par défaut.
+
+Il  est  préférable de  faire  référence  à  des exemples  plutôt  que
+d'utiliser  des données  génériques. Pour  ce faire,  j'utiliserai les
+dates suivantes (le 14 juillet 2019) :
 
   Dimanche 14 juillet 2019
   Sunday 14 July 2019
-  11 Tammuz 5779
+  Yom Rishon 11 Tammuz 5779
   11 Dhu al-Qada 1440
   Sextidi 26 Messidor 227
-  Abib 7, 1735
-  Hamle 7, 2011
+  Tkyriakē 7 Epip 1735
+  Segno 7 Ḥamle 2011
   13.0.6.11.16, 8 Cib, 4 Xul
 
 =head2 Buts
