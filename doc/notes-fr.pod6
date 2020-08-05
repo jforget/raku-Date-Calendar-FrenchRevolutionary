@@ -546,6 +546,20 @@ aztèque, c'était « D'accord, vous pourrez construire une date avec les
 valeurs du I<calendar round>, mais vous ne pourrez pas la convertir en
 autre chose. ».
 
+Avant d'examiner la version 0.0.2 du module Maya-Aztèque, faisons une
+parenthèse pour examiner le MJD (I<Modified Julian Day number>) dans les autres modules
+de calendrier. À l'origine,
+c'était implémenté par une méthode C<daycount> qui recalcule le MJD
+à chaque invocation en fonction de l'année, du mois et du jour. Puis je me suis
+rendu compte qu'il était plus judicieux d'implémenter le MJD par un
+attribut C<daycount> stocké dans l'instance de date. Pas besoin de le
+calculer si la date est créée par conversion d'une date d'un autre calendrier,
+et le calcul se fera une fois et une seule si la date est créée en fournissant
+l'année, le mois et le jour. C'est ainsi que cela se passe dans tous les
+autres modules de calendrier, sauf le calendrier républicain pour lequel
+j'ai oublié de le faire et le calendrier grégorien parce que je repose
+sur l'implémentation de la classe standard C<Date>.
+
 =head1 Après Coup
 
 Finalement, l'architecture  que j'ai imaginée  il y a quelques  mois a

@@ -514,6 +514,19 @@ round values,  when you can build  it with long count?"  and for Aztec
 dates, it was "you can build an Aztec date with calendar round values,
 but you will not be able to convert it to anything else".
 
+Before examining version 0.0.2 of the Maya Aztec module, here is a sidenote
+about the MJD (Modified Julian Day number) in the other calendar modules.
+Initially, my intention was to implement the MJD with a C<daycount>
+method, which would compute the MJD each time it was called.
+Then I realised it was more efficient to implement the MJD as a
+C<daycount> attribute, stored inside the object. No need to compute
+it if the date is created by conversion from another calendar, and
+it needs to be computed only once if the date is built from the year,
+month and day values. This is the way the MJD is implemented in every
+calendar module, except the French Revolutionary calendar (I have forgotten
+to fix it) and the Gregorian calendar (I rely on the implementation
+in the core class C<Date>).
+
 =head1 In Hindsight
 
 After having  implemented the calendars  mentioned above, I  find that
