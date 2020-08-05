@@ -218,16 +218,16 @@ C<Date::Names> class and caches the new object instance into a private
 attribute. It also stores the  current value of C<locale> into another
 private attribute, C<$!instantiated-locale>. Example
 
-  code               $.locale  $!inst-l  $!date-names
-  $.locale = 'en'    en        empty     empty
-  $.locale = 'fr'    fr        empty     empty
-  $.locale = 'de'    de        empty     empty
-  say $.month-name   de        empty→de  Date::Names::de.new
-  say $.day-name     de        de        Date::Names::de
-  $.locale = 'it'    it        de        Date::Names::de
-  $.locale = 'en'    en        de        Date::Names::de
-  say $.day-name     en        de→en     Date::Names::en.new
-  say $.month-name   en        en        Date::Names::en
+  code               $.locale  $!inst-loc  $!date-names
+  $.locale = 'en'    en        empty       empty
+  $.locale = 'fr'    fr        empty       empty
+  $.locale = 'de'    de        empty       empty
+  say $.month-name   de        empty → de  Date::Names::de.new
+  say $.day-name     de        de          Date::Names::de
+  $.locale = 'it'    it        de          Date::Names::de
+  $.locale = 'en'    en        de          Date::Names::de
+  say $.day-name     en        de → en     Date::Names::en.new
+  say $.month-name   en        en          Date::Names::en
 
 Since this  lazy instantiation method is  well in the Raku's  style, I
 have not tried  to come back to the previous  solution of intercepting
@@ -514,18 +514,36 @@ round values,  when you can build  it with long count?"  and for Aztec
 dates, it was "you can build an Aztec date with calendar round values,
 but you will not be able to convert it to anything else".
 
-Before examining version 0.0.2 of the Maya Aztec module, here is a sidenote
-about the MJD (Modified Julian Day number) in the other calendar modules.
-Initially, my intention was to implement the MJD with a C<daycount>
-method, which would compute the MJD each time it was called.
-Then I realised it was more efficient to implement the MJD as a
-C<daycount> attribute, stored inside the object. No need to compute
-it if the date is created by conversion from another calendar, and
-it needs to be computed only once if the date is built from the year,
-month and day values. This is the way the MJD is implemented in every
-calendar module, except the French Revolutionary calendar (I have forgotten
-to fix it) and the Gregorian calendar (I rely on the implementation
-in the core class C<Date>).
+Before examining  version 0.0.2 of  the Maya  Aztec module, here  is a
+sidenote  about the  MJD (Modified  Julian  Day number)  in the  other
+calendar modules.  Initially, my  intention was  to implement  the MJD
+with a C<daycount> I<method>, which would compute the MJD each time it
+was called. Then I realised it was more efficient to implement the MJD
+as a  C<daycount> I<attribute>, stored  inside the object. No  need to
+compute it if the date is created by conversion from another calendar,
+and it needs  to be computed only  once if the date is  built from the
+year, month and day values. This is  the way the MJD is implemented in
+every  calendar module,  except the  French Revolutionary  calendar (I
+have forgotten  to fix it) and  the Gregorian calendar (I  rely on the
+implementation in the core class C<Date>).
+
+So I decided to include a  C<daycount> attribute in Aztec dates, which
+allows conversions I<from> Aztec. How  is this attribute filled? For a
+conversion to  Aztec, no problem,  just copy the C<daycount>  from the
+source  date. For  building with  calendar  round values,  how do  you
+compute an  inifinite number of  results when  you have at  most 18980
+different  input combinations?  I have  taken a  idea I  have seen  in
+Reingold and Dershowitz's F<calendar.l> and  maybe elsewhere (I do not
+remember). The Lisp function (or the Raku constructor) receives one of
+the 18980 combinations of calendar round values, plus a reference date
+from another calendar  and it computes the date  matching the calendar
+round values, I<on or before> the reference date. I have used the same
+idea for building  an Aztec date, except that "on  or before" does not
+seem a natural  choice for me, so  I allow the user  to choose another
+relation,  such  as  "on  or   after"  or  "nearest".  And  thanks  to
+code-sharing, I implemented a similar  method to build Maya dates from
+calendar round values.
+
 
 =head1 In Hindsight
 

@@ -191,7 +191,7 @@ prenant un exemple  tiré du calendrier républicain,  changer « Sextidi
 of  sage  »  est  une  modification  cosmétique  et  superficielle  de
 l'instance de  date, changer «  Sextidi 26 Messidor  227 , jour  de la
 sauge»  en  «  Septidi 27  Messidor  227,  jour  de  l'ail »  est  une
-modification profonde et essentielle de l'instance.
+modification profonde de l'instance touchant à son essance même.
 
 =head3 Autre calendrier multilingue, le calendrier julien
 
@@ -237,20 +237,20 @@ C<Date::Calendar::Julian>. Il  stocke également la valeur  actuelle de
 C<locale>  dans  un   autre  attribut  privé,  C<instantiated-locale>.
 Exemple
 
-  code               $.locale  $!inst-l  $!date-names
-  $.locale = 'en'    en        vide      vide
-  $.locale = 'fr'    fr        vide      vide
-  $.locale = 'de'    de        vide      vide
-  say $.month-name   de        vide→de   Date::Names::de.new
-  say $.day-name     de        de        Date::Names::de
-  $.locale = 'it'    it        de        Date::Names::de
-  $.locale = 'en'    en        de        Date::Names::de
-  say $.day-name     en        de→en     Date::Names::en.new
-  say $.month-name   en        en        Date::Names::en
+  code               $.locale  $!inst-loc  $!date-names
+  $.locale = 'en'    en        vide        vide
+  $.locale = 'fr'    fr        vide        vide
+  $.locale = 'de'    de        vide        vide
+  say $.month-name   de        vide → de   Date::Names::de.new
+  say $.day-name     de        de          Date::Names::de
+  $.locale = 'it'    it        de          Date::Names::de
+  $.locale = 'en'    en        de          Date::Names::de
+  say $.day-name     en        de → en     Date::Names::en.new
+  say $.month-name   en        en          Date::Names::en
 
 Ce système d'instanciation paresseuse est  bien dans le style de Raku,
 donc  je n'ai  pas cherché  à approfondir  la solution  précédente qui
-consistait  à  intercepter les  mises  à  jour  de C<$.locale>  et  en
+aurait consisté  à intercepter les mises  à jour de C<$.locale>  et en
 profiter pour instancier C<Date::Names>.
 
 =head2 Calendriers avec variantes
@@ -546,19 +546,42 @@ aztèque, c'était « D'accord, vous pourrez construire une date avec les
 valeurs du I<calendar round>, mais vous ne pourrez pas la convertir en
 autre chose. ».
 
-Avant d'examiner la version 0.0.2 du module Maya-Aztèque, faisons une
-parenthèse pour examiner le MJD (I<Modified Julian Day number>) dans les autres modules
-de calendrier. À l'origine,
-c'était implémenté par une méthode C<daycount> qui recalcule le MJD
-à chaque invocation en fonction de l'année, du mois et du jour. Puis je me suis
-rendu compte qu'il était plus judicieux d'implémenter le MJD par un
-attribut C<daycount> stocké dans l'instance de date. Pas besoin de le
-calculer si la date est créée par conversion d'une date d'un autre calendrier,
-et le calcul se fera une fois et une seule si la date est créée en fournissant
-l'année, le mois et le jour. C'est ainsi que cela se passe dans tous les
-autres modules de calendrier, sauf le calendrier républicain pour lequel
-j'ai oublié de le faire et le calendrier grégorien parce que je repose
-sur l'implémentation de la classe standard C<Date>.
+Avant d'examiner la version 0.0.2  du module Maya-Aztèque, faisons une
+parenthèse pour examiner  le MJD (I<Modified Julian  Day number>) dans
+les autres modules de calendrier.  À l'origine, c'était implémenté par
+une I<méthode> C<daycount> qui recalcule le MJD à chaque invocation en
+fonction de l'année, du mois et du  jour. Puis je me suis rendu compte
+qu'il était  plus judicieux  d'implémenter le  MJD par  un I<attribut>
+C<daycount> stocké dans l'instance de  date. Pas besoin de le calculer
+si la date est créée par  conversion d'une date d'un autre calendrier,
+et le  calcul se fera une  fois et une seule  si la date est  créée en
+fournissant l'année, le mois et le jour. C'est ainsi que cela se passe
+dans  tous  les  autres  modules de  calendrier,  sauf  le  calendrier
+républicain  pour lequel  j'ai oublié  de  le faire  et le  calendrier
+grégorien  parce  que je  repose  sur  l'implémentation de  la  classe
+standard C<Date>.
+
+J'ai donc décidé d'ajouter un attribut C<daycount> aux dates aztèques,
+ce qui permet de convertir  I<à partir> du calendrier aztèque. Comment
+cet  attribut est-il  alimenté ?  Pour une  date créée  par conversion
+d'une  date d'un  autre calendrier,  c'est simplissime,  il suffit  de
+recopier la valeur  de C<daycount> provenant de la  date origine. Pour
+une date créée  à partir des valeurs du I<calendar  round>, c'est plus
+délicat, car il  n'y a que 18980 combinaisons possibles  de valeurs du
+I<calendar round> et  le calcul est censé fournir un  nombre infini de
+valeurs.  Je me  suis  inspiré d'une  idée que  j'ai  trouvée dans  le
+fichier  F<calendar.l> de  Reingold  et Dershowitz  et peut-être  dans
+d'autres sources (je ne me souviens  plus très bien). La fonction lisp
+(ou le constructeur Raku) reçoit  l'une des 18980 combinaisons valides
+du I<calendar round>,  plus une date de référence et  calcule alors la
+valeur correspondant au I<calendar round> et située I<en même temps ou
+avant>  la date  de  référence.  J'ai utilisé  le  même principe  pour
+construire une date aztèque, sauf que le paramètre C<on-or-before> (en
+même temps  ou avant) ne me  paraît pas très naturel,  donc j'ai admis
+des  variantes  comme  C<on-or-after>  (en même  temps  ou  après)  ou
+C<nearest>  (au  plus proche).  Et  grâce  au  partage de  code,  j'ai
+implémenté  un constructeur  similaire pour  créer des  dates mayas  à
+partir des valeurs du I<calendar round>.
 
 =head1 Après Coup
 
