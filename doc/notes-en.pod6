@@ -486,6 +486,34 @@ giving the aliases I<xiupohualli> and I<tonalpohualli>  to the civil and clerica
 =item2  Date::Calendar::Maya::Names
 =item2  Date::Calendar::Aztec::Names
 
+=head3 About Cyclic Calendars
+
+While most calendars have a year number ranging from 1 to the infinite
+some calendars  have a cyclic  value. This is  the case with  the Maya
+long count, with a cycle of about 7885 years (20 baktuns). This is the
+case also with the Maya and the Aztec calendar rounds, with a cycle of
+18980 days (about 52 years). This may be the case with other calendars
+I have  not yet considered. So  we can convert I<to>  these calendars,
+but not I<from> them.
+
+For the Maya long count, with its 7885-year cycle, the problem is more
+theoretical than practical. The cycling means that day "0.0.0.0.0" can
+be translated as -3113-08-11 (11 August  3114 BC) or as 4772-10-13 (or
+13th October  4772 AD). But  usually, we use  dates in a  much shorter
+interval.  So the  Maya module  may use  a conversion  algorithm which
+gives dates in the -3113 .. 4772  range and nobody (or nearly so) will
+complain. If  you try a round  trip Gregorian → Maya  → Gregorian, you
+will have 10 August 3114 BC → 19.19.19.17.19 → 12 October 4772, or you
+will have  13 October 4772  → 0.0.0.0.0 → 11  August 3114 BC.  But for
+dates between these extrema, the round trip will work.
+
+For the Maya and Aztec calendar rounds, the cycle length is a bit less
+than 52 years, so people will  be affected by this problem. In version
+0.0.1, the answer  for Maya dates was "why build  a date with calendar
+round values,  when you can build  it with long count?"  and for Aztec
+dates, it was "you can build an Aztec date with calendar round values,
+but you will not be able to convert it to anything else".
+
 =head1 In Hindsight
 
 After having  implemented the calendars  mentioned above, I  find that

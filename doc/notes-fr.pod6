@@ -513,6 +513,39 @@ attribuant les synonymes I<xiupohualli> et I<tonalpohualli> aux calendriers prof
 =item2  Date::Calendar::Maya::Names
 =item2  Date::Calendar::Aztec::Names
 
+=head3 À Propos des Calendriers Cycliques
+
+Alors que  la plupart  des calendriers  disposent d'un  numéro d'année
+allant  de 1  jusqu'à l'infini,  certains calendriers  sont cycliques.
+C'est le  cas avec le  compte long  maya, qui a  un cycle de  7885 ans
+environ (20 baktuns). C'est le cas également avec le I<calendar round>
+maya et le I<calendar round> aztèque, qui ont un cycle de 18980 jours,
+soit presque 52 ans. C'est  peut-être le cas pour d'autres calendriers
+que je  n'ai pas encore  étudiés. Vous pouvez sans  problème convertir
+des dates I<vers>  ces calendriers, mais vous ne  pouvez pas convertir
+des dates I<à partir de> ces calendriers.
+
+Pour le compte long maya, le problème est plus théorique que pratique.
+Le fonctionnement  cyclique signifie que  la date "0.0.0.0.0"  peut se
+traduire par  -3113-08-11 (11 août 3114  av JC) ou par  4772-10-13 (13
+octobre 4772). Mais habituellement, nous  nous intéressons à des dates
+dans un intervalle nettement plus réduit. Donc le module de calendrier
+maya utilise  un algorithme de  conversion se limitant  à l'intervalle
+-3113 .. 4772 et quasiment personne  ne s'en plaindra. Si vous essayez
+un aller-retour  Grégorien → Maya  → Grégorien, vous pourrez  avoir 10
+août 3114 av JC → 19.19.19.17.19 → 12 octobre 4772 ou alors 13 octobre
+4772 → 0.0.0.0.0 →  11 août 3114 av JC. Mais pour  les dates entre ces
+dates extrêmes, l'aller-retour fonctionnera.
+
+Pour le  I<calendar round>, tant aztèque  que maya, la durée  du cycle
+est  légèrement inférieure  à  52 ans,  donc  les utilisateurs  seront
+touchés par  le problème. Dans  la version  0.0.1, la réponse  pour le
+I<calendar round> maya était « Pourquoi utiliser le I<calendar round>,
+alors que le  compte long fonctionne ? » et  pour le I<calendar round>
+aztèque, c'était « D'accord, vous pourrez construire une date avec les
+valeurs du I<calendar round>, mais vous ne pourrez pas la convertir en
+autre chose. ».
+
 =head1 Après Coup
 
 Finalement, l'architecture  que j'ai imaginée  il y a quelques  mois a
