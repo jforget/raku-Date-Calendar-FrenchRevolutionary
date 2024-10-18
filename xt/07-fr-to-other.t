@@ -1,11 +1,8 @@
-# 
-# Checking the conversion from the historical variant of French Revolutionary to Gregorian
-#
 use v6.c;
 use Test;
 use Date::Calendar::FrenchRevolutionary;
 
-my @tests = (("1792-09-22",    1,  1,  1), 
+my @tests = (("1792-09-22",    1,  1,  1),
              ("1793-10-23",    2,  2,  2),
              ("1794-07-27",    2, 11,  9), # the demise of Robespierre
              ("1794-11-23",    3,  3,  3),

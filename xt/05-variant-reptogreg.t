@@ -1,4 +1,4 @@
-# 
+#
 # Checking the conversion from the astronomical and arithmetic variants
 # of French Revolutionary to Gregorian
 #

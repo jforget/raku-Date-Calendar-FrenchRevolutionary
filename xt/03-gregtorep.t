@@ -1,4 +1,4 @@
-# 
+#
 # Checking the conversion from Gregorian to the historical variant of French Revolutionary
 #
 use v6.c;
