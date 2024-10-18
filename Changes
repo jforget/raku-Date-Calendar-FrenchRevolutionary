@@ -1,7 +1,8 @@
 Revision history for Date-Calendar-FrenchRevolutionary
 
 0.0.6, released on...
-    - xxx
+    - add an "api" property to the classes
+    - migration from CPAN6 to zef
 
 0.0.5, released on Tridi 23 Floréal CCXXVIII, jour de la Bourrache (or Monday 11 May 2020)
     - Fix a bug about the feasts in Floréal.

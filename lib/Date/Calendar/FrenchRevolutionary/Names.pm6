@@ -1,6 +1,6 @@
 use v6.c;
 
-unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.6>;
+unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.6>:auth<zef:jforget>:api<0>;
 
   my %month-names = 'fr' => <Vendémiaire   Brumaire  Frimaire
                              Nivôse        Pluviôse  Ventôse
