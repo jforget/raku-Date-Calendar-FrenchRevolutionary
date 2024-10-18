@@ -5,35 +5,33 @@ use Date::Calendar::FrenchRevolutionary::Common;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
-class    Date::Calendar::FrenchRevolutionary:ver<0.0.6>:auth<zef:jforget>:api<0>
-    does Date::Calendar::FrenchRevolutionary::Common
-    does Date::Calendar::Strftime {
+unit class    Date::Calendar::FrenchRevolutionary:ver<0.0.6>:auth<zef:jforget>:api<0>
+         does Date::Calendar::FrenchRevolutionary::Common
+         does Date::Calendar::Strftime;
 
-  method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
-    self!check-build-args($year, $month, $day, $locale, &vnd1);
-    self!build-from-args( $year, $month, $day, $locale);
-  }
-  # -24161 is MJD for 1792-09-22, which is the FR epoch
-  method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
-    my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
-    $.new(year => $y, month => $m, day => $d);
-  }
+method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
+  self!check-build-args($year, $month, $day, $locale, &vnd1);
+  self!build-from-args( $year, $month, $day, $locale);
+}
+# -24161 is MJD for 1792-09-22, which is the FR epoch
+method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
+  my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
+  $.new(year => $y, month => $m, day => $d);
+}
 
-  method vnd1 {
-    vnd1($.year + 1791);
-  }
+method vnd1 {
+  vnd1($.year + 1791);
+}
 
-  our sub vnd1(Int:D $year-gr --> Int) {
-    # do not bother with the precise date in Vendémiaire / September of the switch from astronomical to arithmetic
-    # these calendars differ in 1803 and 1840, but they coincidate during all the years between
-    if $year-gr < 1811 {
-      return Date::Calendar::FrenchRevolutionary::Astronomical::vnd1($year-gr);
-    }
-    else {
-      return Date::Calendar::FrenchRevolutionary::Arithmetic::vnd1($year-gr);
-    }
+our sub vnd1(Int:D $year-gr --> Int) {
+  # do not bother with the precise date in Vendémiaire / September of the switch from astronomical to arithmetic
+  # these calendars differ in 1803 and 1840, but they coincidate during all the years between
+  if $year-gr < 1811 {
+    return Date::Calendar::FrenchRevolutionary::Astronomical::vnd1($year-gr);
   }
-
+  else {
+    return Date::Calendar::FrenchRevolutionary::Arithmetic::vnd1($year-gr);
+  }
 }
 
 =begin pod
