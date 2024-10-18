@@ -5,6 +5,7 @@ unit role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.6>:auth<zef:jforge
 has Int $.year  where { $_ ≥ 1 };
 has Int $.month where { 1 ≤ $_ ≤ 13 };
 has Int $.day   where { 1 ≤ $_ ≤ 30 };
+has Int $.daycount;
 has Str $.locale is rw where { Date::Calendar::FrenchRevolutionary::Names::allowed-locale($_) } = 'fr';
 
 method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) {
@@ -79,10 +80,11 @@ method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) 
 }
 
 method !build-from-args(Int $year, Int $month, Int $day, Str $locale) {
-  $!year   = $year;
-  $!month  = $month;
-  $!day    = $day;
-  $!locale = $locale;
+  $!year     = $year;
+  $!month    = $month;
+  $!day      = $day;
+  $!locale   = $locale;
+  $!daycount = $.daycount-from-elems;
 }
 
 method new-from-date($date) {
@@ -95,7 +97,6 @@ method elems-from-daycount(Int $count, $vnd1-f) {
     -- $gr_year;
     my Int  $fr_year = $gr_year - 1791;
     my Date $vnd1 .= new($gr_year, 9, $vnd1-f($gr_year));
-    #my Date $vnd1 .= new($gr_year, 9, $.vnd1);
     $vnd1_count = $vnd1.daycount;
   }
   my $year  = $gr_year - 1791;
@@ -103,7 +104,7 @@ method elems-from-daycount(Int $count, $vnd1-f) {
   my $day   = 31 + $count - $vnd1_count - 30 × $month;
   return $year, $month, $day;
 }
-method daycount {
+method daycount-from-elems {
   Date.new(year => $.year + 1791, month => 9, day => $.vnd1()).daycount
   + 30 × ($.month - 1)
   + $.day

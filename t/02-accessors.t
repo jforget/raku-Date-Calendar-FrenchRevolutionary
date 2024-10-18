@@ -9,9 +9,12 @@ use Date::Calendar::FrenchRevolutionary::Arithmetic;
 
 plan  3  # classes
    ×  2  # languages
-   × 14  # accessors
+   × 15  # accessors
    +  1; # special case
 
+#
+# Actually, this is not Bonaparte's coup in year VIII, but its anniversary one year later in year IX! Ooops!
+#
 my Date::Calendar::FrenchRevolutionary               $d-hi .= new(year => 9, month => 2, day => 18);
 my Date::Calendar::FrenchRevolutionary::Astronomical $d-as .= new(year => 9, month => 2, day => 18);
 my Date::Calendar::FrenchRevolutionary::Arithmetic   $d-ar .= new(year => 9, month => 2, day => 18);
@@ -31,6 +34,7 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-of-year  , 48);
   is($d.day-of-décade,  8);
   is($d.décade-number,  5);
+  is($d.daycount,  -21192);
 
   $d.locale = 'en';
 
@@ -48,6 +52,7 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-of-year  , 48);
   is($d.day-of-décade,  8);
   is($d.décade-number,  5);
+  is($d.daycount,  -21192);
 }
 
 $d-hi .= new(year => 228, month => 6, day => 10);
