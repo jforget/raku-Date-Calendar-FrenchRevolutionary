@@ -350,7 +350,7 @@ C<Date::Calendar::FrenchRevolutionary>.
 
 =head1 AUTHOR
 
-Jean Forget <JFORGET at cpan dot org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 

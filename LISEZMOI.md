@@ -98,7 +98,7 @@ début du calendrier républicain en septembre 1792.
 AUTEUR
 ======
 
-Jean Forget <JFORGET@cpan.org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 COPYRIGHT ET LICENCE
 ====================

@@ -88,7 +88,7 @@ arithmetic rule was established since the beginning of the calendar.
 AUTHOR
 ======
 
-Jean Forget <JFORGET@cpan.org>
+Jean Forget <J2N-FORGET at orange dot fr>
 
 COPYRIGHT AND LICENSE
 =====================
