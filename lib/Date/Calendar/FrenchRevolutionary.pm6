@@ -357,6 +357,9 @@ The feast for the day, in short format ("pomme de terre").
 
 The year as a decimal number. Strictly similar to C<%G> and C<%Y>.
 
+Note:  this  specifier  is deprecated  in  C<Date::Calendar::Strftime>
+version C<0.0.4>, released in 2024. It will be removed in 2026.
+
 =defn C<%m>
 
 The month as a two-digit decimal  number (range 01 to 13), including a

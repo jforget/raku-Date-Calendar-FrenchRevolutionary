@@ -190,8 +190,8 @@ prenant un exemple  tiré du calendrier républicain,  changer « Sextidi
 26 Messidor 227, jour  de la sauge » en « Sixday  26 Reapidor 227, day
 of  sage  »  est  une  modification  cosmétique  et  superficielle  de
 l'instance de  date, changer «  Sextidi 26 Messidor  227 , jour  de la
-sauge»  en  «  Septidi 27  Messidor  227,  jour  de  l'ail »  est  une
-modification profonde de l'instance touchant à son essance même.
+sauge » en  «  Septidi 27  Messidor  227,  jour  de  l'ail »  est  une
+modification profonde de l'instance touchant à son essence même.
 
 =head3 Autre calendrier multilingue, le calendrier julien
 
