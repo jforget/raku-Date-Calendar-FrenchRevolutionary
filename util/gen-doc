@@ -1,0 +1,26 @@
+#!/bin/sh
+# -*- encoding: utf-8; indent-tabs-mode: nil -*-
+#
+# Generate the POD6 documentation for the class Date::Calendar::FrenchRevolutionary
+#
+
+export DOC=$THIS_DIR/doc
+export MD2HTML=/home/jf/.local/bin/grip
+export MD2HTMLOPT='--export --no-inline'
+
+raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary.rakumod               > $DOC/FrenchRevolutionary.html
+raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Common.rakumod        > $DOC/FrenchRevolutionary-Common.html
+raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Astronomical.rakumod  > $DOC/FrenchRevolutionary-Astronomical.html
+raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Arithmetic.rakumod    > $DOC/FrenchRevolutionary-Arithmetic.html
+raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Names.rakumod         > $DOC/FrenchRevolutionary-Names.html
+$MD2HTML doc/notes-en.md $MD2HTMLOPT
+$MD2HTML doc/notes-fr.md $MD2HTMLOPT
+perl -i -p -e 's/\<table\>/<table border="1">/; s/\xc2\xa0/\&nbsp;/g; s/ +\Z//;' doc/notes-en.html
+perl -i -p -e 's/\<table\>/<table border="1">/; s/\xc2\xa0/\&nbsp;/g; s/ +\Z//;' doc/notes-fr.html
+
+case $1 in
+   --show)
+     cd $DOC
+     firefox FrenchRevolutionary.html FrenchRevolutionary-Arithmetic.html FrenchRevolutionary-Astronomical.html FrenchRevolutionary-Common.html FrenchRevolutionary-Names.html notes-en.html notes-fr.html
+     ;;
+esac

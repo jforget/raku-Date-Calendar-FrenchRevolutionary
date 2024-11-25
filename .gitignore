@@ -1,3 +1,5 @@
+*~
+*.html
 /blib/
 /src/*.o
 /src/Makefile
