@@ -16,7 +16,7 @@ Advanced Documentation
 ======================
 
 If you want to make advanced contributions, may be you should read the
-advanced documentation in 
+advanced documentation in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-en.md]
 (or its French translation in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-fr.md]),

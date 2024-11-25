@@ -1,6 +1,6 @@
-use v6.c;
+use v6.d;
 
-unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.0.6>:auth<zef:jforget>:api<0>;
+unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
   my %month-names = 'fr' => <Vendémiaire   Brumaire  Frimaire
                              Nivôse        Pluviôse  Ventôse
@@ -354,7 +354,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2019, 2020, 2024 Jean Forget, all rights reserved
+Copyright (c) 2019, 2020, 2024 Jean Forget, all rights reserved
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

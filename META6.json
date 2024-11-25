@@ -1,5 +1,5 @@
 {
-  "api" : "0",
+  "api" : "1",
   "auth" : "zef:jforget",
   "authors" : [
     "Jean Forget"
@@ -11,13 +11,13 @@
   "description" : "Conversions from / to the French Revolutionary calendar",
   "license" : "Artistic-2.0",
   "name" : "Date::Calendar::FrenchRevolutionary",
-  "perl" : "6.c",
+  "perl" : "6.d",
   "provides" : {
-      "Date::Calendar::FrenchRevolutionary"               : "lib/Date/Calendar/FrenchRevolutionary.pm6"
-    , "Date::Calendar::FrenchRevolutionary::Common"       : "lib/Date/Calendar/FrenchRevolutionary/Common.pm6"
-    , "Date::Calendar::FrenchRevolutionary::Astronomical" : "lib/Date/Calendar/FrenchRevolutionary/Astronomical.pm6"
-    , "Date::Calendar::FrenchRevolutionary::Arithmetic"   : "lib/Date/Calendar/FrenchRevolutionary/Arithmetic.pm6"
-    , "Date::Calendar::FrenchRevolutionary::Names"        : "lib/Date/Calendar/FrenchRevolutionary/Names.pm6"
+      "Date::Calendar::FrenchRevolutionary"               : "lib/Date/Calendar/FrenchRevolutionary.rakumod"
+    , "Date::Calendar::FrenchRevolutionary::Common"       : "lib/Date/Calendar/FrenchRevolutionary/Common.rakumod"
+    , "Date::Calendar::FrenchRevolutionary::Astronomical" : "lib/Date/Calendar/FrenchRevolutionary/Astronomical.rakumod"
+    , "Date::Calendar::FrenchRevolutionary::Arithmetic"   : "lib/Date/Calendar/FrenchRevolutionary/Arithmetic.rakumod"
+    , "Date::Calendar::FrenchRevolutionary::Names"        : "lib/Date/Calendar/FrenchRevolutionary/Names.rakumod"
   },
   "resources"  : [ ],
   "source-url" : "https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary.git",
@@ -32,5 +32,5 @@
   "test-depends" : [
       "Test::META"
   ],
-  "version" : "0.0.6"
+  "version" : "0.1.0"
 }

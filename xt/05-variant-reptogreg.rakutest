@@ -2,7 +2,7 @@
 # Checking the conversion from the astronomical and arithmetic variants
 # of French Revolutionary to Gregorian
 #
-use v6.c;
+use v6.d;
 use Test;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;

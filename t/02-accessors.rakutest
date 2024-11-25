@@ -1,7 +1,7 @@
 #
 # Checking the getters (and also the C<locale> setter)
 #
-use v6.c;
+use v6.d;
 use Test;
 use Date::Calendar::FrenchRevolutionary;
 use Date::Calendar::FrenchRevolutionary::Astronomical;

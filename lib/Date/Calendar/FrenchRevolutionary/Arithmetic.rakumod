@@ -1,9 +1,9 @@
-use v6.c;
+use v6.d;
 
 use Date::Calendar::Strftime;
 use Date::Calendar::FrenchRevolutionary::Common;
 
-unit class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.0.6>:auth<zef:jforget>:api<0>
+unit class    Date::Calendar::FrenchRevolutionary::Arithmetic:ver<0.1.0>:auth<zef:jforget>:api<1>
          does Date::Calendar::FrenchRevolutionary::Common
          does Date::Calendar::Strftime;
 
@@ -130,7 +130,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2019, 2020, 2024 Jean Forget, all rights reserved
+Copyright (c) 2019, 2020, 2024 Jean Forget, all rights reserved
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

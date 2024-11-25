@@ -1,6 +1,6 @@
-use v6.c;
+use v6.d;
 use Date::Calendar::FrenchRevolutionary::Names;
-unit role Date::Calendar::FrenchRevolutionary::Common:ver<0.0.6>:auth<zef:jforget>:api<0>;
+unit role Date::Calendar::FrenchRevolutionary::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
 has Int $.year  where { $_ ≥ 1 };
 has Int $.month where { 1 ≤ $_ ≤ 13 };
@@ -220,7 +220,7 @@ Jean Forget <J2N-FORGET at orange dot fr>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2019, 2020, 2024 Jean Forget, all rights reserved
+Copyright (c) 2019, 2020, 2024 Jean Forget, all rights reserved
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
