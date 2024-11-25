@@ -10,15 +10,16 @@ It is better to work with  actual examples rather than generic values.
 So in the text below, I will  use the following dates (Bastille day in
 2019):
 
-```
-  Sunday 14 July 2019
-  Yom Rishon 11 Tammuz 5779
-  11 Dhu al-Qada 1440
-  Sextdi 26 Messidor 227
-  Tkyriakē 7 Epip 1735
-  Segno 7 Ḥamle 2011
-  13.0.6.11.16, 8 Cib, 4 Xul
-```
+| Calendar                   |  Date                       |
+|----------------------------|-----------------------------|
+| English-speaking Gregorian |  Sunday 14 July 2019        |
+| French-speaking Gregorian  |  Dimanche 14 juillet 2019   |
+| Hebrew                     |  Yom Rishon 11 Tammuz 5779  |
+| Hijri                      |  11 Dhu al-Qada 1440        |
+| French Revolutionary       |  Sextidi 26 Messidor 227    |
+| Coptic                     |  Tkyriakē 7 Epip 1735       |
+| Ethiopic                   |  Segno 7 Ḥamle 2011         |
+| Maya                       |  13.0.6.11.16, 8 Cib, 4 Xul |
 
 Purposes
 --------
@@ -26,8 +27,8 @@ Purposes
 The various calendar module should obey the following contradictory
 purposes:
 
-* A user can use as many or as few calendar as he wants. He can
-use none or all of them.
+* A user can  use as many or as  few calendar as he wants.  He can use
+none or all of them. Only the core module `Date` would be required.
 
 * Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
 (Write Everything Twice).
@@ -174,8 +175,15 @@ and    the   data    in   `Date::Calendar::`_Whatever_`::Names::en`
 `Date::Calendar::`_Whatever_`::Names::it`   and  others.   It  will
 depend on the size.
 
-In the case of the Hebrew calendar and the Hebrew, Yiddish and Aramaic
-languages, we would have:
+Supposing we have the choice of Hebrew, Yiddish and Aramaic for Hebrew
+dates, we would have either:
+
+```
+  class    Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+```
+
+or:
 
 ```
   class    Date::Calendar::Hebrew
@@ -234,8 +242,9 @@ name, the  `Date::Calendar::Julian` object  first checks  whether the
 `Date::Names` class was instantiated  and whether it was instantiated
 with  the   proper  value.   If  no,   the  object   instantiates  the
 `Date::Names` class and caches the new object instance into a private
-attribute. It also stores the  current value of `locale` into another
-private attribute, `$!instantiated-locale`. Example
+attribute `$!date-names`. It also stores the current value of `locale`
+into   another    private   attribute,    `$!instantiated-locale`   or
+`$!inst-loc`. Example
 
 ```
   code               $.locale  $!inst-loc  $!date-names
@@ -324,7 +333,7 @@ have:
 
 * Three classes
 
-  *  Date::Calendar::FrenchRevolutionary
+  *  Date::Calendar::FrenchRevolutionary (for the historical variant)
   *  Date::Calendar::FrenchRevolutionary::Astronomical
   *  Date::Calendar::FrenchRevolutionary::Arithmetic
 
@@ -474,8 +483,9 @@ the     Greenwich      Mean     Time,     but      which     represent
 Goodman-Martinez-Thompson.
 
 At first,  I will implement the  three rules suggested by  Abigail and
-Claus Tøndering.  Later, it  will still  be possible  to add  the five
-remaining rules mentionned by the FAMSI. So we will have
+Claus Tøndering  for the Maya calendar,  plus two rules for  the Aztec
+calendar. Later, it  will still be possible to add  the five remaining
+rules mentionned by the FAMSI. So we will have
 
 * Five classes
 
@@ -502,7 +512,8 @@ remaining rules mentionned by the FAMSI. So we will have
   *  Date::Calendar::Maya::Names
   *  Date::Calendar::Aztec::Names
 
-### About Cyclic Calendars
+About Cyclic Calendars
+----------------------
 
 While most calendars have a year number ranging from 1 to the infinite
 some calendars  have a cyclic  value. This is  the case with  the Maya
@@ -539,9 +550,10 @@ as a  `daycount` _attribute_, stored  inside the object. No  need to
 compute it if the date is created by conversion from another calendar,
 and it needs  to be computed only  once if the date is  built from the
 year, month and day values. This is  the way the MJD is implemented in
-every  calendar module,  except the  French Revolutionary  calendar (I
-have forgotten  to fix it) and  the Gregorian calendar (I  rely on the
-implementation in the core class `Date`).
+every calendar  module, except the  the Gregorian calendar (I  rely on
+the  implementation  in  the  core   class  `Date`).  For  the  French
+Revolutionary  calendar, the  `daycount` attribute  was added  only in
+October 2024.
 
 So I decided  to include a `daycount` attribute in  Aztec dates, which
 allows conversions _from_  Aztec. How is this attribute  filled? For a
@@ -560,6 +572,94 @@ relation,  such  as  "on  or   after"  or  "nearest".  And  thanks  to
 code-sharing, I implemented a similar  method to build Maya dates from
 calendar round values.
 
+About additional days
+---------------------
+
+When  I studied  the  Aztec calendar,  especially  the H.B.  Nicholson
+adjustment, I compared with the way the additional days are dealt with
+in the Coptic,  Ethiopic and French Revolutionary  calendars, to state
+that the additional  days are always inserted at the  end of the year.
+Actually, this is  false. The Baha'i calendar has 19  mois of 19 days,
+plus  4  additional days  (Ayyám-i-Há)  during  a  normal year,  or  5
+additional days during a leap  year. These additional days are located
+between the next-to-last month (Mulk) and the last month (‘Alá’).
+
+There is  a good  reason for  this peculiar  setup. In  the arithmetic
+variant of the Baha'i calendar, the beginning of a year is computed so
+it will happen  on the 21st March of the  Gregorian calendar, which is
+more or less the spring equinox.  The rules for leap years ensure that
+this coincidence  happens every year.  So here is the  equivalence for
+the last days of February and for significant days in March:
+
+| Normal Gregorian | Normal Baha'i | Leap Gregorian | Leap Baha'i  |
+|------------------|---------------|----------------|--------------|
+| 25 February      | 19 Mulk       | 25 February    | 19 Mulk      |
+| 26 February      | 1 Ayyám-i-Há  | 26 February    | 1 Ayyám-i-Há |
+| 27 February      | 3 Ayyám-i-Há  | 27 February    | 3 Ayyám-i-Há |
+| 28 February      | 3 Ayyám-i-Há  | 28 February    | 3 Ayyám-i-Há |
+|                  |               | 29 February    | 4 Ayyám-i-Há |
+| 1 March          | 4 Ayyám-i-Há  | 1 March        | 5 Ayyám-i-Há |
+| 2 March          | 1 ‘Alá’       | 2 March        | 1 ‘Alá’      |
+| ...              | ...           | ...            | ...          |
+| 20 March         | 19 ‘Alá’      | 20 March       | 19 ‘Alá’     |
+| 21 March         | 1 Bahá (N+1)  | 21 March       | 1 Bahá (N+1) |
+
+As you can see  in the table above, this smart  setup gives a constant
+equivalence  between any  Gregorian day  and the  corresponding Baha'i
+day. The only exceptions are 1st  March and 4 Ayyám-i-Há, which may be
+associated with 5 Ayyám-i-Há and 29th February respectively.
+
+With the use  of an astronomical rule based on  the real equinox date,
+this beautifully quasi-constant equivalence is no longer assured.
+
+Overhaul in November-December 2024
+----------------------------------
+
+Above,  I have  mentioned a  "hubristic  programmer" who  would add  a
+`time-of-day`  parameter to  the  conversion  functions. Actually,  in
+November  2024,  I   added  a  `daypart`  attribute   in  the  classes
+`Date::Calendar::`_xxxx_.  Not only  we distinguish  the 14th  of July
+2019 from the 15th of Juy 2019, but we also distinguish the "14th July
+2019 before sunrise" from the "14th July 2019 during the daylight" and
+from  the  "14th  July  after  sunset".  The  `daypart`  attribute  is
+immutable, like the `daycount` attribute.
+
+Thus, "14th July 2019 before sunrise" would convert to "11 Tammuz 5579
+before sunrise"  and "14th  July 2019 daylight"  would convert  to "11
+Tammuz  5579 daylight",  while  "14th July  2019  after sunset"  would
+convert to "**12** Tammuz 5579 after sunset".
+
+The three possible values for `daypart` are symbolised by the following three characters:
+
+* `☾` or U+263E for the night time from midnight to sunrise, or `before-sunrise`,
+
+* `☼` or U+263C for the daylight period, aptily called with `daylight`,
+
+* `☽` or U+263D for the night time from sunset to midnight, called with `after-sunset`.
+
+The  default  value  for   the  `daypart`  parameter  (or  attribute),
+especially when a `Date::Calendar::`_xxx_ module with version 0.1.n is
+interacting with a `Date::Calendar::`_yyy_  module with version 0.0.p,
+is `daylight`. With this default  value, the conversions give the same
+results as they did before the 2024 overhaul.
+
+This  overhaul is  compatible with  calendars  in which  the days  are
+defined as midnight-to-midnight, with the  calendars in which the days
+are defined  as sunset-to-sunset  and with  the possible  calendars in
+which  days are  sunrise-to-sunrise (Reingold  and Dershowitz  suppose
+that the Haab  calendar is sunrise-to-sunrise). On the  other hand, if
+the days  are defined as  noon-to-noon, they cannot be  processed with
+this new architecture.  This applies only to the  _Julian Day Number_.
+From my point of view, this calendar  is not interesting and I have no
+plan to include it in my series of calendar modules. In addition, this
+would  require two  different symbols  for `daylight-before-noon`  and
+`daylight-after-noon`, instead of just `☼` (or U+263C).
+
+Why the choice `☾` for the morning and `☽` for the evening? Because on
+one hand  `☽` (U+263D)  is named  `FIRST QUARTER  MOON` and  the first
+quarter is visible in the evening,  and on the other hand `☾` (U+263E)
+is named  `LAST QUARTER MOON` and  the last quarter is  visible in the
+morning.
 
 In Hindsight
 ============

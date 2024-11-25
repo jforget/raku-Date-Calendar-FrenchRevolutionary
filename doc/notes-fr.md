@@ -10,16 +10,16 @@ Il  est  préférable de  faire  référence  à  des exemples  plutôt  que
 d'utiliser  des données  génériques. Pour  ce faire,  j'utiliserai les
 dates suivantes (le 14 juillet 2019) :
 
-```
-  Dimanche 14 juillet 2019
-  Sunday 14 July 2019
-  Yom Rishon 11 Tammuz 5779
-  11 Dhu al-Qada 1440
-  Sextidi 26 Messidor 227
-  Tkyriakē 7 Epip 1735
-  Segno 7 Ḥamle 2011
-  13.0.6.11.16, 8 Cib, 4 Xul
-```
+| Calendrier                 |  Date                       |
+|----------------------------|-----------------------------|
+| Grégorien francophone      |  Dimanche 14 juillet 2019   |
+| Grégorien anglophone       |  Sunday 14 July 2019        |
+| Hébraïque                  |  Yom Rishon 11 Tammuz 5779  |
+| Hijri                      |  11 Dhu al-Qada 1440        |
+| Révolutionnaire            |  Sextidi 26 Messidor 227    |
+| Copte                      |  Tkyriakē 7 Epip 1735       |
+| Éthiopien                  |  Segno 7 Ḥamle 2011         |
+| Maya                       |  13.0.6.11.16, 8 Cib, 4 Xul |
 
 Buts
 ----
@@ -186,7 +186,15 @@ peux scinder cela en mettant le mécanisme dans
 `Date::Calendar::`_xxx_`::Names::it` et ainsi de suite. Tout dépendra
 de la taille.
 
-Pour le calendrier hébraïque, avec l'hébreu, le yiddish et l'araméen, cela donnerait :
+Si  l'on  suppose  que  l'hébreu,   le  yiddish  et  l'araméen  soient
+disponibles pour le calendrier hébraïque, cela donnerait soit :
+
+```
+  classe   Date::Calendar::Hebrew
+  routines Date::Calendar::Hebrew::Names
+```
+
+soit :
 
 ```
   classe   Date::Calendar::Hebrew
@@ -251,9 +259,10 @@ mois ou  de jour, l'objet `Date::Calendar::Julian`  vérifie si l'objet
 `Date::Names` a  déjà été instancié  et s'il  a été instancié  avec la
 bonne    valeur   de    `locale`.    Dans    la   négative,    l'objet
 `Date::Calendar::Julian` instancie  la classe `Date::Names`  et stocke
-cette  instance en  cache  dans  un attribut  privé  de l'instance  de
-`Date::Calendar::Julian`. Il  stocke également  la valeur  actuelle de
-`locale` dans un autre attribut privé, `instantiated-locale`. Exemple
+cette  instance en  cache  dans un  attribut  privé `$!date-names`  de
+l'instance de `Date::Calendar::Julian`. Il  stocke également la valeur
+actuelle    de    `locale`    dans   un    autre    attribut    privé,
+`$!instantiated-locale` ou, plus brièvement, `$inst-loc`. Exemple
 
 ```
   code               $.locale  $!inst-loc  $!date-names
@@ -284,7 +293,7 @@ l'année correspond à l'équinoxe d'automne, ou bien on calcule la durée
 de chaque  année, 365  ou 366  jours, avec  un algorithme  similaire à
 celui  du calendrier  grégorien. Historiquement,  nous avons  commencé
 avec la  règle astronomique et  une réforme  prévoyait de passer  à la
-règle arithmétique en l'an XX.
+règle arithmétique en l'an XX (année grégorienne 1811).
 
 Nous avons donc trois variantes.
 
@@ -310,10 +319,10 @@ définir 9 fonctions de conversion ?
 Une  deuxième  possibilité consiste  à  ne  faire qu'une  fonction  de
 conversion dans chaque sens, laquelle  admet un paramètre précisant la
 variante. Ou, pour prévoir le cas de la conversion républicain → maya,
-un  paramètre  donnant la  variante  du  calendrier  de départ  et  un
-deuxième  paramètre  pour la  variante  du  calendrier d'arrivée.  Ces
-paramètres  sont  facultatifs et  les  calendriers  sans variante  les
-ignorent.
+un  paramètre  `from_variant` donnant  la  variante  du calendrier  de
+départ  et un  deuxième  paramètre `to_variant`  pour  la variante  du
+calendrier  d'arrivée.   Ces  paramètres   sont  facultatifs   et  les
+calendriers sans variante les ignorent.
 
 Cela  ne tient  pas  la route  non plus.  Imaginons  que l'on  veuille
 convertir le 22 septembre 1795  vers le calendrier républicain avec la
@@ -325,7 +334,7 @@ complémentaire est invalide.
 
 Une troisième possibilité  consiste à ajouter un nouvel  attribut à la
 date pour mémoriser  la variante utilisée à la création.  De la sorte,
-l'aller-retour mentionné ci-dessus ne pourra pas se faire. Si une date
+l'aller-retour mentionné ci-dessus ne pourra pas se faire avec un changement de variante. Si une date
 est créée en tant que date du calendrier astronomique, au moment de la
 conversion  républicain  → grégorien  (ou  autre),  elle utilisera  la
 méthode astronomique.  Le seul  problème est que  cela ajoute  du code
@@ -345,7 +354,7 @@ trois classes. On a donc ainsi :
 
 * Trois classes
 
-  *  Date::Calendar::FrenchRevolutionary
+  *  Date::Calendar::FrenchRevolutionary (pour la variante historique)
   *  Date::Calendar::FrenchRevolutionary::Astronomical
   *  Date::Calendar::FrenchRevolutionary::Arithmetic
 
@@ -503,8 +512,10 @@ avec  le _Greenwich  Mean Time_  (temps moyen  de Greenwich)  mais qui
 s'interprête en « Goodman-Martinez-Thompson ».
 
 Dans un premier temps, j'implémenterai  les trois règles proposées par
-Abigail  et Claus  Tøndering.  Ultérieurement, pourquoi  pas, il  sera
-possible d'ajouter les autres règles de la FAMSI. Nous aurons ainsi
+Abigail et Claus Tøndering pour le  calendrier maya et les deux règles
+exposées  ci-dessus   pour  le  calendrier   aztèque.  Ultérieurement,
+pourquoi  pas, il  sera possible  d'ajouter  les autres  règles de  la
+FAMSI. Nous avons ainsi
 
 * Cinq classes
 
@@ -536,7 +547,8 @@ _xiupohualli_ et _tonalpohualli_ aux calendriers profane et clérical
   *  Date::Calendar::Maya::Names
   *  Date::Calendar::Aztec::Names
 
-### À Propos des Calendriers Cycliques
+À Propos des Calendriers Cycliques
+----------------------------------
 
 Alors que  la plupart  des calendriers  disposent d'un  numéro d'année
 allant  de 1  jusqu'à l'infini,  certains calendriers  sont cycliques.
@@ -579,10 +591,11 @@ qu'il  était plus  judicieux d'implémenter  le MJD  par un  _attribut_
 si la date est créée par  conversion d'une date d'un autre calendrier,
 et le  calcul se fera une  fois et une seule  si la date est  créée en
 fournissant l'année, le mois et le jour. C'est ainsi que cela se passe
-dans  tous  les  autres  modules de  calendrier,  sauf  le  calendrier
-républicain  pour lequel  j'ai oublié  de  le faire  et le  calendrier
-grégorien  parce  que je  repose  sur  l'implémentation de  la  classe
-standard `Date`.
+dans tous  les autres  modules de calendrier  à l'exception  du calendrier
+grégorien, qui repose sur le module
+standard  `Date`.  Pour  le  calendrier  républicain,  il  aura  fallu
+attendre octobre 2024 pour avoir  un attribut `daycount`, parce que je
+ne l'ai pas fait en même temps que les autres.
 
 J'ai donc décidé d'ajouter un  attribut `daycount` aux dates aztèques,
 ce qui permet  de convertir _à partir_ du  calendrier aztèque. Comment
@@ -605,6 +618,103 @@ des  variantes  comme  `on-or-after`  (en  même  temps  ou  après)  ou
 `nearest`  (au  plus  proche).  Et  grâce au  partage  de  code,  j'ai
 implémenté  un constructeur  similaire pour  créer des  dates mayas  à
 partir des valeurs du _calendar round_.
+
+À propos des jours complémentaires
+----------------------------------
+
+Lorsque  j'ai  étudié  le  cas  du calendrier  aztèque  avec  ou  sans
+l'ajustement  de H.B.  Nicholson,  je  me suis  basé  sur  le cas  des
+calendriers copte, éthiopien et  révolutionnaire pour affirmer que les
+jours complémentaires  sont toujours situés  à la fin d'une  année. En
+fait,  ce n'est  pas vrai.  Dans le  calendrier Baha'i,  comportant 19
+« mois » de 19  jours plus 4 ou 5  jours complémentaires (Ayyám-i-Há),
+ce jours complémentaires sont situés entre l'avant-dernier mois (Mulk)
+et le dernier (‘Alá’).
+
+Mais il  y a  une raison  pour cela. Dans  la version  arithmétique du
+calendrier Bahá’í, le début de l'année  est fixé au jour équivalent au
+21  mars   grégorien,  c'est-à-dire   généralement  à   l'équinoxe  de
+printemps.  Les  règles  définies  pour la  variante  arithmétique  du
+calendrier Bahá’í font  que cette équivalence se  produit chaque année
+sans  exception.  Voici donc  la  correspondance  entre le  calendrier
+grégorien et le calendrier Baha'i de la fin février jusqu'au 21 mars.
+
+| Grégorien normal | Baha'i normal | Grégorien bissextile | Baha'i bissextile |
+|------------------|---------------|----------------------|-------------------|
+| 25 février       | 19 Mulk       | 25 février           | 19 Mulk           |
+| 26 février       | 1 Ayyám-i-Há  | 26 février           | 1 Ayyám-i-Há      |
+| 27 février       | 3 Ayyám-i-Há  | 27 février           | 3 Ayyám-i-Há      |
+| 28 février       | 3 Ayyám-i-Há  | 28 février           | 3 Ayyám-i-Há      |
+|                  |               | 29 février           | 4 Ayyám-i-Há      |
+| 1 mars           | 4 Ayyám-i-Há  | 1 mars               | 5 Ayyám-i-Há      |
+| 2 mars           | 1 ‘Alá’       | 2 mars               | 1 ‘Alá’           |
+| ...              | ...           | ...                  | ...               |
+| 20 mars          | 19 ‘Alá’      | 20 mars              | 19 ‘Alá’          |
+| 21 mars          | 1 Bahá (N+1)  | 21 mars              | 1 Bahá (N+1)      |
+
+Ainsi, comme on  peut le voir dans le tableau  ci-dessus, cette astuce
+permet  d'avoir   une  correspondance  constante  entre   chaque  jour
+grégorien et  chaque jour Baha'i,  à l'exception du  1er mars et  du 4
+Ayyám-i-Há,  qui peuvent  être  parfois associés  respectivement au  5
+Ayyám-i-Há’ et au 29 février.
+
+Évidemment,  avec l'adoption  pour  le calendrier  Baha'i d'une  règle
+astronomique  basée sur  la date  exacte de  l'équinoxe de  printemps,
+cette belle et quasi-constante correspondance ne fonctionne plus. Tant
+pis.
+
+Refonte de novembre-décembre 2024
+---------------------------------
+
+Plus haut,  j'ai mentionné un éventuel  « programmeur aventureux » qui
+ajouterait  un paramètre  « moment de  la journée »  aux fonctions  de
+conversion.  En  fait,  j'ai  ajouté   un  paramètre  « moment  de  la
+journée », ou  `daypart`, à chaque classe  `Date::Calendar::`_xxx_. On
+ne fait plus seulement la différence entre « 14 juillet 2019 » et « 15
+juillet 2019 », mais également entre  « 14 juillet 2019 avant le lever
+du soleil », « 14  juillet pendant la journée » et  « 14 juillet après
+la  tombée de  la  nuit ». L'attribut  `daypart`  est immutable  comme
+l'attribut `daycount`.
+
+Ainsi  donc, le  « 14  juillet  2019 avant  le  lever  du soleil »  se
+convertirait en « 11  Tammuz 5579 avant le lever du  soleil », le « 14
+juillet pendant  la journée » serait  converti en en « 11  Tammuz 5579
+pendant la journée »  et le « 14 juillet après la  tombée de la nuit »
+serait  converti en  en « **12**  Tammuz 5579  après la  tombée de  la
+nuit »,
+
+Les trois valeurs possibles de `daypart` sont représentées par
+les caractères
+
+* `☾`  ou U+263E pour la période nocturne avant le lever su soleil, ou `before-sunrise`,
+
+* `☼` ou U+263C pour la journée, ou `daylight`,
+
+* `☽`  ou U+263D pour la période nocturne après le coucher su soleil, ou `after-sunset`.
+
+Par défaut, notamment lorsqu'un module `Date::Calendar::`_xxx_ version
+0.1.n  s'interface  avec  un  module  `Date::Calendar::`_yyy_  version
+0.0.p,  la valeur  attribuée à  la propriété  `daypart` est  la valeur
+`daylight`,  ce qui  permet de  retrouver le  fonctionnement avant  la
+refonte de 2024.
+
+Cette refonte permet de traiter les calendriers qui changent de jour à
+minuit,  ceux  qui changent  de  jour  au  coucher  du soleil  et  les
+calendriers  éventuels  qui  changent  de  jour  au  lever  du  soleil
+(Reingold et Dershowitz supposent que  c'est le cas pour le calendrier
+Haab). Cela ne  permet pas de traiter les changements  de jour à midi,
+mais  cela ne  concerne que  le calendrier  _Julian Day  Number_ .  Ce
+calendrier n'est  pas intéressant de mon  point de vue et  je n'ai pas
+prévu de l'inclure  dans la série des modules de  calendrier. De plus,
+il   aurait    fallu   trouver    deux   symboles    différents   pour
+`daylight-before-noon`  et  pour  `daylight-after-noon`,  au  lieu  de
+seulement `☼` (ou bien U+263C).
+
+Pourquoi `☾` représente-t-il le matin et `☽` représente-t-il le soir ?
+Parce  que `☽`  ou U+263D  est nommé  `FIRST QUARTER  MOON` et  que le
+premier quartier est  visible en soirée, tandis que `☾`  ou U+263E est
+nommé `LAST  QUARTER MOON` et que  le dernier quartier de  la Lune est
+visible le matin, pas le soir.
 
 Après Coup
 ==========
@@ -651,7 +761,7 @@ les noms des mois  et de jours. Et réécrire les  méthodes `new` pour y
 inclure le  nouvel attribut  `locale`. Éh bien  non, ce  dernier point
 n'était même pas nécessaire. Heureusement,  j'ai écrit les tests avant
 d'adapter le module. J'ai écrit les tests,  je les ai exécutés et à ma
-grande  stupeur, il  n'y  a  eu aucune  erreur  là  où j'en  attendais
+grande  stupeur (et à ma grande joie), il  n'y  a  eu aucune  erreur  là  où j'en  attendais
 beaucoup.  Ainsi,  l'appel  d'une  méthode  `new`  avec  le  paramètre
 `locale`  permet d'alimenter  l'attribut  homonyme  sans avoir  besoin
 d'écrire quoi que ce soit dans la classe mère `Date` ou dans la classe
