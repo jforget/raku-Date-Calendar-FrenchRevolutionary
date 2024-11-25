@@ -1,123 +1,134 @@
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 
-=begin pod
+Designer's Notes
+================
 
-=head1 Designer's Notes
-
-=head2 Preliminary
-
-This POD6-formatted text  is no longer mantained. Please  refer to the
-Markdown version.
-
-When displaying this text under Github, you should click on the I<Raw>
-button, the text will be easier to read.
+Preliminary
+-----------
 
 It is better to work with  actual examples rather than generic values.
 So in the text below, I will  use the following dates (Bastille day in
 2019):
 
+```
   Sunday 14 July 2019
   Yom Rishon 11 Tammuz 5779
   11 Dhu al-Qada 1440
-  Sextidi 26 Messidor 227
+  Sextdi 26 Messidor 227
   Tkyriakē 7 Epip 1735
   Segno 7 Ḥamle 2011
   13.0.6.11.16, 8 Cib, 4 Xul
+```
 
-=head2 Purposes
+Purposes
+--------
 
 The various calendar module should obey the following contradictory
 purposes:
 
-=item A user can use as many or as few calendar as he wants. He can
+* A user can use as many or as few calendar as he wants. He can
 use none or all of them.
 
-=item Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
+* Limit code duplication. Prefer DRY (Don't Repeat Yourself) over WET
 (Write Everything Twice).
 
-=item No alteration to the core modules, including C<Date>.
+* No alteration to the core modules, including `Date`.
 
-=head2 First Idea: Roles Everywhere
+First Idea: Roles Everywhere
+----------------------------
 
 My first idea was to make intensive  use of the novelty in Raku Object
 Oriented   Programming,  roles.   Only  the   Gregorian  calendar   is
-implemented  as a  class C<Date>,  all  others are  roles to  C<Date>.
+implemented  as a  class `Date`,  all  others are  roles to  `Date`.
 Example:
 
+```
   my Date $bastille-day does Date::Calendar::Hebrew
                         does Date::Calendar::Hijri
                         does Date::Calendar::FrenchRevolutionary
                         does Date::Calendar::Maya
             .= new(year => 2019, month => 7, day => 14);
+```
 
 The first problem is the conflict between the methods of the various roles.
 If we use
 
+```
   say $bastille-day.month-name
+```
 
-should we get C<Tammuz>, C<Dhu al-Qada> or C<Messidor>?
-Granted, after reading pages 226 and following of I<Learning Perl 6>,
+should we get `Tammuz`, `Dhu al-Qada` or `Messidor`?
+Granted, after reading pages 226 and following of _Learning Perl 6_,
 you can write;
 
+```
   say $bastille-day.month-name( Date::Calendar::FrenchRevolutionary );
   # → Messidor
   say $bastille-day.month-name( Date::Calendar::Hebrew );
   # → Tammuz
+```
 
 but it is cumbersome.
 
-The second problem is that the concept of date is not the same across different
-civilizations. The Gregorian and French Revolutionary calendars use midnight-to-midnight
-dates, while the Hijri and Hebrew calendars (and others) use sunset-to-sunset dates.
-The Julian Day Number calendar (not to be confused with the Julian calendar) uses
-noon-to-noon dates.
-And it is possible that some other calendars use sunrise-to-sunrise dates. So, while
-you can equate 14 July 2019 to 26 Messidor 227, you cannot equate it to 11 Tammuz
-5779. Usually, date conversion programs take the lazy path and mention in their documentation that
-the correspondance 14 July 2019 → 11 Tammuz 5779 is valid only until sunset,
-but we can imagine a hubristic programmer who would use two conversion routines
-or add a C<time-of-day> parameter to the conversion routine to get either
+The second problem is that the concept  of date is not the same across
+different  civilizations.  The   Gregorian  and  French  Revolutionary
+calendars use  midnight-to-midnight dates, while the  Hijri and Hebrew
+calendars  (and others)  use  sunset-to-sunset dates.  The Julian  Day
+Number calendar  (not to  be confused with  the Julian  calendar) uses
+noon-to-noon dates. And  it is possible that some  other calendars use
+sunrise-to-sunrise dates. So, while you can  equate 14 July 2019 to 26
+Messidor 227,  you cannot equate it  to 11 Tammuz 5779.  Usually, date
+conversion  programs  take   the  lazy  path  and   mention  in  their
+documentation that the correspondance 14 July 2019 → 11 Tammuz 5779 is
+valid only until sunset, but we can imagine a hubristic programmer who
+would use two conversion routines  or add a `time-of-day` parameter to
+the conversion routine to get either
 
+```
   14 July 2019 → 11 Tammuz 5779
+```
 
 or
 
+```
   14 July 2019 → 12 Tammuz 5779
+```
 
-With the Hebrew calendar as a role, that would not be possible, with the Hebrew
-calendar as a class, that would be possible. There are still a few problems,
-but at least we are not painted out in a corner.
+With the Hebrew  calendar as a role, that would  not be possible, with
+the Hebrew  calendar as  a class,  that would  be possible.  There are
+still a few problems, but at least we are not painted out in a corner.
 
-I found another reason when writing the French Revolutionary module.
-While there are reasons to allow negative years (or BC years) for the
-Julian and Gregorian calendars (even when considering that the Gregorian
-calendar took effect on 15 October 1582), there is no reason to take into
-account dates before the epochs of the other calendars. For example,
-the French Revolutionary calendar's epoch is 22 September 1792, so
-the 21 September 1792 object should not be allowed to use the
+I found another  reason when writing the  French Revolutionary module.
+While there are reasons to allow  negative years (or BC years) for the
+Julian  and  Gregorian  calendars  (even  when  considering  that  the
+Gregorian calendar took effect on 15 October 1582), there is no reason
+to take into  account dates before the epochs of  the other calendars.
+For example, the French Revolutionary calendar's epoch is 22 September
+1792, so the 21 September 1792 object should not be allowed to use the
 FrenchRevolutionary role's methods.
 
 So the solution is: one calendar = one class.
 
-=head2 Taking a look at C<Date>
+Taking a look at `Date`
+-----------------------
 
-I did not bother to deal with times, so I will look at the
-C<Date> core module instead of C<DateTime>.
+I did not bother to deal with times, so I will look at the `Date` core
+module instead of `DateTime`.
 
-=head3 Day-Only Counting
+### Day-Only Counting
 
-The first difference with Perl  5's C<DateTime> is that Raku's C<Date>
-uses the  MJD or Modified  Julian Day  Number instead of  I<Rata Die>.
-Fine with me.
+The first  difference with Perl  5's `DateTime` is that  Raku's `Date`
+uses the MJD or Modified Julian Day Number instead of _Rata Die_. Fine
+with me.
 
-=head3 Immutability
+### Immutability
 
-A second difference with Perl 5's C<DateTime>
-is that dates are immutable. Why not? It does not bother me.
-Therefore dates in a C<Date::Calendar::>R<Whatever> module will be
-immutable too (but see below for multilingual distributions).
+A  second  difference with  Perl  5's  `DateTime`  is that  dates  are
+immutable.  Why not?  It  does not  bother me.  Therefore  dates in  a
+`Date::Calendar::`_Whatever_  module will  be immutable  too (but  see
+below for multilingual distributions).
 
-=head3 Localization
+### Localization
 
 Another difference with Perl 5 is that there is no provision for
 localized string values: month names and the like. Maybe it was
@@ -126,54 +137,59 @@ schedules, timetables and the like, for which we need the numerical
 values of the days and months but not their localized string values.
 
 For those interested in localized values, there is the zef module
-C<Date::Names>.
+`Date::Names`.
 
-=head2 Simple Calendars
+Simple Calendars
+----------------
 
 As a simple calendar example, I will consider the Hebrew Calendar.
 In this discussion, simplicity is about the module architecture,
 not the conversion algorithms. So, with this point of view, the
 Hebrew calendar, with no variants, is a simple calendar.
 
-=head3 Calendar with one Locale
+### Calendar with one Locale
 
 In my opinion, calendar modules will be used to display dates, not to
 build schedules with them. I will keep the names in a separate module,
 but this module will be within the distribution. For example, the
-C<Date::Calendar::Hebrew> distribution will include both the
-C<Date::Calendar::Hebrew> module and the
-C<Date::Calendar::Hebrew::Names> module.
+`Date::Calendar::Hebrew` distribution will include both the
+`Date::Calendar::Hebrew` module and the
+`Date::Calendar::Hebrew::Names` module.
 
 So we will have:
 
+```
   class    Date::Calendar::Hebrew
   routines Date::Calendar::Hebrew::Names
+```
 
-=head3 Calendar with Several Locales
+### Calendar with Several Locales
 
 If there  are different  languages and  different localizations  for a
 given calendar, I may put the mechanisms  and all the data in the same
-C<Date::Calendar::>R<Whatever>C<::Names>  module,  or I  may  separate
-them with  the mechanisms  in C<Date::Calendar::>R<Whatever>C<::Names>
-and    the   data    in   C<Date::Calendar::>R<Whatever>C<::Names::en>
-C<Date::Calendar::>R<Whatever>C<::Names::fr>,
-C<Date::Calendar::>R<Whatever>C<::Names::it>   and  others.   It  will
+`Date::Calendar::`_Whatever_`::Names`  module,  or I  may  separate
+them with  the mechanisms  in `Date::Calendar::`_Whatever_`::Names`
+and    the   data    in   `Date::Calendar::`_Whatever_`::Names::en`
+`Date::Calendar::`_Whatever_`::Names::fr`,
+`Date::Calendar::`_Whatever_`::Names::it`   and  others.   It  will
 depend on the size.
 
 In the case of the Hebrew calendar and the Hebrew, Yiddish and Aramaic
 languages, we would have:
 
+```
   class    Date::Calendar::Hebrew
   routines Date::Calendar::Hebrew::Names
   routines Date::Calendar::Hebrew::Names::he
   routines Date::Calendar::Hebrew::Names::yi
   routines Date::Calendar::Hebrew::Names::arc
+```
 
 (Sorry, there is no 2-char ISO 639 code for Aramaic, so I have to fall
 back to the 3-char code.)
 
 Another     point    with     multi-localization    is     that    the
-C<Date::Calendar::>R<Whatever> objects will have a C<locale> attribute
+`Date::Calendar::`_Whatever_ objects will have a `locale` attribute
 and  this  attribute will  be  read-write.  The  year, month  and  day
 attributes will still be readonly,  but the locale will be read-write.
 So the object  is not fully immutable. Using  the French Revolutionary
@@ -183,44 +199,45 @@ cosmetic modification,  while changing "Sextidi 26  Messidor 227, jour
 de la sauge" into  "Septidi 27 Messidor 227, jour de  l'ail" is a deep
 modification of the date's inner self.
 
-=head3 Another Multilingual Calendar, The Julian Calendar
+### Another Multilingual Calendar, The Julian Calendar
 
 The structure for  the Julian calendar is very simple.  A first module
-for the C<Date::Calendar::Julian> class and a second one for the month
+for the `Date::Calendar::Julian` class and a second one for the month
 names and  the day names.  Of course, for  this second module,  I have
-chosen an  already existing  one, Tom Browder's  C<Date::Names> rather
+chosen an  already existing  one, Tom Browder's  `Date::Names` rather
 than rewriting everything. The only  glitch, when compared with what I
-wrote above, is that C<Date::Names> has, partially, an object-oriented
+wrote above, is that `Date::Names` has, partially, an object-oriented
 interface. For  abbreviations, it is  a procedural interface,  but for
 the  month  names  and  the  day   names  we  need  to  instantiate  a
-C<Date::Names> object.
+`Date::Names` object.
 
-I could have  created a C<month-name> method and  a C<day-name> method
-which would have created on-the-fly  an instance of C<Date::Names> and
+I could have  created a `month-name` method and  a `day-name` method
+which would have created on-the-fly  an instance of `Date::Names` and
 which would discard it just  after, letting the garbage collector reap
 it. But usually, the module user asks  both the month name and the day
 name,  so  this  solution  is  not  optimal,  because  there  are  two
-instantiated C<Date::Names> objects where one would be enough.
+instantiated `Date::Names` objects where one would be enough.
 
-I  could  have instantiated  a  C<Date::Names>  object each  time  the
-C<locale> attribute is  updated. I have not done this  for two reasons
+I  could  have instantiated  a  `Date::Names`  object each  time  the
+`locale` attribute is  updated. I have not done this  for two reasons
 of dubious value. Firstly, I do not know how to trigger some code when
 an object attribute  is updated. Secondly, if the  module user updates
-the C<locale>  attribute several times in  a row without asking  for a
-month name or  a day name, several C<Date::Names>  instances will have
+the `locale`  attribute several times in  a row without asking  for a
+month name or  a day name, several `Date::Names`  instances will have
 been created and all of them except  the last one are useless. But why
 would a programmer do this?
 
-So  I  have decided  to  do  lazy  instantiation. When  the  C<locale>
-attribute  is  updated,   the  C<Date::Calendar::Julian>  object  does
+So  I  have decided  to  do  lazy  instantiation. When  the  `locale`
+attribute  is  updated,   the  `Date::Calendar::Julian`  object  does
 nothing special. Each time the program asks  for a month name or a day
-name, the  C<Date::Calendar::Julian> object  first checks  whether the
-C<Date::Names> class was instantiated  and whether it was instantiated
+name, the  `Date::Calendar::Julian` object  first checks  whether the
+`Date::Names` class was instantiated  and whether it was instantiated
 with  the   proper  value.   If  no,   the  object   instantiates  the
-C<Date::Names> class and caches the new object instance into a private
-attribute. It also stores the  current value of C<locale> into another
-private attribute, C<$!instantiated-locale>. Example
+`Date::Names` class and caches the new object instance into a private
+attribute. It also stores the  current value of `locale` into another
+private attribute, `$!instantiated-locale`. Example
 
+```
   code               $.locale  $!inst-loc  $!date-names
   $.locale = 'en'    en        empty       empty
   $.locale = 'fr'    fr        empty       empty
@@ -231,14 +248,16 @@ private attribute, C<$!instantiated-locale>. Example
   $.locale = 'en'    en        de          Date::Names::de
   say $.day-name     en        de → en     Date::Names::en.new
   say $.month-name   en        en          Date::Names::en
+```
 
 Since this  lazy instantiation method is  well in the Raku's  style, I
 have not tried  to come back to the previous  solution of intercepting
-updates of C<$.locale> and instantiating C<Date::Names>.
+updates of `$.locale` and instantiating `Date::Names`.
 
-=head2 Calendars with variants
+Calendars with variants
+-----------------------
 
-=head3 French Revolutionary Calendar
+### French Revolutionary Calendar
 
 There are two ways of computing the change of a year to the
 next in the  French Revolutionary Calendar: either the first day
@@ -250,13 +269,13 @@ was scheduled for year XX (Gregorian year 1811).
 
 So we can define three variants.
 
-=item the astronomical variant, where the first day is always on
+* the astronomical variant, where the first day is always on
 the autumn equinox, even after year XX,
 
-=item the arithmetic variant, where the year length is computed
+* the arithmetic variant, where the year length is computed
 with Gregorian-like moduloes, event before year XX,
 
-=item and the historical variant, which takes into account
+* and the historical variant, which takes into account
 the year XX reform and the change of rule.
 
 How does this translate in Raku?
@@ -273,7 +292,7 @@ methods for each direction?
 A  second  idea is  defining  only  one  function  or method  in  each
 direction, using a parameter giving which  variant to use. In the case
 of  the French  Revolutionary →  Maya  conversion, we  would have  two
-parameters,  the  C<from_variant>   parameter  and  the  C<to_variant>
+parameters,  the  `from_variant`   parameter  and  the  `to_variant`
 parameter.  These parameters  would be  optional  and, in  the cas  of
 variantless calendars, ignored.
 
@@ -285,7 +304,7 @@ means  that this  is a  leap  year), and  the second  step would  fail
 because according to  the arithmetic rule, year III is  a normal year,
 with only 5 additional days.
 
-A third possibility is adding a  C<variant> attribute to the  French Revolutionary Calendar
+A third possibility is adding a  `variant` attribute to the  French Revolutionary Calendar
 class to keep track of the variant used when creating the date object.
 In this cas, the "here and back again" conversion will no longer be able
 to use two different variants. It will just add some code in the module
@@ -303,19 +322,19 @@ would contain much duplicated code.  To prevent code duplication, this
 code will  be written  in a role  used by the  three classes.  Thus we
 have:
 
-=item1 Three classes
+* Three classes
 
-=item2  Date::Calendar::FrenchRevolutionary
-=item2  Date::Calendar::FrenchRevolutionary::Astronomical
-=item2  Date::Calendar::FrenchRevolutionary::Arithmetic
+  *  Date::Calendar::FrenchRevolutionary
+  *  Date::Calendar::FrenchRevolutionary::Astronomical
+  *  Date::Calendar::FrenchRevolutionary::Arithmetic
 
-=item1 One role
+* One role
 
-=item2  Date::Calendar::FrenchRevolutionary::Common
+  *  Date::Calendar::FrenchRevolutionary::Common
 
-=item1 One procedural module
+* One procedural module
 
-=item2  Date::Calendar::FrenchRevolutionary::Names
+  *  Date::Calendar::FrenchRevolutionary::Names
 
 This is the possibility I have adopted.
 
@@ -323,53 +342,53 @@ Note that the shortest name is given to the main variant, which will
 certainly be the most often used variant.
 
 Actually, there is even a fifth possibility, which merges possibilities 3 and
-4. Each one of the three classes has a C<algorithm> method which returns
-a constant result, which will be  C<"historic">, C<"astronomical">
-or C<"arithmetic"> depending on the class. If I think it can be useful,
+4. Each one of the three classes has a `algorithm` method which returns
+a constant result, which will be  `"historic"`, `"astronomical"`
+or `"arithmetic"` depending on the class. If I think it can be useful,
 I will switch to this possibility.
 
-=head3 Coptic and Ethiopic Calendars
+### Coptic and Ethiopic Calendars
 
 The Coptic and Ethiopic calendars are very simple calendars, sharing a
 common structure:
 
-=item1 12 months of 30 days each
-=item1 followed by 5 or 6 additional days, called I<epagomenal days>.
+* 12 months of 30 days each
+* followed by 5 or 6 additional days, called _epagomenal days_.
 
 Leap years are years preceding a multiple of 4, or equal to 4 × n + 3,
 no matter if they are near the end of a century or not.
 
 There are two differences between these calendars:
 
-=item1 Obviously, months and days have different names.
+* Obviously, months and days have different names.
 
-=item1 The conversion  with other calendars is not the  same. In other
+* The conversion  with other calendars is not the  same. In other
 words, the Gregorian date for Coptic 0001-01-01 is not the same as the
 Gregorian date for Ethiopic 0001-01-01.
 
 But there  are still  many common points,  which suggest  code sharing
 between the two modules. So we will have:
 
-=item1 Two classes
+* Two classes
 
-=item2  Date::Calendar::Coptic
-=item2  Date::Calendar::Ethiopic
+  *  Date::Calendar::Coptic
+  *  Date::Calendar::Ethiopic
 
-=item1 One role
+* One role
 
-=item2  Date::Calendar::CopticEthiopic (no need to add C<"::Common">)
+  *  Date::Calendar::CopticEthiopic (no need to add `"::Common"`)
 
-=item1 Two procedural modules
+* Two procedural modules
 
-=item2  Date::Calendar::Coptic::Names
-=item2  Date::Calendar::Ethiopic::Names
+  *  Date::Calendar::Coptic::Names
+  *  Date::Calendar::Ethiopic::Names
 
 The only remaining point is the  name of the distribution. There is no
 reason  to call  it after  the Coptic  calendar while  belittleing the
 Ethiopic calendar.  And vice-versa. So  the distribution name  will be
-C<Date::Calendar::CopticEthiopic>.
+`Date::Calendar::CopticEthiopic`.
 
-=head3 Maya Calendar and Aztec Calendar
+### Maya Calendar and Aztec Calendar
 
 The case of  the Maya Calendar is similar to  the French Revolutionary
 calendar, because there  are several ways to convert  dates between it
@@ -377,17 +396,17 @@ and the Gregorian calendar. It is also similar to the Coptic calendar,
 because it shares  many mechanisms with the Aztec  calendar, just like
 the Coptic calendar shares many mechanisms with the Ethiopic calendar.
 
-Pedants  will  argue that  there  is  not  I<one> Maya  calendar,  but
-I<three>:
+Pedants  will  argue that  there  is  not  _one_ Maya  calendar,  but
+_three_:
 
-=item the  long count, using  embedded cycles  of length 20  (with one
+* the  long count, using  embedded cycles  of length 20  (with one
 exception)  and   usually  displayed   in  a  dotted   notation,  e.g.
 13.0.6.11.16
 
-=item the clerical calendar, or Tzolkin,  which combines a cycle of 13
+* the clerical calendar, or Tzolkin,  which combines a cycle of 13
 numbers with a cycle of 20 names, e.g. 8 Cib
 
-=item the  common calendar,  or Haab, consisting  of 18  named months,
+* the  common calendar,  or Haab, consisting  of 18  named months,
 each with 20 numbered days, plus 5 additional days. E.g. 4 Xul
 
 So the various date converters  deal with the "Maya calendars system",
@@ -395,8 +414,8 @@ with an  "s" to  "calendars", but to  streamline the  explanations, we
 will talk about the Maya calendar (with no "s").
 
 It  is the  same, only  simpler, with  the Aztec  calendar. This  is a
-two-calendar system,  with a  clerical calendar,  or I<tonalpohualli>,
-similar to Tzolkin, and a  common calendar, or I<xiupohualli>, similar
+two-calendar system,  with a  clerical calendar,  or _tonalpohualli_,
+similar to Tzolkin, and a  common calendar, or _xiupohualli_, similar
 to Haab. Aztecs had nothing ressembling the Mayas' long count.
 
 For the conversion from Gregorian (or other) to Aztec, there are three
@@ -404,6 +423,7 @@ opinions  from  the specialists:  the  Alfonso  Caso method,  with  or
 without  H.B. Nicholson's  adjustment, or  Francisco Cortes's  method.
 Here is a table showing how these methods work and differ.
 
+```
   Gregorian        Caso               Caso          Francisco
              without Nicholson    with Nicholson      Cortes
   2019-09-26   17 Tititl          17 Tititl         20 Tititl
@@ -424,6 +444,7 @@ Here is a table showing how these methods work and differ.
   2019-10-23   19 Izcalli          4 Nemontemi       2 Atlcahualo
   2019-10-24   20 Izcalli          5 Nemontemi       3 Atlcahualo
   2019-10-25    1 Atlcahualo       1 Atlcahualo      4 Atlcahualo
+```
 
 A small reminder  about the French Revolutionary,  Coptic and Ethiopic
 calendars:  the year  is  incremented after  the  last additional  day
@@ -443,11 +464,11 @@ there I differ from them.
 How do  we correlate  the Maya  calendar to  the others?  Reingold and
 Dershowitz  describe  two  rules, the  Goodman-Martinez-Thompson  rule
 (which  they  implement) and  the  Spinden  rule  (which they  do  not
-implement). Abigail's module C<Date::Maya>  gives three unnamed rules,
+implement). Abigail's  module `Date::Maya` gives three  unnamed rules,
 but we  recognize the  Goodman-Martinez-Thompson rule and  the Spinden
 rule. We  find the same three  unnamed rules in Claus  Tøndering's FAQ
-(L<https://www.tondering.dk/claus/cal/maya.php>).  The  FAMSI  website
-(L<http://research.famsi.org/date_mayaLC.php>) suggest eight different
+([https://www.tondering.dk/claus/cal/maya.php]).  The   FAMSI  website
+([http://research.famsi.org/date_mayaLC.php]) suggest  eight different
 rules. The default rule is the GMT  rule, which has nothing to do with
 the     Greenwich      Mean     Time,     but      which     represent
 Goodman-Martinez-Thompson.
@@ -456,48 +477,40 @@ At first,  I will implement the  three rules suggested by  Abigail and
 Claus Tøndering.  Later, it  will still  be possible  to add  the five
 remaining rules mentionned by the FAMSI. So we will have
 
-=item1 Five classes
+* Five classes
 
-=item2  Date::Calendar::Maya
-implementing the Goodman-Martinez-Thompson rule
+  *  Date::Calendar::Maya implementing the Goodman-Martinez-Thompson rule
 
-=item2  Date::Calendar::Maya::Spinden
-implementing the Spinden rule
+  *  Date::Calendar::Maya::Spinden implementing the Spinden rule
 
-=item2  Date::Calendar::Maya::Astronomical
-implementing the rule with the same name
+  *  Date::Calendar::Maya::Astronomical implementing the rule with the same name
 
-=item2  Date::Calendar::Aztec
-implementing the Alfonso Caso rule
+  *  Date::Calendar::Aztec implementing the Alfonso Caso rule
 
-=item2  Date::Calendar::Aztec::Cortes
-implementing the Francisco Cortes rule
+  *  Date::Calendar::Aztec::Cortes implementing the Francisco Cortes rule
 
-=item1 Three roles
+* Three roles
 
-=item2  Date::Calendar::MayaAztec
-(no need to add "::Common"), implementing the civil and clerical calendars
+  *  Date::Calendar::MayaAztec (no need to add "::Common"), implementing the civil and clerical calendars
 
-=item2  Date::Calendar::Maya::Common
-implementing the long count and giving the aliases I<Haab> and I<Tzolkin> to the civil and clerical calendars
+  *  Date::Calendar::Maya::Common implementing the long count and giving the aliases _Haab_ and _Tzolkin_ to the civil and clerical calendars
 
-=item2  Date::Calendar::Aztec::Common
-giving the aliases I<xiupohualli> and I<tonalpohualli>  to the civil and clerical calendars
+  *  Date::Calendar::Aztec::Common giving the aliases _xiupohualli_ and _tonalpohualli_  to the civil and clerical calendars
 
-=item1 Two procedural modules
+* Two procedural modules
 
-=item2  Date::Calendar::Maya::Names
-=item2  Date::Calendar::Aztec::Names
+  *  Date::Calendar::Maya::Names
+  *  Date::Calendar::Aztec::Names
 
-=head3 About Cyclic Calendars
+### About Cyclic Calendars
 
 While most calendars have a year number ranging from 1 to the infinite
 some calendars  have a cyclic  value. This is  the case with  the Maya
 long count, with a cycle of about 7885 years (20 baktuns). This is the
 case also with the Maya and the Aztec calendar rounds, with a cycle of
 18980 days (about 52 years). This may be the case with other calendars
-I have  not yet considered. So  we can convert I<to>  these calendars,
-but not I<from> them.
+I have  not yet considered. So  we can convert _to_  these calendars,
+but not _from_ them.
 
 For the Maya long count, with its 7885-year cycle, the problem is more
 theoretical than practical. The cycling means that day "0.0.0.0.0" can
@@ -520,27 +533,27 @@ but you will not be able to convert it to anything else".
 Before examining  version 0.0.2 of  the Maya  Aztec module, here  is a
 sidenote  about the  MJD (Modified  Julian  Day number)  in the  other
 calendar modules.  Initially, my  intention was  to implement  the MJD
-with a C<daycount> I<method>, which would compute the MJD each time it
+with a `daycount` _method_, which would compute the MJD each time it
 was called. Then I realised it was more efficient to implement the MJD
-as a  C<daycount> I<attribute>, stored  inside the object. No  need to
+as a  `daycount` _attribute_, stored  inside the object. No  need to
 compute it if the date is created by conversion from another calendar,
 and it needs  to be computed only  once if the date is  built from the
 year, month and day values. This is  the way the MJD is implemented in
 every  calendar module,  except the  French Revolutionary  calendar (I
 have forgotten  to fix it) and  the Gregorian calendar (I  rely on the
-implementation in the core class C<Date>).
+implementation in the core class `Date`).
 
-So I decided to include a  C<daycount> attribute in Aztec dates, which
-allows conversions I<from> Aztec. How  is this attribute filled? For a
-conversion to  Aztec, no problem,  just copy the C<daycount>  from the
+So I decided  to include a `daycount` attribute in  Aztec dates, which
+allows conversions _from_  Aztec. How is this attribute  filled? For a
+conversion to  Aztec, no  problem, just copy  the `daycount`  from the
 source  date. For  building with  calendar  round values,  how do  you
 compute an  inifinite number of  results when  you have at  most 18980
 different  input combinations?  I have  taken a  idea I  have seen  in
-Reingold and Dershowitz's F<calendar.l> and  maybe elsewhere (I do not
+Reingold and Dershowitz's  `calendar.l` and maybe elsewhere  (I do not
 remember). The Lisp function (or the Raku constructor) receives one of
 the 18980 combinations of calendar round values, plus a reference date
 from another calendar  and it computes the date  matching the calendar
-round values, I<on or before> the reference date. I have used the same
+round values, _on or before_ the  reference date. I have used the same
 idea for building  an Aztec date, except that "on  or before" does not
 seem a natural  choice for me, so  I allow the user  to choose another
 relation,  such  as  "on  or   after"  or  "nearest".  And  thanks  to
@@ -548,18 +561,19 @@ code-sharing, I implemented a similar  method to build Maya dates from
 calendar round values.
 
 
-=head1 In Hindsight
+In Hindsight
+============
 
 After having  implemented the calendars  mentioned above, I  find that
 the architecture I have designed is a correct one. Not necessarily the
 best one,  but good enough.  I am still  not sure about  splitting the
-C<Calendar::>R<xxx>C<::Names>  modules  from  the  corresponding  main
-class C<Calendar::>R<xxx>, but it works.
+`Calendar::`_xxx_`::Names`  modules  from  the  corresponding  main
+class `Calendar::`_xxx_, but it works.
 
 But there  are things  I had  not foreseen, or  for which  my original
 intention would have led to a bad design.
 
-The first point is the C<strftime> method. At first, I thought I would
+The first point is the `strftime` method. At first, I thought I would
 have to write different, yet  similar, methods for each calendar, thus
 trampling the  DRY principle. Then  I realised  that I could  write an
 independent  role  with  just  this  method,  released  and  installed
@@ -570,38 +584,37 @@ structure for a dispatch table.
 
 The other point I discovered while writing my modules is that it would
 be a good idea to write a  Gregorian calendar module, even if there is
-already  the  core class  C<Date>.  Since  the  beginning, I  had  the
-intention  to make  my  conversions methods  compatible with  C<Date>,
+already  the  core class  `Date`.  Since  the  beginning, I  had  the
+intention  to make  my  conversions methods  compatible with  `Date`,
 hence the "push  style" and the "pull style". On  the other hand, even
-after     defining    C<strftime>     as    an     independant    role
-C<Date::Calendar::Strftime>,  I did  not  bother  to make  C<strftime>
-compatible with  C<Date>. I  still made some  checks and  I discovered
+after     defining    `strftime`     as    an     independant    role
+`Date::Calendar::Strftime`,  I did  not  bother  to make  `strftime`
+compatible with  `Date`. I  still made some  checks and  I discovered
 that  by  writing a  few  additional  lines,  a programmer  could  use
-C<strftime> with standard dates and get at least the numerical values.
+`strftime` with standard dates and get at least the numerical values.
 The alphabetic values (month names and day names) were still lacking.
 
-If we want a complete support of C<strftime> in C<Date>, we must write
-some  additional code,  especially a  C<month-name> and  a C<day-name>
-methods, plus the management of  a new C<locale> attribute. Instead of
-requesting  every user  of  my  C<Date::Calendar::Strftime> module  to
+If we want a complete support of `strftime` in `Date`, we must write
+some  additional code,  especially a  `month-name` and  a `day-name`
+methods, plus the management of  a new `locale` attribute. Instead of
+requesting  every user  of  my  `Date::Calendar::Strftime` module  to
 write  this additional  code, I  realised that  I could  write it  and
-release it as  a new class C<Date::Calendar::Gregorian>.  Of course, I
+release it as  a new class `Date::Calendar::Gregorian`.  Of course, I
 would follow  the DRY  principle and  my class  would inherit  all the
-stuff of C<Date>. I had only to add conversion methods, and getters to
-give the month names and the day  names. Oh, and also tweak the C<new>
-methods  to allow  a C<locale>  parameter which  would initialize  the
+stuff of `Date`. I had only to add conversion methods, and getters to
+give the month names and the day  names. Oh, and also tweak the `new`
+methods  to allow  a `locale`  parameter which  would initialize  the
 homonymous attribute. Well,  no, it was not  necessary. Fortunately, I
 wrote the  tests before changing  the module.  I wrote the  tests, ran
 them, and  I was  astonished (and  glad) to  see absolutely  no errors
-where I expected a whole truckload of them. So calling a C<new> method
-from  the class  C<Date>  with  a C<locale>  parameter  would have  no
+where I expected a whole truckload of them. So calling a `new` method
+from  the class  `Date`  with  a `locale`  parameter  would have  no
 problems  at  all with  storing  this  parameter into  the  homonymous
-atribute, without having to change a  line in the parent C<Date> class
-nor in the child C<Date::Calendar::Gregorian> class.
+atribute, without having to change a  line in the parent `Date` class
+nor in the child `Date::Calendar::Gregorian` class.
 
-=head1 License
+License
+=======
 
 This  text is  licensed  under  the terms  of  Creative Commons,  with
 attribution and share-alike (CC-BY-SA).
-
-=end pod

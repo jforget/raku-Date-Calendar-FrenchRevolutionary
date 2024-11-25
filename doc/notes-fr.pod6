@@ -6,6 +6,9 @@
 
 =head2 Préliminaire
 
+Ce texte  formatté en POD6  n'est plus mis à  jour. Prière de  lire la
+version Markdown à la place.
+
 Si vous affichez  ce texte sous Github, il est  préférable de demander
 l'affichage brut (bouton I<raw>) que l'affichage par défaut.
 
