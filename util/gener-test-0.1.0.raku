@@ -75,9 +75,9 @@ gener-new-sunset(  'et', 230,  1, 15);
 gener-new-midnight('fr', 232,  3, 28);
 gener-new-midnight('fa', 230,  7,  7);
 gener-new-midnight('fe', 231,  4,  5);
-gener-new-sunset(  'gr', 229, 10, 24);
+gener-new-midnight('gr', 229, 10, 24);
 gener-new-sunset(  'he', 231, 12, 11);
-gener-new-midnight('hi', 229,  7, 25);
+gener-new-sunset(  'hi', 229,  7, 25);
 gener-new-midnight('jl', 233,  6,  4);
 gener-new-midnight('jc', 232,  7, 18);
 gener-new-midnight('pe', 230, 10, 19);
@@ -236,8 +236,24 @@ apps). Please remember that the other sources do not care about sunset
 (and sunrise for the civil Maya and Aztec calendars) and that you will
 have to mentally shift the results before the comparison.
 
-And after  the data  are checked,  copy-past the  lines into  the test
-scripts  C<xt/12-conv-old.rakutest>   and  C<xt/13-conv-new.rakutest>.
+And after  the data are  checked, copy-paste  the lines into  the test
+scripts C<xt/12-conv-old.rakutest> and C<xt/13-conv-new.rakutest>.
+
+In C<xt/12-conv-old.rakutest>,  fill the C<@data-maya> array  with the
+lines listing Maya and Aztec  dates and fill the C<@data-others> array
+with the lines listing other dates. Then cut the lines listing C<'gr'>
+dates  and  paste  them  into  the C<@data-greg>  array  and  add  the
+Gregorian date with  the 'YYYY-MM-AA' format at the end  of each array
+line.
+
+In C<xt/13-conv-new.rakutest>,  fill the C<@data-maya> array  with the
+lines listing  Maya and Aztec dates  and fill the C<@data>  array with
+the lines listing other dates. Then cut the lines listing the calendar
+not yet converted  to version 0.1.0 or  API 1 and paste  them into the
+C<@data-to-do>  array.  Then,  as  the other  modules  are  converted,
+cut-and-paste  the   corresponding  lines  from   C<@data-to-do>  into
+C<@data>.
+
 Remember  that you  need to  erase the  first comma  in each  chunk of
 copied-pasted code.
 
