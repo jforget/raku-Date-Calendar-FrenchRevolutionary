@@ -143,16 +143,16 @@ sub gener-new($midnight, $key, $year, $month, $day) {
   my Str $w2 = ''; if $s1.chars < $lg { $w2 = ' ' x ($lg - $s2.chars); }
   if $midnight {
     print qq:to<EOF>
-	 , ($year, $month-x, $day-x, before-sunrise, '$key', "$s1 ☾"$w1, "$sf1 ☾", "Gregorian: $gr1")
-	 , ($year, $month-x, $day-x, daylight,       '$key', "$s1 ☼"$w1, "$sf1 ☼", "Gregorian: $gr1")
-	 , ($year, $month-x, $day-x, after-sunset,   '$key', "$s1 ☽"$w1, "$sf1 ☽", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, before-sunrise, '$key', "$s1 ☾"$w1, "$sf1 ☾", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, daylight,       '$key', "$s1 ☼"$w1, "$sf1 ☼", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, after-sunset,   '$key', "$s1 ☽"$w1, "$sf1 ☽", "Gregorian: $gr1")
     EOF
   }
   else {
     print qq:to<EOF>
-	 , ($year, $month-x, $day-x, before-sunrise, '$key', "$s1 ☾"$w1, "$sf1 ☾", "Gregorian: $gr1")
-	 , ($year, $month-x, $day-x, daylight,       '$key', "$s1 ☼"$w1, "$sf1 ☼", "Gregorian: $gr1")
-	 , ($year, $month-x, $day-x, after-sunset,   '$key', "$s2 ☽"$w2, "$sf1 ☽", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, before-sunrise, '$key', "$s1 ☾"$w1, "$sf1 ☾", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, daylight,       '$key', "$s1 ☼"$w1, "$sf1 ☼", "Gregorian: $gr1")
+         , ($year, $month-x, $day-x, after-sunset,   '$key', "$s2 ☽"$w2, "$sf1 ☽", "Gregorian: $gr1")
     EOF
   }
 }

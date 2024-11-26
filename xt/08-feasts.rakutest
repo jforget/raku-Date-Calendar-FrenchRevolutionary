@@ -47,6 +47,7 @@ sub load-data {
  return     ((227,  1,  11, 'pomme de terre', 14, "jour de la pomme de terre", "Jour de la Pomme de terre", "potato"       , "Day of Potato")
            , (227,  1,  13, 'potiron'       ,  7, "jour du potiron"          , "Jour du Potiron"          , "squash"       , "Day of Squash")
            , (227,  1,  25, 'bœuf'          ,  4, "jour du bœuf"             , "Jour du Bœuf"             , "ox"           , "Day of Ox")
+           , (227,  2,  13, 'topinambour'   , 11, "jour du topinambour"      , "Jour du Topinambour"      , "Jerusalem artichoke", "Day of Jerusalem artichoke"      )
            , (227,  2,  16, 'chervis'       ,  7, "jour du chervis"          , "Jour du Chervis"          , "skirret"      , "Day of Skirret"      )
            , (227,  5,  14, 'avelinier'     ,  9, "jour de l'avelinier"      , "Jour de l'Avelinier"      , "common hazel" , "Day of Common hazel" )
            , (227,  7,  14, 'hêtre'         ,  5, "jour du hêtre"            , "Jour du Hêtre"            , "beech tree"   , "Day of Beech tree"   )

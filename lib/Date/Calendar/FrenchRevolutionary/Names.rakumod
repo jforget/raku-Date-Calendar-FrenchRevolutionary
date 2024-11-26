@@ -154,7 +154,7 @@ unit module Date::Calendar::FrenchRevolutionary::Names:ver<0.1.0>:auth<zef:jforg
                    Q :ww/
                      apple                celery            pear                  beetroot        goose
                      heliotrope           fig              "black salsify"        ?whitebeam      plow
-                     salsify             "water chestnut"  "jerusalem artichoke"  endive          turkey
+                     salsify             "water chestnut"  "Jerusalem artichoke"  endive          turkey
                      skirret              cress             ?plumbago             pomegranate     harrow
                      ?bacchante           azarole           madder                orange          pheasant
                      pistachio           "tuberous pea"     quince               "service tree"   roller
