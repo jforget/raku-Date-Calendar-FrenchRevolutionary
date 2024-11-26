@@ -6,10 +6,11 @@ use Test;
 use Date::Calendar::FrenchRevolutionary;
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
+use Date::Calendar::Strftime;
 
 plan  3  # classes
    ×  2  # languages
-   × 15  # accessors
+   × 16  # accessors
    +  1; # special case
 
 #
@@ -35,6 +36,7 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-of-décade,  8);
   is($d.décade-number,  5);
   is($d.daycount,  -21192);
+  is($d.daypart, daylight);
 
   $d.locale = 'en';
 
@@ -53,6 +55,7 @@ for ($d-hi, $d-as, $d-ar) -> $d {
   is($d.day-of-décade,  8);
   is($d.décade-number,  5);
   is($d.daycount,  -21192);
+  is($d.daypart, daylight);
 }
 
 $d-hi .= new(year => 228, month => 6, day => 10);

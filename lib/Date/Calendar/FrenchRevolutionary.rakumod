@@ -9,14 +9,14 @@ unit class    Date::Calendar::FrenchRevolutionary:ver<0.1.0>:auth<zef:jforget>:a
          does Date::Calendar::FrenchRevolutionary::Common
          does Date::Calendar::Strftime;
 
-method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr') {
+method BUILD(Int:D :$year, Int:D :$month, Int:D :$day, Str :$locale = 'fr', Int :$daypart = daylight()) {
   self!check-build-args($year, $month, $day, $locale, &vnd1);
-  self!build-from-args( $year, $month, $day, $locale);
+  self!build-from-args( $year, $month, $day, $locale, $daypart);
 }
 # -24161 is MJD for 1792-09-22, which is the FR epoch
-method new-from-daycount(Int $count where  { $_ ≥ -24161 }) {
+method new-from-daycount(Int $count where  { $_ ≥ -24161 }, Int :$daypart = daylight()) {
   my ($y, $m, $d) = $.elems-from-daycount($count, &vnd1);
-  $.new(year => $y, month => $m, day => $d);
+  $.new(year => $y, month => $m, day => $d, daypart => $daypart);
 }
 
 method vnd1 {

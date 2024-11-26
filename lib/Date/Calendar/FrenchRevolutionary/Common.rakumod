@@ -1,4 +1,5 @@
 use v6.d;
+use Date::Calendar::Strftime:api<1>;
 use Date::Calendar::FrenchRevolutionary::Names;
 unit role Date::Calendar::FrenchRevolutionary::Common:ver<0.1.0>:auth<zef:jforget>:api<1>;
 
@@ -6,6 +7,7 @@ has Int $.year  where { $_ ≥ 1 };
 has Int $.month where { 1 ≤ $_ ≤ 13 };
 has Int $.day   where { 1 ≤ $_ ≤ 30 };
 has Int $.daycount;
+has Int $.daypart where { before-sunrise() ≤ $_ ≤ after-sunset() };
 has Str $.locale is rw where { Date::Calendar::FrenchRevolutionary::Names::allowed-locale($_) } = 'fr';
 
 method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) {
@@ -79,17 +81,19 @@ method !check-build-args(Int $year, Int $month, Int $day, Str $locale, &vnd1-f) 
   }
 }
 
-method !build-from-args(Int $year, Int $month, Int $day, Str $locale) {
+method !build-from-args(Int $year, Int $month, Int $day, Str $locale, Int $daypart) {
   $!year     = $year;
   $!month    = $month;
   $!day      = $day;
   $!locale   = $locale;
   $!daycount = $.daycount-from-elems;
+  $!daypart  = $daypart;
 }
 
 method new-from-date($date) {
-  $.new-from-daycount($date.daycount);
+  $.new-from-daycount($date.daycount, daypart => $date.?daypart // daylight);
 }
+
 method elems-from-daycount(Int $count, $vnd1-f) {
   my Int $gr_year = floor($count/ 365) + 1860;
   my Int $vnd1_count = $count + 1;
@@ -113,7 +117,7 @@ method daycount-from-elems {
 
 method to-date($class = 'Date') {
   # See "Learning Perl 6" page 177
-  my $d = ::($class).new-from-daycount($.daycount);
+  my $d = ::($class).new-from-daycount($.daycount, daypart => $.daypart);
   return $d;
 }
 
