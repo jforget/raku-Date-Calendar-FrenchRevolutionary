@@ -6,6 +6,11 @@ Designer's Notes
 Preliminary
 -----------
 
+There  is  a  POD6  version  of this  documentation,  but  it  is  not
+up-to-date, while  this Markdown version  is. And when you  browse the
+Github  repository,   the  Markdown  version  is   converted  to  HTML
+on-the-fly, while the POD6 version is displayed as raw POD6.
+
 It is better to work with  actual examples rather than generic values.
 So in the text below, I will  use the following dates (Bastille day in
 2019):
@@ -575,17 +580,17 @@ calendar round values.
 About additional days
 ---------------------
 
-When  I studied  the  Aztec calendar,  especially  the H.B.  Nicholson
+When I worked on the Aztec calendar and pondered about the H.B. Nicholson
 adjustment, I compared with the way the additional days are dealt with
 in the Coptic,  Ethiopic and French Revolutionary  calendars, to state
 that the additional  days are always inserted at the  end of the year.
-Actually, this is  false. The Baha'i calendar has 19  mois of 19 days,
+Actually, this is  false. The Bahá’í calendar has 19  mois of 19 days,
 plus  4  additional days  (Ayyám-i-Há)  during  a  normal year,  or  5
 additional days during a leap  year. These additional days are located
 between the next-to-last month (Mulk) and the last month (‘Alá’).
 
 There is  a good  reason for  this peculiar  setup. In  the arithmetic
-variant of the Baha'i calendar, the beginning of a year is computed so
+variant of the Bahá’í calendar, the beginning of a year is computed so
 it will happen  on the 21st March of the  Gregorian calendar, which is
 more or less the spring equinox.  The rules for leap years ensure that
 this coincidence  happens every year.  So here is the  equivalence for
@@ -595,7 +600,7 @@ the last days of February and for significant days in March:
 |------------------|---------------|----------------|--------------|
 | 25 February      | 19 Mulk       | 25 February    | 19 Mulk      |
 | 26 February      | 1 Ayyám-i-Há  | 26 February    | 1 Ayyám-i-Há |
-| 27 February      | 3 Ayyám-i-Há  | 27 February    | 3 Ayyám-i-Há |
+| 27 February      | 2 Ayyám-i-Há  | 27 February    | 2 Ayyám-i-Há |
 | 28 February      | 3 Ayyám-i-Há  | 28 February    | 3 Ayyám-i-Há |
 |                  |               | 29 February    | 4 Ayyám-i-Há |
 | 1 March          | 4 Ayyám-i-Há  | 1 March        | 5 Ayyám-i-Há |
@@ -605,7 +610,7 @@ the last days of February and for significant days in March:
 | 21 March         | 1 Bahá (N+1)  | 21 March       | 1 Bahá (N+1) |
 
 As you can see  in the table above, this smart  setup gives a constant
-equivalence  between any  Gregorian day  and the  corresponding Baha'i
+equivalence  between any  Gregorian day  and the  corresponding Bahá’í 
 day. The only exceptions are 1st  March and 4 Ayyám-i-Há, which may be
 associated with 5 Ayyám-i-Há and 29th February respectively.
 
@@ -619,7 +624,7 @@ Above,  I have  mentioned a  "hubristic  programmer" who  would add  a
 `time-of-day`  parameter to  the  conversion  functions. Actually,  in
 November  2024,  I   added  a  `daypart`  attribute   in  the  classes
 `Date::Calendar::`_xxxx_.  Not only  we distinguish  the 14th  of July
-2019 from the 15th of Juy 2019, but we also distinguish the "14th July
+2019 from the 15th of July 2019, but we also distinguish the "14th July
 2019 before sunrise" from the "14th July 2019 during the daylight" and
 from  the  "14th  July  after  sunset".  The  `daypart`  attribute  is
 immutable, like the `daycount` attribute.
@@ -636,6 +641,12 @@ The three possible values for `daypart` are symbolised by the following three ch
 * `☼` or U+263C for the daylight period, aptily called with `daylight`,
 
 * `☽` or U+263D for the night time from sunset to midnight, called with `after-sunset`.
+
+Why the choice `☾` for the morning and `☽` for the evening? Because on
+one hand  `☽` (U+263D)  is named  `FIRST QUARTER  MOON` and  the first
+quarter is visible in the evening,  and on the other hand `☾` (U+263E)
+is named  `LAST QUARTER MOON` and  the last quarter is  visible in the
+morning.
 
 The  default  value  for   the  `daypart`  parameter  (or  attribute),
 especially when a `Date::Calendar::`_xxx_ module with version 0.1.n is
@@ -654,12 +665,6 @@ From my point of view, this calendar  is not interesting and I have no
 plan to include it in my series of calendar modules. In addition, this
 would  require two  different symbols  for `daylight-before-noon`  and
 `daylight-after-noon`, instead of just `☼` (or U+263C).
-
-Why the choice `☾` for the morning and `☽` for the evening? Because on
-one hand  `☽` (U+263D)  is named  `FIRST QUARTER  MOON` and  the first
-quarter is visible in the evening,  and on the other hand `☾` (U+263E)
-is named  `LAST QUARTER MOON` and  the last quarter is  visible in the
-morning.
 
 In Hindsight
 ============

@@ -107,8 +107,8 @@ convenient to consider they form a 13th month.
 
 At first,  the year was  beginning on the  equinox of autumn,  for two
 reasons.  First, the  republic had  been established  on 22  September
-1792, which  happened to be the  equinox, and second, the  equinox was
-the symbol of equality, the day and the night lasting exactly 12 hours
+1792, which happened to be the  equinox, and second, the equinox was a
+symbol for  equality, the day and  the night lasting exactly  12 hours
 each. It  was therefore  in tune with  the republic's  motto "Liberty,
 Equality, Fraternity". But  it was not practical, so  Romme proposed a
 leap year  rule similar  to the Gregorian  calendar rule.  This module

@@ -80,6 +80,28 @@ say $Robespierre's-downfall-gr;
 
 =end code
 
+Conversion with a calendar which defines days as sunset to sunset
+
+=begin code :lang<perl6>
+
+use Date::Calendar::Strftime;
+use Date::Calendar::Hebrew;
+use Date::Calendar::FrenchRevolutionary;
+my  Date::Calendar::FrenchRevolutionary $d-fr;
+my  Date::Calendar::Hebrew              $d-he;
+
+$d-fr .= new(year => 233, month => 2, day => 23, daypart => daylight);
+$d-he .= new-from-date($d-fr);
+say $d-he.strftime("%A %d %B %Y");
+# ---> "Yom Reviʻi 12 Heshvan 5785"
+
+$d-fr .= new(year => 233, month => 2, day => 23, daypart => after-sunset);
+$d-he .= new-from-date($d-fr);
+say $d-he.strftime("%A %d %B %Y");
+# ---> "Yom Chamishi 13 Heshvan 5785"
+
+=end code
+
 =head1 DESCRIPTION
 
 Date::Calendar::FrenchRevolutionary is  a class representing  dates in
@@ -105,8 +127,8 @@ convenient to consider they form a 13th month.
 
 At first,  the year was  beginning on the  equinox of autumn,  for two
 reasons.  First, the  republic had  been established  on 22  September
-1792, which  happened to be the  equinox, and second, the  equinox was
-the symbol of equality, the day and the night lasting exactly 12 hours
+1792, which happened to be the  equinox, and second, the equinox was a
+symbol for  equality, the day and  the night lasting exactly  12 hours
 each. It  was therefore  in tune with  the republic's  motto "Liberty,
 Equality, Fraternity". But  it was not practical, so  Romme proposed a
 leap year rule similar to the Gregorian calendar rule.
@@ -122,23 +144,39 @@ arithmetic rule was established since the beginning of the calendar.
 =head3 new
 
 Create a French  Revolutionary date by giving the year,  month and day
-numbers and optionaly the locale.
+numbers and optionally the locale and the day part.
 
 =head3 new-from-date
 
 Build a  French Revolutionary date  by cloning an object  from another
 class.  This  other  class  can  be the  core  class  C<Date>  or  any
-C<Date::Calendar::>R<xxx> class with a C<daycount> method.
+C<Date::Calendar::>R<xxx>   class  with   a  C<daycount>   method  and
+hopefully a C<daypart> method.
 
 =head3 new-from-daycount
 
-Build a French Revolutionary date from the Modified Julian Day number.
+Build a French Revolutionary date  from the Modified Julian Day number
+and from the C<daypart> parameter (optional, defaults do C<daylight>).
 
 =head2 Accessors
+
+=head3 gist
+
+Gives a short string representing the date, in C<YYYY-MM-DD> format.
 
 =head3 year, month, day
 
 The numbers defining the date.
+
+=head3 daypart
+
+A  number indicating  which part  of the  day. This  number should  be
+filled   and   compared   with   the   following   subroutines,   with
+self-documenting names:
+
+=item before-sunrise
+=item daylight
+=item after-sunset
 
 =head3 locale
 
@@ -146,7 +184,8 @@ The  locale which  controls the  month names,  the day  names and  the
 feasts. For the moment, only the French locale C<'fr'> and the English
 locale C<'en'> are available.
 
-This attribute is rewriteable, unlike the year, the month and the day.
+This attribute is rewriteable, unlike the year, the month, the day and
+the day part.
 
 =head3 month-name
 
@@ -183,7 +222,7 @@ C<"Day of Saffron">.
 
 =head3 daycount
 
-Convert the date to Modified Julian Day Number (a day-only scheme
+Convert  the date  to Modified  Julian Day  Number (a  day-only scheme
 based on 17 November 1858).
 
 =head3 day-of-year
@@ -264,6 +303,17 @@ between the  push style and  the pull style.  And it derives  from the
 core  class C<Date>,  so you  also have  all the  methods of  the core
 class.
 
+Even  if both  calendars use  a C<locale>  attribute, when  a date  is
+created by  the conversion  of another  date, it  is created  with the
+default  locale. If  you  want the  locale to  be  transmitted in  the
+conversion, you should add a line such as:
+
+=begin code :lang<perl6>
+
+$d-dest-pull.locale = $d-orig.locale;
+
+=end code
+
 =head2 C<strftime> specifiers
 
 A C<strftime> specifier consists of:
@@ -292,88 +342,105 @@ variants of the date attribute.
 
 The allowed type codes are:
 
-=defn C<%a>
+=defn %a
 
 The abbreviated day of I<décade> name.
 
-=defn C<%A>
+=defn %A
 
 The full day of I<décade> name.
 
-=defn C<%b>
+=defn %b
 
 The abbreviated month name, or 'S-C' for additional days (abbreviation
 of Sans-culottide, another name for these days).
 
-=defn C<%B>
+=defn %B
 
 The full month name.
 
-=defn C<%c>
+=defn %c
 
 The date-time, using the default format, as defined by the current locale.
 
-=defn C<%d>
+=defn %d
 
 The day of the month as a decimal number (range 01 to 30).
 
-=defn C<%e>
+=defn %e
 
 Like C<%d>, the  day of the month  as a decimal number,  but a leading
 zero is replaced by a space.
 
-=defn C<%f>
+=defn %f
 
 The month as a decimal number (1  to 13). Unlike C<%m>, a leading zero
 is replaced by a space.
 
-=defn C<%F>
+=defn %F
 
 Equivalent to %Y-%m-%d (the ISO 8601 date format)
 
-=defn C<%G>
+=defn %G
 
 The year as a decimal number. Strictly similar to C<%L> and C<%Y>.
 
-=defn C<%j>
+=defn %j
 
 The day of the year as a decimal number (range 001 to 366).
 
-=defn C<%Ej>
+=defn %Ej
 
 The feast for the  day, in long format ("jour de  la pomme de terre").
 Also available as C<%*>.
 
-=defn C<%EJ>
+=defn %EJ
 
 The feast for  the day, in capitalised long format  ("Jour de la Pomme
 de terre").
 
-=defn C<%Oj>
+=defn %Oj
 
 The feast for the day, in short format ("pomme de terre").
 
-=defn C<%L>
+=defn %L
 
 The year as a decimal number. Strictly similar to C<%G> and C<%Y>.
 
 Note:  this  specifier  is deprecated  in  C<Date::Calendar::Strftime>
 version C<0.0.4>, released in 2024. It will be removed in 2026.
 
-=defn C<%m>
+=defn %m
 
 The month as a two-digit decimal  number (range 01 to 13), including a
 leading zero if necessary.
 
-=defn C<%n>
+=defn %n
 
 A newline character.
 
-=defn C<%t>
+=defn %Ep
+
+Gives a 1-char string representing the day part:
+
+=item C<☾> or C<U+263E> before sunrise,
+=item C<☼> or C<U+263C> during daylight,
+=item C<☽> or C<U+263D> after sunset.
+
+Rationale: in  C or in  other programming languages,  when C<strftime>
+deals with a date-time object, the day is split into two parts, before
+noon and  after noon. The  C<%p> specifier  reflects this by  giving a
+C<"AM"> or C<"PM"> string.
+
+The  3-part   splitting  in   the  C<Date::Calendar::>R<xxx>   may  be
+considered as  an alternate  splitting of  a day.  To reflect  this in
+C<strftime>, we use an alternate version of C<%p>, therefore C<%Ep>.
+
+=defn %t
 
 A tab character.
 
-=defn C<%u>
+=defn %u
 
 The day number within the I<décade>, 1 to 10.
 
@@ -385,36 +452,36 @@ with the months, the C<%G> specifier gives the same result as the
 C<%Y> specifier.
 
 =item The letter  C<"W"> for "week" may surprise  some people, because
-it introduce the number of the I<décade>.
+it introduces the number of the I<décade>, not I<week>.
 
 =item The C<%u>  specifier gives a 2-char result  for "Décadi". Beware
 if you sort the dates with an alphabetic sort on the ISO date strings,
 or  if you  use  a  fixed-width font  in  order  to maintain  vertical
 alignment in a list of dates.
 
-=defn C<%V>
+=defn %V
 
 The I<décade> number within the year.
 
-=defn C<%Y>
+=defn %Y
 
 The year as a decimal number. Strictly similar to C<%G> and C<%L>.
 
-=defn C<%Ey>
+=defn %Ey
 
 The year as a lowercase Roman number.
 
-=defn C<%EY>
+=defn %EY
 
 The year as a uppercase Roman  number, which is the traditional way to
 write years when using the French Revolutionary calendar.
 
-=defn C<%*>
+=defn %*
 
 The feast for the  day, in long format ("jour de  la pomme de terre").
 Also available as C<%Ej>.
 
-=defn C<%%>
+=defn %%
 
 A literal `%' character.
 
@@ -431,49 +498,50 @@ I will suppose it will be rather accurate during five centuries or so.
 
 =head2 Raku Software
 
-L<Date::Calendar::Strftime>
+L<Date::Calendar::Strftime|https://raku.land/zef:jforget/Date::Calendar::Strftime>
 or L<https://github.com/jforget/raku-Date-Calendar-Strftime>
 
-L<Date::Calendar::Gregorian>
+L<Date::Calendar::Gregorian|https://raku.land/zef:jforget/Date::Calendar::Gregorian>
 or L<https://github.com/jforget/raku-Date-Calendar-Gregorian>
 
-L<Date::Calendar::Julian>
+L<Date::Calendar::Julian|https://raku.land/zef:jforget/Date::Calendar::Julian>
 or L<https://github.com/jforget/raku-Date-Calendar-Julian>
 
-L<Date::Calendar::Hebrew>
+L<Date::Calendar::Hebrew|https://raku.land/zef:jforget/Date::Calendar::Hebrew>
 or L<https://github.com/jforget/raku-Date-Calendar-Hebrew>
 
-L<Date::Calendar::CopticEthiopic>
+L<Date::Calendar::CopticEthiopic|https://raku.land/zef:jforget/Date::Calendar::CopticEthiopic>
 or L<https://github.com/jforget/raku-Date-Calendar-CopticEthiopic>
 
-L<Date::Calendar::MayaAztec>
+L<Date::Calendar::MayaAztec|https://raku.land/zef:jforget/Date::Calendar::MayaAztec>
 or L<https://github.com/jforget/raku-Date-Calendar-MayaAztec>
 
-L<Date::Calendar::Hijri>
+L<Date::Calendar::Hijri|https://raku.land/zef:jforget/Date::Calendar::Hijri>
 or L<https://github.com/jforget/raku-Date-Calendar-Hijri>
 
-L<Date::Calendar::Persian>
+L<Date::Calendar::Persian|https://raku.land/zef:jforget/Date::Calendar::Persian>
 or L<https://github.com/jforget/raku-Date-Calendar-Persian>
 
-L<Date::Calendar::Bahai>
+L<Date::Calendar::Bahai|https://raku.land/zef:jforget/Date::Calendar::Bahai>
 or L<https://github.com/jforget/raku-Date-Calendar-Bahai>
 
 =head2 Perl 5 Software
 
-L<DateTime>
+L<DateTime|https://metacpan.org/pod/DateTime>
 
-L<DateTime::Calendar::FrenchRevolutionary>
+L<DateTime::Calendar::FrenchRevolutionary|https://metacpan.org/pod/DateTime::Calendar::FrenchRevolutionary>
 or L<https://github.com/jforget/DateTime-Calendar-FrenchRevolutionary>
 
-L<Date::Convert::French_Rev> or L<https://github.com/jforget/Date-Convert-French_Rev>
+L<Date::Convert::French_Rev|https://metacpan.org/pod/Date::Convert::French_Rev>
+or L<https://github.com/jforget/Date-Convert-French_Rev>
 
-L<Date::Converter>
+L<Date::Converter|https://metacpan.org/pod/Date::Converter>
 
 =head2 Other Software
 
 date(1), strftime(3)
 
-F<calendar/cal-french.el>  in emacs-21.2  or later  or xemacs  21.1.8,
+C<calendar/cal-french.el>  in emacs-21.2  or later  or xemacs  21.1.8,
 forked in L<https://github.com/jforget/emacs-lisp-cal-french>
 
 L<https://www.gnu.org/software/apl/Bits_and_Pieces/calfr.apl.html> or L<https://github.com/jforget/apl-calendar-french>
@@ -587,6 +655,9 @@ that helped me learn Raku.
 
 And some additional thanks to Laurent for  his help, even if I did not
 apply all his advices.
+
+Many thanks  to Gérald, for  making a huge documentation  research and
+shairing it with me.
 
 =head1 SUPPORT
 

@@ -6,6 +6,12 @@ Notes du concepteur
 Préliminaire
 ------------
 
+Il existe une version POD6 de cette documentation, mais elle n'est pas
+tenue à jour, alors que la version Markdown est tenue à jour. De plus,
+si  vous  visitez  le  dépôt  sous Github,  la  version  Markdown  est
+automatiquement  convertie en  HTML,  alors que  la  version POD6  est
+affichée en pur POD6.
+
 Il  est  préférable de  faire  référence  à  des exemples  plutôt  que
 d'utiliser  des données  génériques. Pour  ce faire,  j'utiliserai les
 dates suivantes (le 14 juillet 2019) :
@@ -626,9 +632,9 @@ Lorsque  j'ai  étudié  le  cas  du calendrier  aztèque  avec  ou  sans
 l'ajustement  de H.B.  Nicholson,  je  me suis  basé  sur  le cas  des
 calendriers copte, éthiopien et  révolutionnaire pour affirmer que les
 jours complémentaires  sont toujours situés  à la fin d'une  année. En
-fait,  ce n'est  pas vrai.  Dans le  calendrier Baha'i,  comportant 19
-« mois » de 19  jours plus 4 ou 5  jours complémentaires (Ayyám-i-Há),
-ce jours complémentaires sont situés entre l'avant-dernier mois (Mulk)
+fait,  ce n'est  pas vrai.  Dans le  calendrier Bahá’í,  comportant 19
+« mois » de 19  jours plus 4 ou 5  jours complémentaires (Ayyám-i-Há).
+Ces jours complémentaires sont situés entre l'avant-dernier mois (Mulk)
 et le dernier (‘Alá’).
 
 Mais il  y a  une raison  pour cela. Dans  la version  arithmétique du
@@ -643,7 +649,7 @@ grégorien et le calendrier Baha'i de la fin février jusqu'au 21 mars.
 |------------------|---------------|----------------------|-------------------|
 | 25 février       | 19 Mulk       | 25 février           | 19 Mulk           |
 | 26 février       | 1 Ayyám-i-Há  | 26 février           | 1 Ayyám-i-Há      |
-| 27 février       | 3 Ayyám-i-Há  | 27 février           | 3 Ayyám-i-Há      |
+| 27 février       | 2 Ayyám-i-Há  | 27 février           | 2 Ayyám-i-Há      |
 | 28 février       | 3 Ayyám-i-Há  | 28 février           | 3 Ayyám-i-Há      |
 |                  |               | 29 février           | 4 Ayyám-i-Há      |
 | 1 mars           | 4 Ayyám-i-Há  | 1 mars               | 5 Ayyám-i-Há      |
@@ -654,11 +660,11 @@ grégorien et le calendrier Baha'i de la fin février jusqu'au 21 mars.
 
 Ainsi, comme on  peut le voir dans le tableau  ci-dessus, cette astuce
 permet  d'avoir   une  correspondance  constante  entre   chaque  jour
-grégorien et  chaque jour Baha'i,  à l'exception du  1er mars et  du 4
+grégorien et  chaque jour Bahá’í,  à l'exception du  1er mars et  du 4
 Ayyám-i-Há,  qui peuvent  être  parfois associés  respectivement au  5
 Ayyám-i-Há’ et au 29 février.
 
-Évidemment,  avec l'adoption  pour  le calendrier  Baha'i d'une  règle
+Évidemment,  avec l'adoption  pour  le calendrier  Bahá’í d'une  règle
 astronomique  basée sur  la date  exacte de  l'équinoxe de  printemps,
 cette belle et quasi-constante correspondance ne fonctionne plus. Tant
 pis.
@@ -692,6 +698,12 @@ les caractères
 
 * `☽`  ou U+263D pour la période nocturne après le coucher su soleil, ou `after-sunset`.
 
+Pourquoi `☾` représente-t-il le matin et `☽` représente-t-il le soir ?
+Parce  que `☽`  ou U+263D  est nommé  `FIRST QUARTER  MOON` et  que le
+premier quartier est  visible en soirée, tandis que `☾`  ou U+263E est
+nommé `LAST  QUARTER MOON` et que  le dernier quartier de  la Lune est
+visible le matin, pas le soir.
+
 Par défaut, notamment lorsqu'un module `Date::Calendar::`_xxx_ version
 0.1.n  s'interface  avec  un  module  `Date::Calendar::`_yyy_  version
 0.0.p,  la valeur  attribuée à  la propriété  `daypart` est  la valeur
@@ -709,12 +721,6 @@ prévu de l'inclure  dans la série des modules de  calendrier. De plus,
 il   aurait    fallu   trouver    deux   symboles    différents   pour
 `daylight-before-noon`  et  pour  `daylight-after-noon`,  au  lieu  de
 seulement `☼` (ou bien U+263C).
-
-Pourquoi `☾` représente-t-il le matin et `☽` représente-t-il le soir ?
-Parce  que `☽`  ou U+263D  est nommé  `FIRST QUARTER  MOON` et  que le
-premier quartier est  visible en soirée, tandis que `☾`  ou U+263E est
-nommé `LAST  QUARTER MOON` et que  le dernier quartier de  la Lune est
-visible le matin, pas le soir.
 
 Après Coup
 ==========
