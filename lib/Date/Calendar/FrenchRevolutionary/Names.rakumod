@@ -333,7 +333,7 @@ Date::Calendar::FrenchRevolutionary::Names - French and English names for months
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary;
 

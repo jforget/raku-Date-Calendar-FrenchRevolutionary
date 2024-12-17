@@ -1,7 +1,8 @@
 #!/usr/bin/env raku
 # -*- encoding: utf-8; indent-tabs-mode: nil -*-
 #
-# Générer les données de test pour 07-conv-old.rakutest et 08-conv-new.rakutest
+# Générer les données de test pour 12-conv-old.rakutest et 13-conv-new.rakutest
+# Generate test data for 12-conv-old.rakutest and 13-conv-new.rakutest
 #
 
 use v6.d;
@@ -248,11 +249,7 @@ line.
 
 In C<xt/13-conv-new.rakutest>,  fill the C<@data-maya> array  with the
 lines listing  Maya and Aztec dates  and fill the C<@data>  array with
-the lines listing other dates. Then cut the lines listing the calendar
-not yet converted  to version 0.1.0 or  API 1 and paste  them into the
-C<@data-to-do>  array.  Then,  as  the other  modules  are  converted,
-cut-and-paste  the   corresponding  lines  from   C<@data-to-do>  into
-C<@data>.
+the lines listing other dates.
 
 Remember  that you  need to  erase the  first comma  in each  chunk of
 copied-pasted code.
@@ -264,6 +261,13 @@ All computed  dates are daylight  dates. So  it does not  matter which
 version  and API  are  such  and such  classes.  Daylight dates  gives
 exactly the  same results with version  0.1.0 / API 1  as with version
 0.0.x / API 0.
+
+If  you compare  the various  repositories,  you will  find that  this
+C<gener-test-0.1.0.raku>  program is  poorly written  compared to  the
+homonymous programs in the other repositories. This is because this is
+the first fully functional version. The other are later versions, with
+further refinements. I consider that including this refinements into a
+fully functional program is not worthwhile.
 
 =head1 AUTHOR
 

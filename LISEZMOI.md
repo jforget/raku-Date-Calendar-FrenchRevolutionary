@@ -9,7 +9,7 @@ SYNOPSIS
 Conversion d'une date  grégorienne (p.ex. le 9 novembre  1799) vers le
 calendrier républicain (18 Brumaire VIII).
 
-```perl6
+```
 use Date::Calendar::FrenchRevolutionary;
 my Date                                $coup-d'État-gr;
 my Date::Calendar::FrenchRevolutionary $coup-d'État-fr;
@@ -22,7 +22,7 @@ say $coup-d'État-fr.strftime("%A %e %B %Y");
 Conversion  d'une date  républicaine (p.ex.  9 Thermidor  II) vers  le
 calendrier grégorien (soit le 27 juillet 1794).
 
-```perl6
+```
 use Date::Calendar::FrenchRevolutionary;
 my Date::Calendar::FrenchRevolutionary $chute-de-Robespierre-fr;
 my Date                                $chute-de-Robespierre-gr;

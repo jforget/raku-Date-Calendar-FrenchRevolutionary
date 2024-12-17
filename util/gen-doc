@@ -13,6 +13,8 @@ raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Common.rakumod        > $D
 raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Astronomical.rakumod  > $DOC/FrenchRevolutionary-Astronomical.html
 raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Arithmetic.rakumod    > $DOC/FrenchRevolutionary-Arithmetic.html
 raku --doc=HTML lib/Date/Calendar/FrenchRevolutionary/Names.rakumod         > $DOC/FrenchRevolutionary-Names.html
+raku --doc=HTML util/gener-test-0.1.0.raku                                  > $DOC/gener-test.html
+
 $MD2HTML doc/notes-en.md $MD2HTMLOPT
 $MD2HTML doc/notes-fr.md $MD2HTMLOPT
 perl -i -p -e 's/\<table\>/<table border="1">/; s/\xc2\xa0/\&nbsp;/g; s/ +\Z//;' doc/notes-en.html
@@ -21,6 +23,6 @@ perl -i -p -e 's/\<table\>/<table border="1">/; s/\xc2\xa0/\&nbsp;/g; s/ +\Z//;'
 case $1 in
    --show)
      cd $DOC
-     firefox FrenchRevolutionary.html FrenchRevolutionary-Arithmetic.html FrenchRevolutionary-Astronomical.html FrenchRevolutionary-Common.html FrenchRevolutionary-Names.html notes-en.html notes-fr.html
+     firefox FrenchRevolutionary.html FrenchRevolutionary-Arithmetic.html FrenchRevolutionary-Astronomical.html FrenchRevolutionary-Common.html FrenchRevolutionary-Names.html notes-en.html notes-fr.html gener-test.html
      ;;
 esac

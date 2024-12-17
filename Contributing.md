@@ -15,13 +15,14 @@ repository, so my spam filter will accept this mail.
 Advanced Documentation
 ======================
 
-If you want to make advanced contributions, may be you should read the
-advanced documentation in
+If you  want to make advanced  contributions, may be you  should first
+read the designer's notes in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-en.md]
 (or its French translation in
 [https://github.com/jforget/raku-Date-Calendar-FrenchRevolutionary/doc/notes-fr.md]),
-also known as "designer's notes", to better grasp the
-architecture of the modules.
+to  better grasp  the architecture  of the  modules. These  designer's
+notes apply  to all  `Date::Calendar::xxx` modules,  not only  for the
+French Revolutionary one.
 
 Advanced Contributions
 ======================

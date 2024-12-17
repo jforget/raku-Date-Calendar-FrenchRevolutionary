@@ -45,7 +45,7 @@ Date::Calendar::FrenchRevolutionary::Arithmetic - Conversions from / to the Fren
 
 Converting from a Gregorian date to a French Revolutionary date
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 my  Date $Bonaparte's-coup-gr;
@@ -65,7 +65,7 @@ say "{.day-name} {.day} {.month-name} {.year} {.feast-long}" with  $Bonaparte's-
 
 Converting from a French Revolutionary date to a Gregorian date
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
 my  Date::Calendar::FrenchRevolutionary::Arithmetic

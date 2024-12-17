@@ -203,7 +203,7 @@ Date::Calendar::FrenchRevolutionary::Common - Common code for the three variants
 
 =head1 SYNOPSIS
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary;
 

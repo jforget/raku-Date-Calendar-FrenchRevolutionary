@@ -331,7 +331,7 @@ attribute,  but directly  in the  object's  metadata, I  mean, in  the
 class. In other words, I define three different classes for the French
 Revolutionary Calendar, one  per variant. With that, the  burden is no
 longer  on  the  module  writer  / maintainer,  but  on  the  dispatch
-mechanism  coded in  the Perl  6 interpreter.  Yet, the  three classes
+mechanism  coded in  the Raku    interpreter.  Yet, the  three classes
 would contain much duplicated code.  To prevent code duplication, this
 code will  be written  in a role  used by the  three classes.  Thus we
 have:

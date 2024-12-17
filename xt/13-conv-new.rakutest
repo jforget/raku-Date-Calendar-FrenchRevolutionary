@@ -29,7 +29,19 @@ use Date::Calendar::Persian::Astronomical;
 
 my $ver-fr = '0.1.0';
 my @data  = (
-       (232,  3, 28, before-sunrise, 'fr', "Octidi 28 Fri 0232 ☾"        , "Oct 28 Fri 0232 ☾", "Gregorian: 2023-12-18")
+       (229,  8,  3, before-sunrise, 'ba', "Istijlál 14 Jal 0178 ☾"      , "Tri 03 Flo 0229 ☾", "Gregorian: 2021-04-22")
+     , (229,  8,  3, daylight,       'ba', "Istijlál 14 Jal 0178 ☼"      , "Tri 03 Flo 0229 ☼", "Gregorian: 2021-04-22")
+     , (229,  8,  3, after-sunset,   'ba', "Istiqlál 15 Jal 0178 ☽"      , "Tri 03 Flo 0229 ☽", "Gregorian: 2021-04-22")
+     , (232, 12, 21, before-sunrise, 'be', "Istiqlál 19 Asm 0181 ☾"      , "Pri 21 Fru 0232 ☾", "Gregorian: 2024-09-06")
+     , (232, 12, 21, daylight,       'be', "Istiqlál 19 Asm 0181 ☼"      , "Pri 21 Fru 0232 ☼", "Gregorian: 2024-09-06")
+     , (232, 12, 21, after-sunset,   'be', "Jalál 01 Izz 0181 ☽"         , "Pri 21 Fru 0232 ☽", "Gregorian: 2024-09-06")
+     , (231,  6, 13, before-sunrise, 'co', "Psoou 24 Mes 1739 ☾"         , "Tri 13 Vnt 0231 ☾", "Gregorian: 2023-03-03")
+     , (231,  6, 13, daylight,       'co', "Psoou 24 Mes 1739 ☼"         , "Tri 13 Vnt 0231 ☼", "Gregorian: 2023-03-03")
+     , (231,  6, 13, after-sunset,   'co', "Psabbaton 25 Mes 1739 ☽"     , "Tri 13 Vnt 0231 ☽", "Gregorian: 2023-03-03")
+     , (230,  1, 15, before-sunrise, 'et', "Hamus 26 Mes 2014 ☾"         , "Qui 15 Vnd 0230 ☾", "Gregorian: 2021-10-06")
+     , (230,  1, 15, daylight,       'et', "Hamus 26 Mes 2014 ☼"         , "Qui 15 Vnd 0230 ☼", "Gregorian: 2021-10-06")
+     , (230,  1, 15, after-sunset,   'et', "Arb 27 Mes 2014 ☽"           , "Qui 15 Vnd 0230 ☽", "Gregorian: 2021-10-06")
+     , (232,  3, 28, before-sunrise, 'fr', "Octidi 28 Fri 0232 ☾"        , "Oct 28 Fri 0232 ☾", "Gregorian: 2023-12-18")
      , (232,  3, 28, daylight,       'fr', "Octidi 28 Fri 0232 ☼"        , "Oct 28 Fri 0232 ☼", "Gregorian: 2023-12-18")
      , (232,  3, 28, after-sunset,   'fr', "Octidi 28 Fri 0232 ☽"        , "Oct 28 Fri 0232 ☽", "Gregorian: 2023-12-18")
      , (230,  7,  7, before-sunrise, 'fa', "Septidi 07 Ger 0230 ☾"       , "Sep 07 Ger 0230 ☾", "Gregorian: 2022-03-27")
@@ -53,22 +65,6 @@ my @data  = (
      , (232,  7, 18, before-sunrise, 'jc', "Saturday 24 Mar 2777 ☾"      , "Oct 18 Ger 0232 ☾", "Gregorian: 2024-04-06")
      , (232,  7, 18, daylight,       'jc', "Saturday 24 Mar 2777 ☼"      , "Oct 18 Ger 0232 ☼", "Gregorian: 2024-04-06")
      , (232,  7, 18, after-sunset,   'jc', "Saturday 24 Mar 2777 ☽"      , "Oct 18 Ger 0232 ☽", "Gregorian: 2024-04-06")
-            );
-
-# for later tests
-my @data-to-do = (
-       (229,  8,  3, before-sunrise, 'ba', "Istijlál 14 Jal 0178 ☾"      , "Tri 03 Flo 0229 ☾", "Gregorian: 2021-04-22")
-     , (229,  8,  3, daylight,       'ba', "Istijlál 14 Jal 0178 ☼"      , "Tri 03 Flo 0229 ☼", "Gregorian: 2021-04-22")
-     , (229,  8,  3, after-sunset,   'ba', "Istiqlál 15 Jal 0178 ☽"      , "Tri 03 Flo 0229 ☽", "Gregorian: 2021-04-22")
-     , (232, 12, 21, before-sunrise, 'be', "Istiqlál 19 Asm 0181 ☾"      , "Pri 21 Fru 0232 ☾", "Gregorian: 2024-09-06")
-     , (232, 12, 21, daylight,       'be', "Istiqlál 19 Asm 0181 ☼"      , "Pri 21 Fru 0232 ☼", "Gregorian: 2024-09-06")
-     , (232, 12, 21, after-sunset,   'be', "Jalál 01 Izz 0181 ☽"         , "Pri 21 Fru 0232 ☽", "Gregorian: 2024-09-06")
-     , (231,  6, 13, before-sunrise, 'co', "Psoou 24 Mes 1739 ☾"         , "Tri 13 Vnt 0231 ☾", "Gregorian: 2023-03-03")
-     , (231,  6, 13, daylight,       'co', "Psoou 24 Mes 1739 ☼"         , "Tri 13 Vnt 0231 ☼", "Gregorian: 2023-03-03")
-     , (231,  6, 13, after-sunset,   'co', "Psabbaton 25 Mes 1739 ☽"     , "Tri 13 Vnt 0231 ☽", "Gregorian: 2023-03-03")
-     , (230,  1, 15, before-sunrise, 'et', "Hamus 26 Mes 2014 ☾"         , "Qui 15 Vnd 0230 ☾", "Gregorian: 2021-10-06")
-     , (230,  1, 15, daylight,       'et', "Hamus 26 Mes 2014 ☼"         , "Qui 15 Vnd 0230 ☼", "Gregorian: 2021-10-06")
-     , (230,  1, 15, after-sunset,   'et', "Arb 27 Mes 2014 ☽"           , "Qui 15 Vnd 0230 ☽", "Gregorian: 2021-10-06")
      , (230, 10, 19, before-sunrise, 'pe', "Panj shanbe 16 Tir 1401 ☾"   , "Non 19 Mes 0230 ☾", "Gregorian: 2022-07-07")
      , (230, 10, 19, daylight,       'pe', "Panj shanbe 16 Tir 1401 ☼"   , "Non 19 Mes 0230 ☼", "Gregorian: 2022-07-07")
      , (230, 10, 19, after-sunset,   'pe', "Panj shanbe 16 Tir 1401 ☽"   , "Non 19 Mes 0230 ☽", "Gregorian: 2022-07-07")
@@ -115,15 +111,20 @@ my %class =   a0 => 'Date::Calendar::Aztec'
             , pa => 'Date::Calendar::Persian::Astronomical'
             ;
 
-plan 12 × @data.elems;
+plan 12 × @data.elems
+   + 12 × @data-maya.elems;
 
+check(@data     , "%A %d %b %Y %Ep");
+check(@data-maya, "%e %B %V %A");
+
+sub check(@data, $format) {
 for (@data) -> $datum {
   my ($year, $month, $day, $daypart, $cal, $str2, $str3) = $datum;
   my Date::Calendar::FrenchRevolutionary $d1 .= new(year => $year, month => $month, day => $day, daypart => $daypart);
 
   # push-push
   my $d2 = $d1.to-date(%class{$cal});
-  is($d2.strftime("%A %d %b %Y %Ep"), $str2, "testing push with $str2");
+  is($d2.strftime($format), $str2, "testing push with $str2");
   is($d2.^ver.Str.substr(0, 4), '0.1.');
   my $d3 = $d2.to-date(%class<fr>);
   is($d3.strftime("%a %d %b %Y %Ep"), $str3, "testing push-push with $str2 and $str3");
@@ -136,7 +137,7 @@ for (@data) -> $datum {
 
   # pull-push
   my $d5 = ::(%class{$cal}).new-from-date($d1);
-  is($d5.strftime("%A %d %b %Y %Ep"), $str2, "testing pull with $str2");
+  is($d5.strftime($format), $str2, "testing pull with $str2");
   is($d5.^ver.Str.substr(0, 4), '0.1.');
   my $d6 = $d5.to-date(%class<fr>);
   is($d6.strftime("%a %d %b %Y %Ep"), $str3, "testing pull-push with $str2 and $str3");
@@ -146,6 +147,7 @@ for (@data) -> $datum {
   my Date::Calendar::FrenchRevolutionary $d7 .= new-from-date($d5);
   is($d7.strftime("%a %d %b %Y %Ep"), $str3, "testing pull-pull with $str2 and $str3");
   is($d7.^ver, $ver-fr);
+}
 }
 
 done-testing;

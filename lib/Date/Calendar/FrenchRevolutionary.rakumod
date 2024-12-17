@@ -44,7 +44,7 @@ Date::Calendar::FrenchRevolutionary - Conversions from / to the French Revolutio
 
 Converting from a Gregorian date to a French Revolutionary date
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary;
 my Date $Bonaparte's-coup-gr;
@@ -65,7 +65,7 @@ say $Bonaparte's-coup-fr.strftime("%Y-%m-%d");
 
 Converting from a  French Revolutionary date to a Gregorian date
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary;
 my  Date::Calendar::FrenchRevolutionary
@@ -82,7 +82,7 @@ say $Robespierre's-downfall-gr;
 
 Conversion with a calendar which defines days as sunset to sunset
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::Strftime;
 use Date::Calendar::Hebrew;
@@ -90,15 +90,20 @@ use Date::Calendar::FrenchRevolutionary;
 my  Date::Calendar::FrenchRevolutionary $d-fr;
 my  Date::Calendar::Hebrew              $d-he;
 
-$d-fr .= new(year => 233, month => 2, day => 23, daypart => daylight);
+$d-fr .= new(year => 233, month => 2, day => 23, daypart => before-sunrise);
 $d-he .= new-from-date($d-fr);
 say $d-he.strftime("%A %d %B %Y");
 # ---> "Yom Reviʻi 12 Heshvan 5785"
 
+$d-fr .= new(year => 233, month => 2, day => 23, daypart => daylight);
+$d-he .= new-from-date($d-fr);
+say $d-he.strftime("%A %d %B %Y");
+# ---> "Yom Reviʻi 12 Heshvan 5785" again
+
 $d-fr .= new(year => 233, month => 2, day => 23, daypart => after-sunset);
 $d-he .= new-from-date($d-fr);
 say $d-he.strftime("%A %d %B %Y");
-# ---> "Yom Chamishi 13 Heshvan 5785"
+# ---> "Yom Chamishi 13 Heshvan 5785" instead of "Yom Reviʻi 12 Heshvan 5785"
 
 =end code
 
@@ -244,7 +249,7 @@ This method is  very similar to the homonymous functions  you can find
 in several  languages (C, shell, etc).  It also takes some  ideas from
 C<printf>-similar functions. For example
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 $df.strftime("%04d blah blah blah %-25B")
 
@@ -274,7 +279,7 @@ styles,  a "push"  conversion and  a "pull"  conversion. For  example,
 while converting from the astronomical  date "1 Vendémiaire IV" to the
 arithmetic variant, you can code:
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 use Date::Calendar::FrenchRevolutionary::Astronomical;
 use Date::Calendar::FrenchRevolutionary::Arithmetic;
@@ -308,7 +313,7 @@ created by  the conversion  of another  date, it  is created  with the
 default  locale. If  you  want the  locale to  be  transmitted in  the
 conversion, you should add a line such as:
 
-=begin code :lang<perl6>
+=begin code :lang<raku>
 
 $d-dest-pull.locale = $d-orig.locale;
 
@@ -493,6 +498,39 @@ covering six millenia. This is a problem, because the algorithm is not
 valid over this whole period. But I  have no idea when the common Lisp
 program becomes inaccurate and generates  errors. As a pure guesswork,
 I will suppose it will be rather accurate during five centuries or so.
+
+=head2 Security issues
+
+As explained in  the C<Date::Calendar::Strftime> documentation, please
+ensure that format-string  passed to C<strftime> comes  from a trusted
+source. Failing  that, the untrusted  source can include  a outrageous
+length in  a C<strftime> specifier and  this will drain your  PC's RAM
+very fast.
+
+=head2 Relations with :ver<0.0.x> classes
+
+Version 0.1.0 (and API 1) was  introduced to ease the conversions with
+other calendars  in which the  day is defined as  sunset-to-sunset. If
+all C<Date::Calendar::>R<xxx> classes use version 0.1.x and API 1, the
+conversions  will be  correct. But  if some  C<Date::Calendar::>R<xxx>
+classes use version 0.0.x and API 0, there might be problems.
+
+A date from a 0.0.x class has no C<daypart> attribute. But when "seen"
+from  a  0.1.x class,  the  0.0.x  date  seems  to have  a  C<daypart>
+attribute equal to C<daylight>. When converted from a 0.1.x class to a
+0.0.x  class,  the  date  may  just  shift  from  C<after-sunset>  (or
+C<before-sunrise>) to C<daylight>, or it  may shift to the C<daylight>
+part of  the prior (or  next) date. This  means that a  roundtrip with
+cascade conversions  may give the  starting date,  or it may  give the
+date prior or after the starting date.
+
+=head2 Time
+
+This module  and the C<Date::Calendar::>R<xxx> associated  modules are
+still date  modules, they are not  date-time modules. The user  has to
+give  the C<daypart>  attribute  as a  value among  C<before-sunrise>,
+C<daylight> or C<after-sunset>. There is no provision to give a HHMMSS
+time and convert it to a C<daypart> parameter.
 
 =head1 SEE ALSO
 
