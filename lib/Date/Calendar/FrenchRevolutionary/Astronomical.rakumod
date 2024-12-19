@@ -400,6 +400,7 @@ my  Date $Robespierre's-downfall-grg;
 $Robespierre's-downfall-frv .= new(year =>  2, month => 11, day =>  9);
 $Robespierre's-downfall-grg  = $Robespierre's-downfall-frv.to-date;
 say $Robespierre's-downfall-grg;
+# --> "1794-07-27"
 
 =end code
 

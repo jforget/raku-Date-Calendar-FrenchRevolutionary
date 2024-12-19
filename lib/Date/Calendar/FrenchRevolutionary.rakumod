@@ -293,6 +293,8 @@ $d-orig .= new(year  => 4
              , day   => 1);
 $d-dest-push  = $d-orig.to-date("Date::Calendar::FrenchRevolutionary::Arithmetic");
 $d-dest-pull .= new-from-date($d-orig);
+say $d-orig, ' ', $d-dest-push, ' ', $d-dest-pull;
+# --> "0004-01-01 0004-01-02 0004-01-02"
 
 =end code
 
