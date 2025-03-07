@@ -590,6 +590,9 @@ date(1), strftime(3)
 C<calendar/cal-french.el>  in emacs-21.2  or later  or xemacs  21.1.8,
 forked in L<https://github.com/jforget/emacs-lisp-cal-french>
 
+L<https://pypi.org/project/convertdate/>
+or L<https://convertdate.readthedocs.io/en/latest/modules/french_republican.html>
+
 L<https://www.gnu.org/software/apl/Bits_and_Pieces/calfr.apl.html> or L<https://github.com/jforget/apl-calendar-french>
 
 L<https://www.hpcalc.org/details/7309> or L<https://github.com/jforget/hp48-hp50-French-Revolutionary-calendar>
@@ -630,6 +633,14 @@ L<https://github.com/houseabsolute/DateTime.pm/wiki>
 L<http://www.faqs.org/faqs/calendars/faq/part3/>
 
 L<http://datetime.mongueurs.net/>
+
+L<https://www.fourmilab.ch/documents/calendar/>
+or its French-speaking versions
+L<https://www.patricklecoq.fr/convert/cnv_calendar.html>
+and L<https://louis-aime.github.io/fourmilab_calendar_upgraded/index-fr.html>
+
+L<https://www.ephemeride.com/calendrier/autrescalendriers/21/autres-types-de-calendriers.html>
+(in French)
 
 L<https://en.wikipedia.org/wiki/French_Republican_Calendar>
 
