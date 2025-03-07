@@ -27,7 +27,7 @@ use Date::Calendar::Maya::Spinden;
 use Date::Calendar::Persian;
 use Date::Calendar::Persian::Astronomical;
 
-my $ver-fr = '0.1.0';
+my $ver-fr = '0.1.1';
 my @data  = (
        (229,  8,  3, before-sunrise, 'ba', "Istijlál 14 Jal 0178 ☾"      , "Tri 03 Flo 0229 ☾", "Gregorian: 2021-04-22")
      , (229,  8,  3, daylight,       'ba', "Istijlál 14 Jal 0178 ☼"      , "Tri 03 Flo 0229 ☼", "Gregorian: 2021-04-22")
